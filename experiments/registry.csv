@@ -1,5 +1,5 @@
 exp_id,objective,title,question,data,method,primary_metric,workplan_task,status,git_commit,result_summary
-EXP-001,data,Raw data audit,What exactly is in each download (channels; rate; units; duration; condition; IDs)?,all 4 cohorts raw,scripts/01_audit.py,audit table complete,T2.x,planned,,
+EXP-001,data,Raw data audit,What exactly is in each download (channels; rate; units; duration; condition; IDs)?,all 4 cohorts raw,scripts/01_audit.py,audit table complete,T2.x,done (ds004504); pending other cohorts,,ds004504 matches documentation; 0 unit/flat/clipping problems; 13 recordings with extreme segments; no duplicates
 EXP-002,data,ADSZ-ADFSU overlap check,Do any participants appear in both ADSZ and ADFSU?,ADSZ + ADFSU,signal hashing + cross-correlation + PSD fingerprint,n duplicate pairs,T3.x,planned,,
 EXP-003,data,Preprocessing QC,Does harmonised preprocessing leave cohort-specific artefacts (PSD shape; amplitude; rejected epochs)?,all 4 processed,per-cohort PSD and amplitude summaries,QC report,T4.9,planned,,
 EXP-010,O1,Within-cohort baseline,How well does frozen Z classify AD vs HC within each cohort?,each cohort separately,logistic regression; repeated grouped 5-fold,AUROC,T6.2,planned,,

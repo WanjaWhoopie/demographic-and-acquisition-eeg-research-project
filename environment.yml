@@ -1,7 +1,6 @@
 name: eegconf
 channels:
   - conda-forge
-  - pytorch
 dependencies:
   - python=3.11
   - pip
@@ -14,7 +13,7 @@ dependencies:
   - pyyaml
   - jupyterlab
   - pytest
-  - pytorch
+  - pytorch-cpu        # CPU-only build from conda-forge; LaBraM-base inference does not need a GPU
   - pip:
       - mne>=1.7
       - mne-bids
