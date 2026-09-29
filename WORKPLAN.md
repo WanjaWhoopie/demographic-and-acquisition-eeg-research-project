@@ -19,7 +19,9 @@ messages.
 
 ## Timeline
 
-Month numbers are relative to project start (fill the real start date: `M1 = ____`).
+**M1–M12 are milestones (ordered stages of work), not calendar months.** A phase runs across the
+milestones marked for it; the next milestone starts when the current one's work is done. The project
+ends on **30 November 2026**, so every milestone must fit before that date.
 
 | Phase | M1 | M2 | M3 | M4 | M5 | M6 | M7 | M8 | M9 | M10 | M11 | M12 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -40,7 +42,7 @@ Month numbers are relative to project start (fill the real start date: `M1 = ___
 (■ main effort, · keep the matrix up to date)
 
 ### Milestones / gates
-| Gate | End of | Must be true before moving on |
+| Gate | Reached at | Must be true before moving on |
 |---|---|---|
 | G0 | M1 | Data-use terms read for every dataset; environment installs; all 4 dataset sources identified |
 | G1 | M3 | Audit tables complete for all cohorts; overlap resolved; final participant counts known |
@@ -120,7 +122,7 @@ matplotlib, pytest, git.
 - [ ] **T1.3 Resolve `literature/to_verify.md`** – one checkbox per claim.
 - [ ] **T1.4 Harmonisation methods sub-review** – ComBat / neuroHarmonize, cohort centring, domain adaptation for EEG; decide whether ComBat should be an extra sensitivity analysis (log in decision log).
 - [ ] **T1.5 AD EEG marker sub-review** – effect directions and typical sizes for theta power, alpha power, theta/alpha ratio, peak alpha frequency, aperiodic exponent in AD vs HC; these are the priors for O5.
-- [ ] **T1.6 Update `gaps.md`** at the end of each month.
+- [ ] **T1.6 Update `gaps.md`** at each milestone.
 - [ ] **T1.7 Draft the literature review section** (Phase 12 input) from the matrix and notes.
 
 ## Phase 2 – Data acquisition and audit (M1–M3) → EXP-001
@@ -364,7 +366,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [ ] T12.5 Sections of the final report/paper: Introduction, Literature review (from Phase 1), Methods (from protocol + decision log), Results (from experiments), Discussion (pattern A/B/C, limitations: small cohorts, demographics in one cohort only, cohort ≡ acquisition, one foundation model, clinical labels), Conclusion.
 - [ ] T12.6 Update the slide deck to match the final design (title, conditions, primary outcome).
 - [ ] T12.7 Reproducibility package: `README` run order, env lock, data download instructions, config tag, one command per figure/table.
-- [ ] T12.8 Full read-through by both team members; draft to the mentor at least 4 weeks before the fellowship deadline.
+- [ ] T12.8 Full read-through by both team members; draft to the mentor early enough to act on feedback before the 30 November 2026 end date.
 - [ ] T12.9 Final version delivered; tag `final-v1`.
 
 ---
