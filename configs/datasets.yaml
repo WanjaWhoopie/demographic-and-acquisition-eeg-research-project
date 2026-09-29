@@ -6,9 +6,11 @@ ds004504:
   source: OpenNeuro
   accession: ds004504
   url: https://openneuro.org/datasets/ds004504
-  version: null                # e.g. "1.0.8" -- fill at download (T2.1.1)
+  version: "1.0.9"             # doi:10.18112/openneuro.ds004504.v1.0.9; licence CC0
   descriptor: "Miltiadous et al. (2023), Data 8(6):95, doi:10.3390/data8060095"
   format: BIDS / EEGLAB .set
+  reference: A1-A2 (linked ears)
+  size_used_gb: 2.16           # AD + HC raw only; scripts/download_ds004504.py
   groups_used: {A: AD, C: HC}  # F (FTD) excluded from primary analysis
   n_expected: {AD: 36, HC: 29, FTD: 23}
   channels_expected: 19

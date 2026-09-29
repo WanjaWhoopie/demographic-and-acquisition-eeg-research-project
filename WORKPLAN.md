@@ -71,7 +71,7 @@ matplotlib, pytest, git.
 ### Compute and storage
 - LaBraM-base is small; frozen inference for ~230 participants runs on a laptop CPU
   (GPU optional, speeds up perturbation analyses in Phase 11).
-- ≥ 16 GB RAM recommended. Storage: check archive sizes before download (T2.x.2); keep
+- ≥ 16 GB RAM recommended. Storage: ds004504 needs ~2.2 GB (see T2.1); check the other archive sizes before download (T2.x.3); keep
   `data/` outside cloud-synced folders if large.
 
 ### Documents
@@ -144,14 +144,19 @@ matplotlib, pytest, git.
 | A12 duplicates within cohort | pairwise correlation of per-recording PSD fingerprints within the cohort; flag r > 0.99 |
 
 ### T2.1 ds004504
-- [ ] T2.1.1 Open https://openneuro.org/datasets/ds004504, note latest version number and size; write both in `configs/datasets.yaml`.
-- [ ] T2.1.2 Download raw only: `openneuro-py download --dataset ds004504 --target-dir data/raw/ds004504` (exclude `derivatives/` if possible to save space). Record date.
-- [ ] T2.1.3 Compute `sha256sum` of `participants.tsv` and one `.set` file; record.
-- [ ] T2.1.4 Load `participants.tsv`; confirm columns (participant ID, group A/F/C, sex, age, MMSE); keep A and C only → expect 36 + 29.
-- [ ] T2.1.5 Demographic table: age mean ± SD per group, Mann–Whitney U AD vs HC; sex counts per group, Fisher's exact test; MMSE median (IQR). Confirm or correct the 67% vs 38% female figure and p ≈ 0.026.
-- [ ] T2.1.6 Load every recording with `mne.io.read_raw_eeglab(..., preload=False)`; run A1–A12.
-- [ ] T2.1.7 Record reference from `*_eeg.json`/`channels.tsv` (A8).
-- [ ] T2.1.8 Confirm all recordings are eyes-closed (A7).
+Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): the full dataset is
+~5.8 GB, of which derivatives/ ≈ 2.95 GB and FTD raw ≈ 0.67 GB. We need only AD + HC raw
+≈ **2.16 GB (65 participants, 201 files, ~24 MB per recording)**. No account or API key is needed.
+
+- [x] T2.1.1 Version and size recorded: snapshot **1.0.9** (doi:10.18112/openneuro.ds004504.v1.0.9), licence **CC0**.
+- [ ] T2.1.2 Download only what we use: `python scripts/download_ds004504.py` (run with `--dry-run` first; it should print `65 participants, 201 files, 2.16 GB`). It reads `participants.tsv`, keeps Group A and C, skips FTD and `derivatives/`, resumes if interrupted, and writes `data/raw/ds004504/MANIFEST.tsv` with a sha256 per file. Record the download date in `docs/datasets.md`.
+  - Low-disk alternative: process one participant at a time (download → T4 preprocessing → save processed epochs (< 1 MB) → delete raw). Peak disk ≈ 25 MB. Only use this after the audit (T2.1.6) has been run on every recording, because the audit needs the raw files.
+- [ ] T2.1.3 Keep `MANIFEST.tsv` local (it lives in `data/`, which is not committed); copy the sha256 of `participants.tsv` from it into the dataset card.
+- [x] T2.1.4 `participants.tsv` columns confirmed: `participant_id, Gender, Age, Group, MMSE`; Group A = 36, C = 29, F = 23.
+- [x] T2.1.5 Demographics recomputed from `participants.tsv`: female/male AD 24/12 vs HC 11/18 (Fisher's exact p = 0.026); age AD 66.4 ± 7.9 vs HC 67.9 ± 5.4 years (Mann–Whitney p = 0.38). Still to do: MMSE median (IQR) per group, and save the table to `results/tables/T01_cohort_summary.csv`.
+- [ ] T2.1.6 Load every recording with `mne.io.read_raw_eeglab(..., preload=False)`; run A1–A12. Note the per-recording duration varies (sub-001 = 599.8 s), so record the range; the "~13 min" in the slides is an average to check.
+- [x] T2.1.7 Reference and acquisition from `sub-001_task-eyesclosed_eeg.json`: reference **A1 A2** (linked ears), Nihon Kohden EEG 2100, 500 Hz, online filter 0.4–50 Hz, line frequency 50 Hz, channels in µV with old 10–20 names (T3, T4, T5, T6). Still to do: confirm these are identical in every participant's JSON (loop over files).
+- [ ] T2.1.8 Confirm all recordings are eyes-closed (A7): every file is `task-eyesclosed`; check none is missing.
 - [ ] T2.1.9 Write the dataset card fields and commit the audit summary CSV (no raw data).
 
 ### T2.2 ADFSU
