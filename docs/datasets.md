@@ -78,10 +78,16 @@ eyes-closed session (OpenNeuro ds006036 v1.0.6, CC0, 1.13 GB). Not an independen
 | Field | Value | Status |
 |---|---|---|
 | Original recordings | Escudero et al. (2006), *Physiological Measurement* 27(11):1091–1106 (Valladolid) – as cited by LEAD | 📄 |
-| Download | Google Drive `APAVA.zip` (team link) – **requires Google sign-in**; download manually | ✅ exists (contents not checked) |
+| Download | Google Drive `APAVA.zip` (team link, Google sign-in needed) – downloaded 2026-09-29 to `data/raw/APAVA/` | ✅ |
+| Files | `Feature/feature_01–23.npy` (windows × 256 × 16: each 5-s trial cut into nine 1-s windows with 50% overlap) + `Label/label.npy` (23 × 2: label, participant ID 1–23) | ✅ |
+| Labels | 12 coded 1, 11 coded 0 → **1 = AD, 0 = HC** (inferred from the published 12 AD / 11 HC) | ✅ |
+| Same data as OSF copy | rebuilding 5-s trials from the windows reproduces OSF `preproctrials01–23.mat` exactly (r = 1.000, scale 1.000) | ✅ |
+| ⚠️ Use trials, not windows | the 1-s windows overlap by 50%; treating them as samples would duplicate data | ✅ |
+| Recording time | 1–59 trials per person = 5–295 s; HC-05 has one 5-s trial | ✅ |
+| Amplitude | robust SD (1–30 Hz) AD 5.9 vs HC 4.2, unit not stated | ✅ / ❓ |
 | Other copy | OSF https://osf.io/jbysn → `AD_Data.tar.gz` (51 MB, sha256 `125b85ae…d0812`), Smith (2017). Checked 2026-09-29: 23 FieldTrip files `preproctrials01–23.mat`, 16 channels (C3 C4 F3 F4 F7 F8 Fp1 Fp2 O1 O2 P3 P4 T3 T4 T5 T6 = 10–20 minus Fz/Cz/Pz), 256 Hz, 5-s trials (1280 samples), 1–59 trials per participant, already re-referenced to the common average. **No diagnosis labels in the files.** | ✅ |
 | Licence / access terms | TODO | ❓ |
-| Groups | 12 AD, 11 HC | 📄 |
+| Groups | 12 AD, 11 HC | ✅ |
 | Channels | 16 – 10–20 without Fz, Cz, Pz (per slides) – TODO confirm labels | 📄 |
 | Sampling rate | 256 Hz | 📄 |
 | Condition | eyes closed | 📄 |
