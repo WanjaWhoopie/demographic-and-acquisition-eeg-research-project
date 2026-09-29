@@ -91,9 +91,10 @@ matplotlib, pytest, git.
   - [ ] T0.1.4 Add the required dataset citations to the literature matrix so they are cited in the write-up.
   - Done when: every dataset has a recorded licence and citation.
 - [ ] **T0.2 Environment**
-  - [ ] T0.2.1 Install Miniconda; `conda env create -f environment.yml`; `conda activate eegconf`.
-  - [ ] T0.2.2 `python -c "import mne, sklearn, torch, specparam, concept_erasure"` runs without error.
-  - [ ] T0.2.3 `pip freeze > docs/env_lock.txt`; commit.
+  - [x] T0.2.1 `conda env create -f environment.yml` (≈ 6 min; CPU-only PyTorch); `conda activate eegconf`.
+  - [x] T0.2.2 `python -c "import mne, sklearn, torch, specparam, concept_erasure, timm"` runs (MNE 1.13.2, torch 2.14.0+cpu, timm 0.4.12).
+  - [x] T0.2.3 `conda env export --no-builds > docs/env_lock.yml`; committed.
+  - [ ] T0.2.4 pip pulled torch 2.14 (via torchvision for timm) over the conda `pytorch-cpu` 2.13. Works, but before T5.1 add `torchvision` to the conda dependencies so only one torch is installed.
   - Done when: both team members can import everything on their machines.
 - [ ] **T0.3 Repository conventions**
   - [ ] T0.3.1 Agree branch model: `main` protected; work on `feature/<task-id>-short-name`; merge by pull request reviewed by the other person.
@@ -156,13 +157,15 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [x] T2.1.3 Keep `MANIFEST.tsv` local (it lives in `data/`, which is not committed); copy the sha256 of `participants.tsv` from it into the dataset card.
 - [x] T2.1.4 `participants.tsv` columns confirmed: `participant_id, Gender, Age, Group, MMSE`; Group A = 36, C = 29, F = 23.
 - [x] T2.1.5 Demographics recomputed from `participants.tsv`: female/male AD 24/12 vs HC 11/18 (Fisher's exact p = 0.026); age AD 66.4 ± 7.9 vs HC 67.9 ± 5.4 years (Mann–Whitney p = 0.38). Still to do: MMSE median (IQR) per group, and save the table to `results/tables/T01_cohort_summary.csv`.
-- [ ] T2.1.6 Load every recording with `mne.io.read_raw_eeglab(..., preload=False)`; run A1–A12. Durations from the JSON sidecars: 307.1–1291.1 s, median 826.7 s (≈ 13.8 min, consistent with the slides' ~13 min).
+- [x] T2.1.6 Audit run on all 65 recordings (`python scripts/01_audit.py --cohort ds004504`, EXP-001): 19 channels, 500 Hz, same channel order, all 16 target channels present, units plausible (1–30 Hz robust SD median 18.3 µV), no NaN/flat/clipped channels. 13 recordings have > 1% of samples above 150 µV in some channel (handled by epoch rejection, T4.7). One spectral near-duplicate pair (sub-024/sub-028, r = 0.94) was checked and ruled out: different sex and age, max time-domain correlation 0.24. Line noise at 50 Hz is strong (median +19.6 dB) but outside the 0.5–30 Hz band. Durations from the JSON sidecars: 307.1–1291.1 s, median 826.7 s (≈ 13.8 min, consistent with the slides' ~13 min).
 - [x] T2.1.7 Reference and acquisition (checked in all 65 `*_eeg.json` files – identical): reference **A1 A2** (linked ears), Nihon Kohden EEG 2100, 500 Hz, online filter 0.4–50 Hz, line frequency 50 Hz, channels in µV with old 10–20 names (T3, T4, T5, T6).
-- [ ] T2.1.8 Confirm all recordings are eyes-closed (A7): every file is `task-eyesclosed`; check none is missing.
-- [ ] T2.1.9 Write the dataset card fields and commit the audit summary CSV (no raw data).
+- [x] T2.1.8 All 65 recordings are `task-eyesclosed`; none missing.
+- [x] T2.1.9 Dataset card filled; `results/tables/T00_audit_ds004504_summary.csv` and `results/figures/EXP-001_ds004504_psd.png` committed (aggregate only).
 
 ### T2.2 ADFSU
-- [ ] T2.2.1 Trace the source: read the data section of LEAD (Wang et al., 2025) and any paper that uses the name "ADFSU"; find the **original** recording study and its download location; record citation + URL + licence.
+- [x] T2.2.1 Source traced: LEAD cites ADFSU as Vicchietti et al. (2023, *Sci Rep* 13:8184). That paper uses the **Florida State University database recorded by Dr Dennis Duke** (Pritchard et al., 1991): 80 probable AD + 12 HC, each recorded eyes open and eyes closed; 19 ch, 128 Hz, 8-s segments, band-limited 0.5–30 Hz, movement artefacts removed by a technician; "made freely available by Vicchietti et al." (their ref. 42).
+  - [ ] T2.2.1a Find the actual download link (Vicchietti et al. 2023 data-availability statement / ref. 42 – read in the browser; PMC10199940).
+  - ⚠️ The OSF link in our notes (https://osf.io/jbysn) is **not** this dataset: it is Keith Smith's 2017 project for a network-binarisation paper, containing `AD_Data.tar.gz` (51 MB, described as the AD/control data of Escudero et al., 2006, i.e. the APAVA origin) and a healthy NBT dataset (1.0 GB). See T2.4.
 - [ ] T2.2.2 Decide raw vs already-preprocessed version: prefer the rawest available. If only preprocessed exists, record exactly what was done at source (A9) – it constrains what our pipeline controls.
 - [ ] T2.2.3 Download to `data/raw/ADFSU`; record version/date + checksum.
 - [ ] T2.2.4 Confirm participant IDs exist for every trial (needed for subject-level splits). If trials lack IDs → **stop and raise it with the mentor**: the cohort cannot be used without them.
@@ -172,16 +175,18 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [ ] T2.2.8 Fill the dataset card.
 
 ### T2.3 ADSZ
-- [ ] T2.3.1 Trace source (as T2.2.1). Note whether it shares an origin with ADFSU (input for Phase 3).
+- [x] T2.3.1 Source confirmed: figshare 10.6084/m9.figshare.19091771 ("Alzheimer's disease and Schizophrenia", Pineda & Alves, CC0, `dataset.zip` 18.3 MB), from Alves et al. (arXiv:2110.06140). Their AD data: 24 AD + 24 HC, 19 ch, 128 Hz, 8 s, citing Pineda et al. (2020) and Pritchard et al. (1991) – i.e. **the same FSU / Dennis Duke database as ADFSU**. Group-level ages only (HC 72 ± 11, AD 69 ± 16).
+  - ⚠️ Pineda et al. (2020) describe "24 healthy subjects (groups A and B)" where A = eyes open and B = eyes closed. If ADSZ's 24 + 24 are really 12 + 12 people each recorded twice, ADSZ contains the same person under two IDs – check in T2.3.4 and Phase 3 before anything else.
 - [ ] T2.3.2 Raw vs preprocessed decision (as T2.2.2).
 - [ ] T2.3.3 Download to `data/raw/ADSZ`; version/date + checksum.
 - [ ] T2.3.4 Participant IDs per trial (as T2.2.4).
-- [ ] T2.3.5 Resolve the condition question (proposal: eyes open + closed; slides: resting) from files/documentation.
+- [ ] T2.3.5 Resolve the condition question from the files: the FSU database has separate eyes-open and eyes-closed recordings; find which files are which.
 - [ ] T2.3.6 Run A1–A12. Confirm 24 AD / 24 HC, 19 channels, 128 Hz, 8-s trials.
 - [ ] T2.3.7 Fill the dataset card.
 
 ### T2.4 APAVA
-- [ ] T2.4.1 Trace source (as T2.2.1).
+- [x] T2.4.1 Source traced: LEAD cites APAVA as Escudero et al. (2006) (Valladolid group). The team's link is a Google Drive file `APAVA.zip` that needs a Google sign-in – download it manually into `data/raw/APAVA/`.
+  - [ ] T2.4.1a Compare with OSF `AD_Data.tar.gz` (Smith, 2017), which is also described as the Escudero et al. (2006) data; one may be a more original or better-documented copy.
 - [ ] T2.4.2 Raw vs preprocessed decision.
 - [ ] T2.4.3 Download to `data/raw/APAVA`; version/date + checksum.
 - [ ] T2.4.4 Participant IDs per trial.

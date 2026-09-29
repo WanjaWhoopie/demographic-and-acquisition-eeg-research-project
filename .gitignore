@@ -3,6 +3,8 @@ data/raw/
 data/interim/
 data/processed/
 data/embeddings/
+# participant-level audit/QC tables stay local
+data/metadata/
 *.edf
 *.bdf
 *.set

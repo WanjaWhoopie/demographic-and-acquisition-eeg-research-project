@@ -1,0 +1,25 @@
+,value
+cohort,ds004504
+n_recordings,65
+n_AD,36
+n_HC,29
+sfreq_values,500
+n_channels_values,19
+all_channel_orders_match,True
+recordings_missing_target_channels,0
+reference_values,A1 A2
+condition_values,eyesclosed
+duration_s_min,307.1
+duration_s_median,826.7
+duration_s_max,1291.1
+raw_robust_sd_uv_median,86.72631990509028
+bandpassed_1_30Hz_robust_sd_uv_median,18.297732632466932
+recordings_units_implausible,0
+recordings_with_flat_channels,0
+recordings_with_clipping,0
+recordings_with_nan_inf,0
+recordings_extreme_amplitude,13
+line_noise_db_median,19.59138987964871
+hf_rolloff_db_median,-4.8112241915894085
+possible_duplicate_pairs,1
+recordings_flagged,13
