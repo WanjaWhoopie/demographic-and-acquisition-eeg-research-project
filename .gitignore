@@ -41,3 +41,6 @@ Thumbs.db
 .vscode/
 .idea/
 ~$*
+
+# External code (LaBraM clone, pinned by commit in docs/decision_log.md)
+external/
