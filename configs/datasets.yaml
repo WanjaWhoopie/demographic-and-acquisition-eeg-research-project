@@ -21,7 +21,7 @@ ds004504:
 
 ADFSU:
   source: "Florida State University database (Dr Dennis Duke); named ADFSU in LEAD via Vicchietti et al. 2023"
-  url: null                    # download link not yet found (T2.2.1a); NOT osf.io/jbysn
+  url: https://osf.io/2v5md    # EEG_data.zip (6.6 MB), Vicchietti et al. 2023; NOT osf.io/jbysn
   version: null
   n_expected: {AD: 80, HC: 12}  # verify
   channels_expected: 19
@@ -36,7 +36,7 @@ ADSZ:
   source: "figshare 19091771 (Pineda & Alves), CC0; AD data from the FSU / Dennis Duke database"
   url: https://doi.org/10.6084/m9.figshare.19091771.v1
   version: null
-  n_expected: {AD: 24, HC: 24}  # verify
+  n_expected: {AD: 24, HC: 24}  # files, not people: files suggest 3 AD + 12 HC people, each eyes open + closed
   channels_expected: 19
   sfreq_expected: 128
   condition: [eyes_open, eyes_closed]   # verify

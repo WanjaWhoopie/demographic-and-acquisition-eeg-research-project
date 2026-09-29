@@ -37,7 +37,7 @@ eyes-closed session (OpenNeuro ds006036 v1.0.6, CC0, 1.13 GB). Not an independen
 |---|---|---|
 | Original recordings | Florida State University database, provided by Dr Dennis Duke (Pritchard, Duke & Coburn, 1991) | 📄 |
 | Name "ADFSU" from | LEAD (Wang et al., 2025) → Vicchietti et al. (2023), *Sci Rep* 13:8184, doi:10.1038/s41598-023-32664-8 | 📄 |
-| Download link | TODO – Vicchietti et al. (2023) say the data were "made freely available" (their ref. 42); link not yet found (T2.2.1a) | ❓ |
+| Download link | https://osf.io/2v5md – "Data from: Computational methods of EEG signals analysis for Alzheimer's disease classification" (Vicchietti et al., created 2023-01-25), `EEG_data.zip` 6.6 MB; no licence set on OSF | ✅ exists (not yet downloaded) |
 | ⚠️ Link in our notes | https://osf.io/jbysn exists but is a different dataset (Smith, 2017: Escudero et al. 2006 AD data + NBT healthy data) | ✅ |
 | Licence / access terms | TODO | ❓ |
 | Groups | 80 probable AD, 12 HC (NINCDS-ADRDA, DSM-III-R) | 📄 |
@@ -61,8 +61,10 @@ eyes-closed session (OpenNeuro ds006036 v1.0.6, CC0, 1.13 GB). Not an independen
 | Groups | 24 AD, 24 HC; group ages only (HC 72 ± 11, AD 69 ± 16 years) | 📄 |
 | Channels | 19 | 📄 |
 | Sampling rate | 128 Hz | 📄 |
-| Condition | not stated in Alves et al.; the FSU database has eyes open and eyes closed – TODO from files | ❓ |
-| Trial length | 8 s per individual | 📄 |
+| Files (checked 2026-09-29) | `dataset/alzheimer/AD/`: `ec0101`–`ec0304` + `eo0101`–`eo0304` (24 files); `dataset/alzheimer/Healthy/`: `eeg20`–`eeg35` × {`c1`, `o1`} (24 files, 12 people). Each file = 1024 samples × 19 channels (8 s at 128 Hz), plain text; robust SD ≈ 8.5 (units not stated). Also a schizophrenia set (not used). | ✅ |
+| Condition | `ec`/`c1` = eyes closed, `eo`/`o1` = eyes open – **each person appears in both** | ✅ |
+| Trial length | 8 s per file | ✅ |
+| ⚠️ Participant count | Healthy = **12 people** (not 24). AD codes `01xx`–`03xx` look like **3 people × 4 consecutive 8-s segments**: segment boundaries are continuous (e.g. ec0102→ec0103) and spectra correlate within a code group (r = 0.50) but not between groups (r = −0.01). So ADSZ may be only **3 AD + 12 HC people** – confirm against ADFSU in Phase 3. | ✅ (inferred) |
 | Raw or preprocessed? | preprocessed at source (artefact-free segments) | 📄 |
 | Known issues | ⚠️ may be 12 + 12 people each recorded eyes open and eyes closed (Pineda et al., 2020 count "24 healthy subjects (groups A and B)"); overlap with ADFSU likely | 📄 |
 
@@ -71,7 +73,7 @@ eyes-closed session (OpenNeuro ds006036 v1.0.6, CC0, 1.13 GB). Not an independen
 |---|---|---|
 | Original recordings | Escudero et al. (2006), *Physiological Measurement* 27(11):1091–1106 (Valladolid) – as cited by LEAD | 📄 |
 | Download | Google Drive `APAVA.zip` (team link) – **requires Google sign-in**; download manually | ✅ exists (contents not checked) |
-| Other copy | OSF https://osf.io/jbysn → `AD_Data.tar.gz` (51 MB), described as the Escudero et al. (2006) data (Smith, 2017) – compare (T2.4.1a) | ✅ exists |
+| Other copy | OSF https://osf.io/jbysn → `AD_Data.tar.gz` (51 MB, sha256 `125b85ae…d0812`), Smith (2017). Checked 2026-09-29: 23 FieldTrip files `preproctrials01–23.mat`, 16 channels (C3 C4 F3 F4 F7 F8 Fp1 Fp2 O1 O2 P3 P4 T3 T4 T5 T6 = 10–20 minus Fz/Cz/Pz), 256 Hz, 5-s trials (1280 samples), 1–59 trials per participant, already re-referenced to the common average. **No diagnosis labels in the files.** | ✅ |
 | Licence / access terms | TODO | ❓ |
 | Groups | 12 AD, 11 HC | 📄 |
 | Channels | 16 – 10–20 without Fz, Cz, Pz (per slides) – TODO confirm labels | 📄 |

@@ -164,7 +164,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 ### T2.2 ADFSU
 - [x] T2.2.1 Source traced: LEAD cites ADFSU as Vicchietti et al. (2023, *Sci Rep* 13:8184). That paper uses the **Florida State University database recorded by Dr Dennis Duke** (Pritchard et al., 1991): 80 probable AD + 12 HC, each recorded eyes open and eyes closed; 19 ch, 128 Hz, 8-s segments, band-limited 0.5–30 Hz, movement artefacts removed by a technician; "made freely available by Vicchietti et al." (their ref. 42).
-  - [ ] T2.2.1a Find the actual download link (Vicchietti et al. 2023 data-availability statement / ref. 42 – read in the browser; PMC10199940).
+  - [x] T2.2.1a Download link found (data-availability statement → ref. 42): https://osf.io/2v5md, `EEG_data.zip` (6.6 MB).
   - ⚠️ The OSF link in our notes (https://osf.io/jbysn) is **not** this dataset: it is Keith Smith's 2017 project for a network-binarisation paper, containing `AD_Data.tar.gz` (51 MB, described as the AD/control data of Escudero et al., 2006, i.e. the APAVA origin) and a healthy NBT dataset (1.0 GB). See T2.4.
 - [ ] T2.2.2 Decide raw vs already-preprocessed version: prefer the rawest available. If only preprocessed exists, record exactly what was done at source (A9) – it constrains what our pipeline controls.
 - [ ] T2.2.3 Download to `data/raw/ADFSU`; record version/date + checksum.
@@ -179,14 +179,16 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
   - ⚠️ Pineda et al. (2020) describe "24 healthy subjects (groups A and B)" where A = eyes open and B = eyes closed. If ADSZ's 24 + 24 are really 12 + 12 people each recorded twice, ADSZ contains the same person under two IDs – check in T2.3.4 and Phase 3 before anything else.
 - [ ] T2.3.2 Raw vs preprocessed decision (as T2.2.2).
 - [ ] T2.3.3 Download to `data/raw/ADSZ`; version/date + checksum.
-- [ ] T2.3.4 Participant IDs per trial (as T2.2.4).
+- [x] T2.3.4 Participant IDs per trial – checked in the files: Healthy = 12 people × {eyes closed, eyes open}; AD = codes `01`–`03` × segments `01`–`04` × {ec, eo}. Evidence (continuous segment boundaries, within-code spectral similarity) points to **3 AD people**, so ADSZ is probably 3 AD + 12 HC people, not 24 + 24. Its participant ID is the code without the segment number.
+  - [ ] T2.3.4a Decide with the mentor whether ADSZ stays a separate cohort (see Phase 3: it probably overlaps ADFSU entirely).
 - [ ] T2.3.5 Resolve the condition question from the files: the FSU database has separate eyes-open and eyes-closed recordings; find which files are which.
 - [ ] T2.3.6 Run A1–A12. Confirm 24 AD / 24 HC, 19 channels, 128 Hz, 8-s trials.
 - [ ] T2.3.7 Fill the dataset card.
 
 ### T2.4 APAVA
 - [x] T2.4.1 Source traced: LEAD cites APAVA as Escudero et al. (2006) (Valladolid group). The team's link is a Google Drive file `APAVA.zip` that needs a Google sign-in – download it manually into `data/raw/APAVA/`.
-  - [ ] T2.4.1a Compare with OSF `AD_Data.tar.gz` (Smith, 2017), which is also described as the Escudero et al. (2006) data; one may be a more original or better-documented copy.
+  - [x] T2.4.1a OSF `AD_Data.tar.gz` checked: 23 participants, 16 ch, 256 Hz, 5-s trials, common-average referenced – matches APAVA's description but has **no diagnosis labels**.
+  - [ ] T2.4.1b Get the AD/HC label for each of the 23 files: from `APAVA.zip` (Google Drive) or from Smith et al. (2017) / Escudero et al. (2006).
 - [ ] T2.4.2 Raw vs preprocessed decision.
 - [ ] T2.4.3 Download to `data/raw/APAVA`; version/date + checksum.
 - [ ] T2.4.4 Participant IDs per trial.
