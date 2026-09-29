@@ -11,7 +11,8 @@ Tick when checked and write where (paper + page/table, or file + command).
 - [x] **ADSZ–ADFSU overlap** – ADSZ is a subset of ADFSU: 47/48 files identical (EXP-002).
 - [ ] **FSU amplitude unit** – stored values have robust SD ≈ 7.8; confirm µV (or scale) before LaBraM scaling.
 - [x] **ADFSU download link** – https://osf.io/2v5md (`EEG_data.zip`).
-- [ ] **APAVA copies** – OSF jbysn copy confirmed as 23 participants, 16 ch, 256 Hz, 5-s trials, no labels. Still to compare with Google Drive APAVA.zip and get the 12 AD / 11 HC labels.
+- [x] **APAVA copies** – Google Drive APAVA.zip and OSF jbysn hold identical signals; labels from APAVA.zip (12 AD / 11 HC).
+- [ ] **APAVA label coding** – 1 = AD inferred from counts; confirm against the source paper or the Medformer/LEAD data loader.
 - [ ] **Escudero et al. (2006)** – confirm the citation and cohort description from the paper itself.
 - [x] **ds004504 sex split** – confirmed from participants.tsv: 24/36 vs 11/29 female, Fisher p = 0.026 (T2.1.5).
 - [ ] **LaBraM** input convention: 200 Hz, 1-s patches, µV/100 scaling, channel-name list, max

@@ -188,7 +188,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 ### T2.4 APAVA
 - [x] T2.4.1 Source traced: LEAD cites APAVA as Escudero et al. (2006) (Valladolid group). The team's link is a Google Drive file `APAVA.zip` that needs a Google sign-in – download it manually into `data/raw/APAVA/`.
   - [x] T2.4.1a OSF `AD_Data.tar.gz` checked: 23 participants, 16 ch, 256 Hz, 5-s trials, common-average referenced – matches APAVA's description but has **no diagnosis labels**.
-  - [ ] T2.4.1b Get the AD/HC label for each of the 23 files: from `APAVA.zip` (Google Drive) or from Smith et al. (2017) / Escudero et al. (2006).
+  - [x] T2.4.1b Labels from `APAVA.zip` (`Label/label.npy`: 12 × 1 = AD, 11 × 0 = HC); its signals are identical to the OSF copy.
 - [ ] T2.4.2 Raw vs preprocessed decision.
 - [ ] T2.4.3 Download to `data/raw/APAVA`; version/date + checksum.
 - [ ] T2.4.4 Participant IDs per trial.

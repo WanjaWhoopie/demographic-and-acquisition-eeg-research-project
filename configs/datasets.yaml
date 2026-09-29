@@ -54,6 +54,7 @@ APAVA:
   channels_expected: 16        # 10-20 without Fz, Cz, Pz (verify)
   sfreq_expected: 256
   condition: eyes_closed
-  trial_length_s: 5            # verify
+  trial_length_s: 5            # confirmed; APAVA.zip stores 1-s windows with 50% overlap - rebuild trials
+  labels: "Label/label.npy: column 0 = 1 AD / 0 HC, column 1 = participant 1-23"
   demographics: []
   raw_path: data/raw/APAVA
