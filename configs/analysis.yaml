@@ -1,0 +1,45 @@
+# Prespecified modelling and statistics settings (frozen at T4.0 / tag analysis-plan-v1).
+
+seed: 20261001
+
+representation:
+  model: labram-base
+  frozen: true
+  layers: all                 # store every block; layer chosen inside training folds
+  token_pooling: mean         # mean over channel x time patch tokens
+  participant_pooling: [mean, median, mean_std]   # chosen inside training folds
+
+classifier:
+  type: logistic_regression
+  penalty: l2
+  C_grid: [0.001, 0.01, 0.1, 1, 10, 100]
+  class_weight: balanced
+  standardise: true           # fitted on training participants only
+
+cv:
+  inner: {type: StratifiedGroupKFold, n_splits: 5}
+  within_cohort: {type: RepeatedStratifiedGroupKFold, n_splits: 5, n_repeats: 10}
+  cross_cohort: leave_one_cohort_out
+
+probes:
+  age: {model: ridge, alpha_grid: [0.1, 1, 10, 100, 1000], metrics: [MAE, R2], cohort: ds004504}
+  sex: {model: logistic_regression, metrics: [AUROC, balanced_accuracy], cohort: ds004504}
+  cohort: {model: multinomial_logistic, metrics: [balanced_accuracy, macro_F1], chance: 0.25}
+  nonlinear: {model: mlp, hidden: [64], early_stopping: true}
+  permutations: 1000
+
+control:
+  demographic: {method: ols_residualisation, covariates: [age, sex], cohort: ds004504}
+  cohort_centring: {means: prevalence_balanced, test_variants: [pooled_training_mean, label_free_test_mean]}
+  erasure: [leace, inlp]
+  inlp_iterations: 20
+
+stats:
+  bootstrap: {n: 2000, unit: participant, stratify: diagnosis, ci: 0.95}
+  primary: mean_delta_auroc_across_loco_folds
+  multiple_comparisons: holm   # secondary analyses
+  alpha: 0.05
+
+sensitivity:
+  exclude_adfsu: true
+  adfsu_ad_subsample: {n_draws: 100, match: n_hc}

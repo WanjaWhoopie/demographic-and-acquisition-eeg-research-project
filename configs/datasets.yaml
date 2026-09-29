@@ -1,0 +1,56 @@
+# One entry per cohort. Values marked "verify" come from the proposal/slides and must be
+# confirmed during the data audit (WORKPLAN Phase 2) before they are relied on.
+# Record the exact version / download date of every dataset in `version`.
+
+ds004504:
+  source: OpenNeuro
+  accession: ds004504
+  url: https://openneuro.org/datasets/ds004504
+  version: null                # e.g. "1.0.8" -- fill at download (T2.1.1)
+  descriptor: "Miltiadous et al. (2023), Data 8(6):95, doi:10.3390/data8060095"
+  format: BIDS / EEGLAB .set
+  groups_used: {A: AD, C: HC}  # F (FTD) excluded from primary analysis
+  n_expected: {AD: 36, HC: 29, FTD: 23}
+  channels_expected: 19
+  sfreq_expected: 500
+  condition: eyes_closed
+  demographics: [age, sex, mmse]
+  raw_path: data/raw/ds004504
+
+ADFSU:
+  source: null                 # locate original source + licence (T2.2.1)
+  url: null
+  version: null
+  n_expected: {AD: 80, HC: 12}  # verify
+  channels_expected: 19
+  sfreq_expected: 128
+  condition: [eyes_open, eyes_closed]   # verify labels exist per trial
+  trial_length_s: 8            # verify
+  note: "Reported band-limited to 0.5-30 Hz at source (verify)."
+  demographics: []
+  raw_path: data/raw/ADFSU
+
+ADSZ:
+  source: null
+  url: null
+  version: null
+  n_expected: {AD: 24, HC: 24}  # verify
+  channels_expected: 19
+  sfreq_expected: 128
+  condition: [eyes_open, eyes_closed]   # verify
+  trial_length_s: 8            # verify
+  note: "Possible participant overlap with ADFSU (T3)."
+  demographics: []
+  raw_path: data/raw/ADSZ
+
+APAVA:
+  source: null
+  url: null
+  version: null
+  n_expected: {AD: 12, HC: 11}  # verify
+  channels_expected: 16        # 10-20 without Fz, Cz, Pz (verify)
+  sfreq_expected: 256
+  condition: eyes_closed
+  trial_length_s: 5            # verify
+  demographics: []
+  raw_path: data/raw/APAVA

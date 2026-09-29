@@ -1,0 +1,26 @@
+name: eegconf
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.11
+  - pip
+  - numpy
+  - scipy
+  - pandas
+  - scikit-learn
+  - statsmodels
+  - matplotlib
+  - pyyaml
+  - jupyterlab
+  - pytest
+  - pytorch
+  - pip:
+      - mne>=1.7
+      - mne-bids
+      - openneuro-py
+      - specparam          # aperiodic (1/f) fitting, successor of FOOOF
+      - concept-erasure    # LEACE (Belrose et al., 2023)
+      - einops
+      - timm==0.4.12       # version pinned by the LaBraM codebase; confirm in T5.1.2
+      - -e .
