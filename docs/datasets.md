@@ -28,6 +28,10 @@ Legend: ✅ confirmed in files · 📄 from paper/descriptor only · ❓ unknown
 | Download | `python scripts/download_ds004504.py` → MANIFEST.tsv with sha256 per file | |
 | Checksum | TODO (sha256 of participants.tsv from MANIFEST.tsv) | ❓ |
 
+### Related dataset not used: ds006036
+Eyes-open photic-stimulation recordings (5–30 Hz) of the **same** 88 participants as ds004504, recorded after the
+eyes-closed session (OpenNeuro ds006036 v1.0.6, CC0, 1.13 GB). Not an independent cohort – excluded from the design (D-016).
+
 ## ADFSU
 | Field | Value | Status |
 |---|---|---|

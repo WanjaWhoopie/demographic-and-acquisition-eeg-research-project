@@ -13,5 +13,10 @@ Tick when checked and write where (paper + page/table, or file + command).
 - [ ] **LaBraM** input convention: 200 Hz, 1-s patches, µV/100 scaling, channel-name list, max
       patches per sample – check the official code (T5.1).
 - [ ] **LEAD** – read the data section; does it define ADFSU/ADSZ/APAVA and how were they preprocessed?
-- [ ] **Slide 7 "Negative-control audit (2026), dataset identity decodable"** – find the citation.
+- [x] **Slide 7 "Negative-control audit (2026)"** – Zare (2026), arXiv:2607.24519, "A Negative-Control Protocol for Clinical EEG Foundation-Model Benchmarks".
+- [ ] **LinHou2026labramdementia** – which dataset, and does "dementia" pool AD with FTD? (full text)
+- [ ] **Zare2026negcontrol** – was LaBraM among the five encoders?
+- [ ] **LaBraM pretraining size** – "over 2,500 hours" (quoted by Lin, Hou & Jung) – confirm in Jiang et al. (2024).
+- [ ] **ds006036 citation** – author list and year for the dataset reference.
+- [ ] Primary sources for AD EEG markers and ageing-related EEG change (draft lit review §2, §4).
 - [ ] Full author lists for entries ending in "et al." in the proposal reference list.
