@@ -25,7 +25,7 @@ Two layers:
 | `limitations` | what weakens the claim |
 | `gap_for_us` | what they did **not** do that we do |
 | `objectives` | which of O1–O5 it informs |
-| `used_in` | proposal / thesis section where it is cited |
+| `used_in` | proposal / write-up section where it is cited |
 | `status` | to-read · skimmed · read · noted |
 | `source_check` | `primary` (we read the paper) or `secondary` (only seen quoted elsewhere) |
 

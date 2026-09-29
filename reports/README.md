@@ -1,5 +1,5 @@
 # reports/
 
-- `meetings/YYYY-MM-DD.md` – supervisor and team meeting notes (template below).
+- `meetings/YYYY-MM-DD.md` – mentor and team meeting notes (template below).
 - `progress/` – short written updates (monthly).
-- `thesis/` – chapter drafts once writing starts (Phase 12).
+- `writeup/` – report/paper drafts once writing starts (Phase 12).
