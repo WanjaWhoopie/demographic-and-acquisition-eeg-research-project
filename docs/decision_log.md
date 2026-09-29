@@ -21,4 +21,5 @@ that says why and whether it was made before or after looking at held-out result
 | D-013 | workplan | No ICA; amplitude-based epoch rejection for all cohorts | 5–8 s trials too short for stable ICA; same rule for every cohort | before |
 | D-014 | workplan | No notch filter by default | Line noise (50/60 Hz) is above the 30 Hz low-pass | before |
 | D-015 | workplan | 4-s epochs | Fits 8-s and 5-s trials; 16 ch × 4 patches per LaBraM input | before |
+| D-017 | 2026-09-29 | **PROPOSED – needs team/mentor agreement.** Drop ADSZ as a cohort; use ADFSU as the single FSU cohort. Remove ADFSU AD Paciente41–44 (duplicates of 40) and the F1/F2 channels. Primary LOCO becomes 3 cohorts: ds004504, ADFSU, APAVA | EXP-002: ADSZ is a subset of ADFSU, so keeping both would put the same people in train and test folds | before |
 | D-016 | lit review | ds006036 not used as a cohort | Same 88 participants as ds004504 (eyes open, photic stimulation); using it as a held-out cohort would leak subjects and add a photic-driving signal. Possible subject-grouped condition-shift extension only | before |

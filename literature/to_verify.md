@@ -7,8 +7,9 @@ Tick when checked and write where (paper + page/table, or file + command).
       set (internal or independent). Find the external-only count in the full text.
 - [ ] **ADFSU** band-limited to 0.5–30 Hz at source (slides/notes). Check original source + PSD.
 - [ ] **APAVA** has exactly the 19-ch 10–20 set minus Fz, Cz, Pz. Check channel labels in files.
-- [x] **ADSZ** condition and counting: files show every person recorded eyes open and eyes closed; Healthy = 12 people; AD appears to be 3 people × 4 segments (T2.3.4). Final confirmation in Phase 3.
-- [x] **ADSZ–ADFSU common source** – yes: both come from the FSU / Dennis Duke database (Vicchietti et al., 2023; Pineda et al., 2020; Alves et al., arXiv:2110.06140). Size of the overlap still to be measured (Phase 3).
+- [x] **ADSZ** condition and counting: 12 AD + 12 HC people, each recorded eyes open and eyes closed (EXP-002).
+- [x] **ADSZ–ADFSU overlap** – ADSZ is a subset of ADFSU: 47/48 files identical (EXP-002).
+- [ ] **FSU amplitude unit** – stored values have robust SD ≈ 7.8; confirm µV (or scale) before LaBraM scaling.
 - [x] **ADFSU download link** – https://osf.io/2v5md (`EEG_data.zip`).
 - [ ] **APAVA copies** – OSF jbysn copy confirmed as 23 participants, 16 ch, 256 Hz, 5-s trials, no labels. Still to compare with Google Drive APAVA.zip and get the 12 AD / 11 HC labels.
 - [ ] **Escudero et al. (2006)** – confirm the citation and cohort description from the paper itself.

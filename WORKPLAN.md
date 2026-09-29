@@ -179,8 +179,8 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
   - ⚠️ Pineda et al. (2020) describe "24 healthy subjects (groups A and B)" where A = eyes open and B = eyes closed. If ADSZ's 24 + 24 are really 12 + 12 people each recorded twice, ADSZ contains the same person under two IDs – check in T2.3.4 and Phase 3 before anything else.
 - [ ] T2.3.2 Raw vs preprocessed decision (as T2.2.2).
 - [ ] T2.3.3 Download to `data/raw/ADSZ`; version/date + checksum.
-- [x] T2.3.4 Participant IDs per trial – checked in the files: Healthy = 12 people × {eyes closed, eyes open}; AD = codes `01`–`03` × segments `01`–`04` × {ec, eo}. Evidence (continuous segment boundaries, within-code spectral similarity) points to **3 AD people**, so ADSZ is probably 3 AD + 12 HC people, not 24 + 24. Its participant ID is the code without the segment number.
-  - [ ] T2.3.4a Decide with the mentor whether ADSZ stays a separate cohort (see Phase 3: it probably overlaps ADFSU entirely).
+- [x] T2.3.4 Participant IDs per trial – 12 AD + 12 HC people, each recorded eyes closed and eyes open. (An earlier reading of the AD codes as 3 people × 4 segments was wrong: EXP-002 maps the 12 AD codes to 12 different ADFSU patients.)
+  - [ ] T2.3.4a Decide with the mentor whether to drop ADSZ as a separate cohort (it is a subset of ADFSU – see Phase 3 result).
 - [ ] T2.3.5 Resolve the condition question from the files: the FSU database has separate eyes-open and eyes-closed recordings; find which files are which.
 - [ ] T2.3.6 Run A1–A12. Confirm 24 AD / 24 HC, 19 channels, 128 Hz, 8-s trials.
 - [ ] T2.3.7 Fill the dataset card.
@@ -205,15 +205,18 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 ## Phase 3 – ADSZ–ADFSU overlap check (M3) → EXP-002
 
-- [ ] T3.1 Compare metadata: participant counts, trial counts, trial lengths, any ID patterns, source papers.
+**Result (EXP-002, 2026-09-29, `python scripts/02_overlap_check.py`):** ADSZ is a subset of ADFSU. 47/48 ADSZ files are exact copies of ADFSU recordings (AD Paciente1–12 and all 12 HC; labels and conditions agree); the 48th is the HC-05 eyes-open recording missing from ADFSU. Inside ADFSU, AD Paciente40–44 are one recording under five IDs, and F1/F2 duplicate Fp1/Fp2.
+
+- [x] T3.1 Compare metadata: both trace to the FSU / Dennis Duke database; ADSZ file names map to ADFSU folders.
 - [ ] T3.2 Put both cohorts in the same units (µV) and channel order (16 target + the 3 midline channels available in both).
-- [ ] T3.3 **Exact duplicates**: hash each trial array (float32, rounded to 0.01 µV) with SHA-1; intersect hash sets across cohorts.
-- [ ] T3.4 **Near duplicates**: for each trial, Welch PSD (1–30 Hz, 0.5-Hz bins) per channel, log-power, flatten to a fingerprint; compute Pearson r between every ADSZ trial and every ADFSU trial; flag pairs with r > 0.99.
+- [x] T3.3 **Exact duplicates**: hash each trial array (float32, rounded to 0.01 µV) with SHA-1; intersect hash sets across cohorts.
+- [x] T3.4 **Near duplicates** (implemented as channel-level correlation, which also handles unknown channel order): for each trial, Welch PSD (1–30 Hz, 0.5-Hz bins) per channel, log-power, flatten to a fingerprint; compute Pearson r between every ADSZ trial and every ADFSU trial; flag pairs with r > 0.99.
 - [ ] T3.5 For flagged pairs, compute the maximum normalised cross-correlation of the time series over lags ±1 s per channel; confirm duplicates if median across channels > 0.95. Also check for resampled/scaled copies (correlation is invariant to scaling; check lag and sign).
-- [ ] T3.6 Aggregate trial matches to participant matches (a participant is duplicated if ≥ 1 trial matches).
-- [ ] T3.7 Check label consistency for each duplicated participant (AD in both?). Label conflict → exclude the participant from both cohorts.
-- [ ] T3.8 Apply the prespecified rule (write it in the decision log **before** T3.3): a duplicated participant stays in the cohort where they have more eyes-closed data; tie → stay in ADSZ (keeps ADSZ balanced); remove from the other.
-- [ ] T3.9 Run the same near-duplicate check within each cohort (same person under two IDs) and between ds004504/APAVA and the others (cheap; PSD fingerprints after resampling to a common rate).
+- [x] T3.6 Aggregate trial matches to participant matches (a participant is duplicated if ≥ 1 trial matches).
+- [x] T3.7 Check label consistency (0 disagreements) for each duplicated participant (AD in both?). Label conflict → exclude the participant from both cohorts.
+- [ ] T3.8 Apply the rule – superseded: since ADSZ is wholly contained in ADFSU, the proposal is to drop ADSZ as a cohort (D-017, pending decision). Original rule: (write it in the decision log **before** T3.3): a duplicated participant stays in the cohort where they have more eyes-closed data; tie → stay in ADSZ (keeps ADSZ balanced); remove from the other.
+- [x] T3.9 (ADFSU part) Within-ADFSU check: AD Paciente40–44 identical → keep one (Paciente40), drop 41–44.
+- [ ] T3.9 (rest) Run the same near-duplicate check within each cohort (same person under two IDs) and between ds004504/APAVA and the others (cheap; PSD fingerprints after resampling to a common rate).
 - [ ] T3.10 Write `data/metadata/overlap_report.csv` and a short summary in EXP-002; update `participants_all.csv` (`included` column + `exclusion_reason`).
 - [ ] T3.11 Draw the participant flow diagram numbers (downloaded → labelled → eyes-closed available → after overlap → after QC) for the write-up.
 
