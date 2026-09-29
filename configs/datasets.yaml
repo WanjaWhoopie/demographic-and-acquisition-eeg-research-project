@@ -20,34 +20,35 @@ ds004504:
   raw_path: data/raw/ds004504
 
 ADFSU:
-  source: null                 # locate original source + licence (T2.2.1)
-  url: null
+  source: "Florida State University database (Dr Dennis Duke); named ADFSU in LEAD via Vicchietti et al. 2023"
+  url: null                    # download link not yet found (T2.2.1a); NOT osf.io/jbysn
   version: null
   n_expected: {AD: 80, HC: 12}  # verify
   channels_expected: 19
   sfreq_expected: 128
   condition: [eyes_open, eyes_closed]   # verify labels exist per trial
   trial_length_s: 8            # verify
-  note: "Reported band-limited to 0.5-30 Hz at source (verify)."
+  note: "Band-limited 0.5-30 Hz and artefact-cleaned at source; same origin as ADSZ."
   demographics: []
   raw_path: data/raw/ADFSU
 
 ADSZ:
-  source: null
-  url: null
+  source: "figshare 19091771 (Pineda & Alves), CC0; AD data from the FSU / Dennis Duke database"
+  url: https://doi.org/10.6084/m9.figshare.19091771.v1
   version: null
   n_expected: {AD: 24, HC: 24}  # verify
   channels_expected: 19
   sfreq_expected: 128
   condition: [eyes_open, eyes_closed]   # verify
   trial_length_s: 8            # verify
-  note: "Possible participant overlap with ADFSU (T3)."
+  note: "Same source database as ADFSU; possible EO/EC double counting (T2.3.4, T3)."
   demographics: []
   raw_path: data/raw/ADSZ
 
 APAVA:
-  source: null
-  url: null
+  source: "Escudero et al. 2006 (Valladolid); team copy on Google Drive (APAVA.zip, sign-in needed)"
+  url: https://drive.google.com/file/d/1FKvUnB8qEcHng7J9CfHaU7gqRLGeS7Ea/view
+  alt_url: https://osf.io/jbysn   # AD_Data.tar.gz, described as Escudero et al. 2006 data
   version: null
   n_expected: {AD: 12, HC: 11}  # verify
   channels_expected: 16        # 10-20 without Fz, Cz, Pz (verify)

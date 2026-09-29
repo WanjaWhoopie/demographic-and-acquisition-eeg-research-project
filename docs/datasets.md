@@ -35,35 +35,43 @@ eyes-closed session (OpenNeuro ds006036 v1.0.6, CC0, 1.13 GB). Not an independen
 ## ADFSU
 | Field | Value | Status |
 |---|---|---|
-| Original source + citation | TODO – trace from the paper that named the cohort (check LEAD, Wang et al., 2025, data section) back to the original recording study | ❓ |
+| Original recordings | Florida State University database, provided by Dr Dennis Duke (Pritchard, Duke & Coburn, 1991) | 📄 |
+| Name "ADFSU" from | LEAD (Wang et al., 2025) → Vicchietti et al. (2023), *Sci Rep* 13:8184, doi:10.1038/s41598-023-32664-8 | 📄 |
+| Download link | TODO – Vicchietti et al. (2023) say the data were "made freely available" (their ref. 42); link not yet found (T2.2.1a) | ❓ |
+| ⚠️ Link in our notes | https://osf.io/jbysn exists but is a different dataset (Smith, 2017: Escudero et al. 2006 AD data + NBT healthy data) | ✅ |
 | Licence / access terms | TODO | ❓ |
-| Groups | ~80 AD, ~12 HC | 📄 |
-| Channels | 19 (10–20) | 📄 |
+| Groups | 80 probable AD, 12 HC (NINCDS-ADRDA, DSM-III-R) | 📄 |
+| Channels | 19: Fp1 Fp2 F3 F4 F7 F8 Fz C3 C4 Cz P3 P4 Pz T3 T4 T5 T6 O1 O2 | 📄 |
 | Sampling rate | 128 Hz | 📄 |
-| Condition | eyes open + eyes closed – **are trials labelled by condition?** TODO | ❓ |
-| Trial length / trials per participant | 8 s / TODO | 📄/❓ |
-| Band limits at source | 0.5–30 Hz (per notes) | 📄 |
-| Distributed as raw or already preprocessed? | TODO – decides what our pipeline can still control | ❓ |
+| Condition | each participant recorded eyes open (visual fixation) **and** eyes closed; reference linked mandible (Pineda et al., 2020) | 📄 |
+| Trial length | 8 s segments | 📄 |
+| Band limits at source | 0.5–30 Hz; movement artefacts removed by an EEG technician | 📄 |
+| Distributed as raw or already preprocessed? | Preprocessed at source (band-limited, artefact-cleaned segments) | 📄 |
 | Participant IDs available? | TODO – needed for subject-level splits | ❓ |
-| Known issues | severe class imbalance; possible overlap with ADSZ | 📄 |
+| Demographics | none per participant | 📄 |
+| Known issues | severe class imbalance; **same source database as ADSZ** – overlap likely (Phase 3) | 📄 |
 
 ## ADSZ
 | Field | Value | Status |
 |---|---|---|
-| Original source + citation | TODO | ❓ |
-| Licence / access terms | TODO | ❓ |
-| Groups | 24 AD, 24 HC | 📄 |
+| Download | figshare "Alzheimer's disease and Schizophrenia" – https://doi.org/10.6084/m9.figshare.19091771.v1 (`dataset.zip`, 18.3 MB, published 2022-01-29) | ✅ exists |
+| Licence | CC0 | ✅ |
+| Paper | Alves, C. L., Pineda, A. M., et al. – arXiv:2110.06140 ("EEG functional connectivity and deep learning for automatic diagnosis of brain disorders: Alzheimer's disease and schizophrenia"); LEAD cites it as Alves et al. (2022) | 📄 |
+| Original recordings | FSU / Dennis Duke database (cited via Pineda et al., 2020 and Pritchard et al., 1991) – **same origin as ADFSU** | 📄 |
+| Groups | 24 AD, 24 HC; group ages only (HC 72 ± 11, AD 69 ± 16 years) | 📄 |
 | Channels | 19 | 📄 |
 | Sampling rate | 128 Hz | 📄 |
-| Condition | eyes open + closed (proposal) / "resting" (slides) – TODO resolve | ❓ |
-| Trial length | 8 s | 📄 |
-| Raw or preprocessed? | TODO | ❓ |
-| Known issues | possible overlap with ADFSU | 📄 |
+| Condition | not stated in Alves et al.; the FSU database has eyes open and eyes closed – TODO from files | ❓ |
+| Trial length | 8 s per individual | 📄 |
+| Raw or preprocessed? | preprocessed at source (artefact-free segments) | 📄 |
+| Known issues | ⚠️ may be 12 + 12 people each recorded eyes open and eyes closed (Pineda et al., 2020 count "24 healthy subjects (groups A and B)"); overlap with ADFSU likely | 📄 |
 
 ## APAVA
 | Field | Value | Status |
 |---|---|---|
-| Original source + citation | TODO | ❓ |
+| Original recordings | Escudero et al. (2006), *Physiological Measurement* 27(11):1091–1106 (Valladolid) – as cited by LEAD | 📄 |
+| Download | Google Drive `APAVA.zip` (team link) – **requires Google sign-in**; download manually | ✅ exists (contents not checked) |
+| Other copy | OSF https://osf.io/jbysn → `AD_Data.tar.gz` (51 MB), described as the Escudero et al. (2006) data (Smith, 2017) – compare (T2.4.1a) | ✅ exists |
 | Licence / access terms | TODO | ❓ |
 | Groups | 12 AD, 11 HC | 📄 |
 | Channels | 16 – 10–20 without Fz, Cz, Pz (per slides) – TODO confirm labels | 📄 |
