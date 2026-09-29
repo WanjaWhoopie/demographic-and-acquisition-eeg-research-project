@@ -16,6 +16,8 @@ import csv
 import hashlib
 import io
 import re
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -54,6 +56,21 @@ def keep(key, subjects):
     return len(parts) == 1  # top-level files: participants.tsv, dataset_description.json, ...
 
 
+def fetch(url, out, attempts=6):
+    """Download to a .part file and rename, retrying with backoff on dropped connections."""
+    part = out.with_name(out.name + ".part")
+    for attempt in range(1, attempts + 1):
+        try:
+            urllib.request.urlretrieve(url, part)
+            part.replace(out)
+            return
+        except (urllib.error.URLError, ConnectionError, TimeoutError) as err:
+            wait = 5 * 2 ** (attempt - 1)
+            print(f"  attempt {attempt} failed ({err}); retrying in {wait}s")
+            time.sleep(wait)
+    raise RuntimeError(f"giving up on {url}")
+
+
 def sha256(path):
     h = hashlib.sha256()
     with open(path, "rb") as f:
@@ -81,7 +98,7 @@ def main():
         if not (out.exists() and out.stat().st_size == size):
             out.parent.mkdir(parents=True, exist_ok=True)
             print(f"[{i}/{len(files)}] {key}")
-            urllib.request.urlretrieve(f"{BUCKET}/{urllib.parse.quote(key)}", out)
+            fetch(f"{BUCKET}/{urllib.parse.quote(key)}", out)
         assert out.stat().st_size == size, f"size mismatch: {out}"
         manifest.append((out.relative_to(target).as_posix(), size, sha256(out)))
 
