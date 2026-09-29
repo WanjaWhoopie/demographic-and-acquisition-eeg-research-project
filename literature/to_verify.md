@@ -7,8 +7,11 @@ Tick when checked and write where (paper + page/table, or file + command).
       set (internal or independent). Find the external-only count in the full text.
 - [ ] **ADFSU** band-limited to 0.5–30 Hz at source (slides/notes). Check original source + PSD.
 - [ ] **APAVA** has exactly the 19-ch 10–20 set minus Fz, Cz, Pz. Check channel labels in files.
-- [ ] **ADSZ** condition: proposal says eyes open + closed, slides say "resting".
-- [ ] **ADSZ–ADFSU overlap** – is there a common original source? (Phase 3)
+- [ ] **ADSZ** condition and counting: is it 24 + 24 people, or 12 + 12 people each recorded eyes open and eyes closed? (T2.3.4)
+- [x] **ADSZ–ADFSU common source** – yes: both come from the FSU / Dennis Duke database (Vicchietti et al., 2023; Pineda et al., 2020; Alves et al., arXiv:2110.06140). Size of the overlap still to be measured (Phase 3).
+- [ ] **ADFSU download link** – Vicchietti et al. (2023) data-availability statement / ref. 42.
+- [ ] **APAVA copies** – Google Drive APAVA.zip vs OSF jbysn AD_Data.tar.gz: same data? 12 AD / 11 HC, 16 ch, 256 Hz?
+- [ ] **Escudero et al. (2006)** – confirm the citation and cohort description from the paper itself.
 - [x] **ds004504 sex split** – confirmed from participants.tsv: 24/36 vs 11/29 female, Fisher p = 0.026 (T2.1.5).
 - [ ] **LaBraM** input convention: 200 Hz, 1-s patches, µV/100 scaling, channel-name list, max
       patches per sample – check the official code (T5.1).
