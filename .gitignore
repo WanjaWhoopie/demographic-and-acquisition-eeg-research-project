@@ -1,0 +1,43 @@
+# Data never goes into git (licences + size). See data/README.md.
+data/raw/
+data/interim/
+data/processed/
+data/embeddings/
+*.edf
+*.bdf
+*.set
+*.fdt
+*.fif
+*.vhdr
+*.eeg
+*.mat
+*.npy
+*.npz
+*.h5
+*.parquet
+
+# Model weights
+checkpoints/
+*.pth
+*.pt
+*.ckpt
+
+# Generated results (commit only the curated tables/figures listed in results/README.md)
+results/runs/
+results/cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+~$*

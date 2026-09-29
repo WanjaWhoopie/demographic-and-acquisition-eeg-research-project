@@ -1,0 +1,35 @@
+# Prespecified preprocessing. Changing any value after the analysis-plan freeze (T4.0)
+# requires a new entry in docs/decision_log.md.
+
+condition: eyes_closed
+
+# 16 channels common to all cohorts (19-ch 10-20 minus Fz, Cz, Pz).
+# Old 10-20 names are used here; map dataset-specific labels onto these (T4.2).
+channels: [Fp1, Fp2, F7, F3, F4, F8, T3, C3, C4, T4, T5, P3, P4, T6, O1, O2]
+
+units: uV                     # convert everything to microvolts first
+
+filter:
+  l_freq: 0.5
+  h_freq: 30.0
+  method: fir                 # zero-phase FIR, MNE defaults (firwin, hamming)
+  pad: reflect_limited        # short (5-8 s) trials: pad to reduce edge artefacts
+  notch: null                 # line noise (50/60 Hz) lies above the 30 Hz cut-off; enable only if QC shows residue
+
+reference: average            # common average over the 16 retained channels
+
+resample_hz: 200              # LaBraM input rate
+
+epoch:
+  length_s: 4.0               # 4 x 1-s LaBraM patches per channel
+  overlap_s: 0.0
+
+artefact_rejection:
+  flat_uv: 0.5                # epoch rejected if any channel peak-to-peak < flat_uv
+  peak_to_peak_uv: 150        # epoch rejected if any channel peak-to-peak > this (after filtering)
+  ica: false                  # not applied: trials too short for stable ICA; same rule for every cohort
+
+equal_crop:
+  n_epochs_per_participant: null   # set from audit = min clean epochs across included participants (T4.8)
+
+labram_scaling: 0.01          # uV -> units of 0.1 mV, as in the LaBraM codebase (verify T5.1.3)
