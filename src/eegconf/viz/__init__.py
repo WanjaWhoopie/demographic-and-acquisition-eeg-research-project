@@ -1,1 +1,1 @@
-"""Figures used in reports and the thesis."""
+"""Figures used in reports and the write-up."""

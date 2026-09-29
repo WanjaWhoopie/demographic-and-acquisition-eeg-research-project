@@ -1,4 +1,3 @@
 # licences/
 
-Data-use terms for each dataset and the ethics approval/exemption (T0.1.4).
-Name files `<cohort>_terms_<date>.pdf` and `ethics_<date>.pdf`.
+Data-use terms for each dataset (T0.1). Name files `<cohort>_terms_<date>.pdf` or `.md`.

@@ -14,7 +14,7 @@ unseen cohort (leave-one-cohort-out across ds004504, ADFSU, ADSZ and APAVA).
 
 ## Repository layout
 ```
-docs/              protocol, dataset cards, decision log, licences/ethics
+docs/              protocol, dataset cards, decision log, data licences
 literature/        review matrix (CSV), per-paper notes, gap synthesis, claims to verify
 experiments/       experiment registry + one README per experiment
 configs/           datasets, preprocessing and analysis parameters (YAML)
@@ -25,7 +25,7 @@ notebooks/         exploration only
 tests/             leakage and harmonisation unit tests
 data/              local only, never committed (see data/README.md)
 results/           tables/ and figures/ committed; runs/ local only
-reports/           meeting notes, progress updates, thesis drafts
+reports/           meeting notes, progress updates, write-up drafts
 WORKPLAN.md        phase-by-phase task list
 ```
 

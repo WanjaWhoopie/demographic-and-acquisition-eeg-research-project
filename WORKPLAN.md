@@ -23,7 +23,7 @@ Month numbers are relative to project start (fill the real start date: `M1 = ___
 
 | Phase | M1 | M2 | M3 | M4 | M5 | M6 | M7 | M8 | M9 | M10 | M11 | M12 |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 0 Setup & approvals | ■ | | | | | | | | | | | |
+| 0 Setup & data terms | ■ | | | | | | | | | | | |
 | 1 Literature | ■ | ■ | ■ | ■ | · | · | · | · | · | · | | |
 | 2 Data acquisition & audit | ■ | ■ | ■ | | | | | | | | | |
 | 3 Overlap check | | | ■ | | | | | | | | | |
@@ -35,20 +35,20 @@ Month numbers are relative to project start (fill the real start date: `M1 = ___
 | 9 O4 cross-cohort + sensitivity | | | | | | | | | ■ | ■ | | |
 | 10 Statistics | | | | | | | | | ■ | ■ | ■ | |
 | 11 O5 interpretation | | | | | | | | | | ■ | ■ | |
-| 12 Writing & submission | | | | | | | | | ■ | ■ | ■ | ■ |
+| 12 Writing & final report | | | | | | | | | ■ | ■ | ■ | ■ |
 
 (■ main effort, · keep the matrix up to date)
 
 ### Milestones / gates
 | Gate | End of | Must be true before moving on |
 |---|---|---|
-| G0 | M1 | Ethics position confirmed in writing; environment installs; all 4 dataset sources identified |
+| G0 | M1 | Data-use terms read for every dataset; environment installs; all 4 dataset sources identified |
 | G1 | M3 | Audit tables complete for all cohorts; overlap resolved; final participant counts known |
 | G2 | M5 | Preprocessing QC passed; `analysis-plan-v1` tag pushed |
 | G3 | M6 | Embeddings extracted and sanity-checked for every included participant |
-| G4 | M8 | O1 + O2 results logged; supervisor review |
+| G4 | M8 | O1 + O2 results logged; mentor review |
 | G5 | M10 | Primary outcome and sensitivity analyses complete |
-| G6 | M12 | Thesis submitted; repository reproduces all reported numbers |
+| G6 | M12 | Final report/paper complete; repository reproduces all reported numbers |
 
 ---
 
@@ -74,21 +74,20 @@ matplotlib, pytest, git.
 - ≥ 16 GB RAM recommended. Storage: check archive sizes before download (T2.x.2); keep
   `data/` outside cloud-synced folders if large.
 
-### Documents / approvals
-- University of Aberdeen ethics decision for secondary analysis of public de-identified data.
+### Documents
 - Data-use terms for each dataset (saved in `docs/licences/`).
 - TRIPOD+AI checklist and PROBAST form (Phase 12).
 
 ---
 
-## Phase 0 – Setup and approvals (M1)
+## Phase 0 – Setup and data-use terms (M1)
 
-- [ ] **T0.1 Ethics**
-  - [ ] T0.1.1 Read the School's ethics guidance for secondary analysis of public, de-identified data.
-  - [ ] T0.1.2 Ask the supervisor whether formal approval or an exemption form is required; get the answer by email.
-  - [ ] T0.1.3 If required: complete the form (data sources, de-identification, storage, no re-identification attempts) and submit.
-  - [ ] T0.1.4 Save the approval/exemption as `docs/licences/ethics_<date>.pdf` (or note its reference number in `docs/datasets.md` if it cannot be shared).
-  - Done when: written confirmation exists.
+- [ ] **T0.1 Data-use terms** (all data are public and de-identified)
+  - [ ] T0.1.1 For each dataset, find its licence / terms of use (OpenNeuro: `dataset_description.json` licence field; others: repository page or original paper).
+  - [ ] T0.1.2 Record for each: licence name, whether redistribution is allowed (assume not), required citation(s), any restriction on commercial use or re-identification.
+  - [ ] T0.1.3 Save a copy or link in `docs/licences/<cohort>_terms_<date>.pdf|md` and the licence field in `docs/datasets.md`.
+  - [ ] T0.1.4 Add the required dataset citations to the literature matrix so they are cited in the write-up.
+  - Done when: every dataset has a recorded licence and citation.
 - [ ] **T0.2 Environment**
   - [ ] T0.2.1 Install Miniconda; `conda env create -f environment.yml`; `conda activate eegconf`.
   - [ ] T0.2.2 `python -c "import mne, sklearn, torch, specparam, concept_erasure"` runs without error.
@@ -97,7 +96,7 @@ matplotlib, pytest, git.
 - [ ] **T0.3 Repository conventions**
   - [ ] T0.3.1 Agree branch model: `main` protected; work on `feature/<task-id>-short-name`; merge by pull request reviewed by the other person.
   - [ ] T0.3.2 Agree commit message style (see `CONTRIBUTING.md`).
-  - [ ] T0.3.3 Create a shared calendar entry for a fortnightly supervisor meeting; notes go in `reports/meetings/`.
+  - [ ] T0.3.3 Create a shared calendar entry for a fortnightly mentor meeting; notes go in `reports/meetings/`.
 - [ ] **T0.4 Leakage unit tests (write early, run forever)**
   - [ ] T0.4.1 `tests/test_splits.py`: for every split generator, assert the intersection of train and test participant IDs is empty.
   - [ ] T0.4.2 `tests/test_fit_on_train.py`: wrap each transformer so it records the row IDs it was fitted on; assert ⊆ training IDs.
@@ -122,7 +121,7 @@ matplotlib, pytest, git.
 - [ ] **T1.4 Harmonisation methods sub-review** – ComBat / neuroHarmonize, cohort centring, domain adaptation for EEG; decide whether ComBat should be an extra sensitivity analysis (log in decision log).
 - [ ] **T1.5 AD EEG marker sub-review** – effect directions and typical sizes for theta power, alpha power, theta/alpha ratio, peak alpha frequency, aperiodic exponent in AD vs HC; these are the priors for O5.
 - [ ] **T1.6 Update `gaps.md`** at the end of each month.
-- [ ] **T1.7 Draft literature review chapter** (Phase 12 input) from the matrix and notes.
+- [ ] **T1.7 Draft the literature review section** (Phase 12 input) from the matrix and notes.
 
 ## Phase 2 – Data acquisition and audit (M1–M3) → EXP-001
 
@@ -159,8 +158,8 @@ matplotlib, pytest, git.
 - [ ] T2.2.1 Trace the source: read the data section of LEAD (Wang et al., 2025) and any paper that uses the name "ADFSU"; find the **original** recording study and its download location; record citation + URL + licence.
 - [ ] T2.2.2 Decide raw vs already-preprocessed version: prefer the rawest available. If only preprocessed exists, record exactly what was done at source (A9) – it constrains what our pipeline controls.
 - [ ] T2.2.3 Download to `data/raw/ADFSU`; record version/date + checksum.
-- [ ] T2.2.4 Confirm participant IDs exist for every trial (needed for subject-level splits). If trials lack IDs → **stop and escalate**: the cohort cannot be used without them.
-- [ ] T2.2.5 Confirm condition labels per trial (eyes open vs closed). If absent → escalate (see T4.1.3).
+- [ ] T2.2.4 Confirm participant IDs exist for every trial (needed for subject-level splits). If trials lack IDs → **stop and raise it with the mentor**: the cohort cannot be used without them.
+- [ ] T2.2.5 Confirm condition labels per trial (eyes open vs closed). If absent → raise it with the mentor (see T4.1.3).
 - [ ] T2.2.6 Run A1–A12. Confirm 80 AD / 12 HC, 19 channels, 128 Hz, 8-s trials, trials per participant.
 - [ ] T2.2.7 Check the 0.5–30 Hz band limit claim from the PSD (A11); tick in `literature/to_verify.md`.
 - [ ] T2.2.8 Fill the dataset card.
@@ -202,18 +201,18 @@ matplotlib, pytest, git.
 - [ ] T3.8 Apply the prespecified rule (write it in the decision log **before** T3.3): a duplicated participant stays in the cohort where they have more eyes-closed data; tie → stay in ADSZ (keeps ADSZ balanced); remove from the other.
 - [ ] T3.9 Run the same near-duplicate check within each cohort (same person under two IDs) and between ds004504/APAVA and the others (cheap; PSD fingerprints after resampling to a common rate).
 - [ ] T3.10 Write `data/metadata/overlap_report.csv` and a short summary in EXP-002; update `participants_all.csv` (`included` column + `exclusion_reason`).
-- [ ] T3.11 Draw the participant flow diagram numbers (downloaded → labelled → eyes-closed available → after overlap → after QC) for the thesis.
+- [ ] T3.11 Draw the participant flow diagram numbers (downloaded → labelled → eyes-closed available → after overlap → after QC) for the write-up.
 
 ## Phase 4 – Harmonised preprocessing (M3–M5) → EXP-003
 
 - [ ] **T4.0 Freeze the analysis plan**
   - [ ] T4.0.1 Re-read `configs/preprocessing.yaml`, `configs/analysis.yaml`, `docs/protocol.md` against the audit; adjust only with a decision-log entry.
-  - [ ] T4.0.2 Supervisor sign-off (email or meeting note).
+  - [ ] T4.0.2 Mentor sign-off (email or meeting note).
   - [ ] T4.0.3 `git tag analysis-plan-v1 && git push --tags`.
 - [ ] **T4.1 Condition selection**
   - [ ] T4.1.1 ds004504, APAVA: keep all (eyes-closed).
   - [ ] T4.1.2 ADFSU, ADSZ: keep only trials labelled eyes-closed.
-  - [ ] T4.1.3 If condition labels are missing for a cohort: apply the proposal rule – the cohort is kept only in a prespecified sensitivity analysis. Log the decision; tell the supervisor (it would remove the cohort from the primary LOCO).
+  - [ ] T4.1.3 If condition labels are missing for a cohort: apply the proposal rule – the cohort is kept only in a prespecified sensitivity analysis. Log the decision; tell the mentor (it would remove the cohort from the primary LOCO).
   - [ ] T4.1.4 Save `data/interim/<cohort>/` as MNE Raw per trial/recording with the global participant ID in `raw.info['subject_info']` or a sidecar CSV.
 - [ ] **T4.2 Channel mapping**
   - [ ] T4.2.1 Fill the channel mapping table in `docs/datasets.md` (dataset label → canonical → LaBraM label). Watch for T3/T7, T4/T8, T5/P7, T6/P8 and case/space differences ("FP1", "EEG Fp1-REF").
@@ -351,24 +350,24 @@ matplotlib, pytest, git.
 - [ ] T11.5 Compare directions with the priors from T1.5 (expected: higher theta, lower alpha, higher theta/alpha, lower PAF in AD).
 - [ ] T11.6 Write it up as plausibility, not proof of disease specificity.
 
-## Phase 12 – Writing, reporting and submission (M9–M12)
+## Phase 12 – Writing and reporting (M9–M12)
 
 - [ ] T12.1 Fill the TRIPOD+AI checklist (`reports/checklists/tripod_ai.md`) item by item with section references.
 - [ ] T12.2 PROBAST self-assessment (participants, predictors, outcome, analysis domains).
 - [ ] T12.3 Figures: F1 pipeline; F2 participant flow; F3 PSD by cohort × diagnosis; F4 probe results by layer; F5 per-fold AUROC original vs controlled (forest plot); F6 sensitivity analyses; F7 interpretation topomaps/bands.
 - [ ] T12.4 Tables: T1 cohort characteristics; T2 preprocessing parameters; T3 O1 results; T4 probes; T5 primary + sensitivity; T6 interpretation.
-- [ ] T12.5 Chapters: Introduction, Literature review (from Phase 1), Methods (from protocol + decision log), Results (from experiments), Discussion (pattern A/B/C, limitations: small cohorts, demographics in one cohort only, cohort ≡ acquisition, one foundation model, clinical labels), Conclusion.
+- [ ] T12.5 Sections of the final report/paper: Introduction, Literature review (from Phase 1), Methods (from protocol + decision log), Results (from experiments), Discussion (pattern A/B/C, limitations: small cohorts, demographics in one cohort only, cohort ≡ acquisition, one foundation model, clinical labels), Conclusion.
 - [ ] T12.6 Update the slide deck to match the final design (title, conditions, primary outcome).
 - [ ] T12.7 Reproducibility package: `README` run order, env lock, data download instructions, config tag, one command per figure/table.
-- [ ] T12.8 Full read-through by both team members; supervisor draft deadline at least 4 weeks before submission.
-- [ ] T12.9 Final submission; tag `submission-v1`.
+- [ ] T12.8 Full read-through by both team members; draft to the mentor at least 4 weeks before the fellowship deadline.
+- [ ] T12.9 Final version delivered; tag `final-v1`.
 
 ---
 
 ## Risks and mitigations
 | Risk | Effect | Mitigation |
 |---|---|---|
-| A cohort lacks participant IDs or condition labels | cohort unusable / only in sensitivity | resolve in Phase 2 (T2.x.4–5); escalate early |
+| A cohort lacks participant IDs or condition labels | cohort unusable / only in sensitivity | resolve in Phase 2 (T2.x.4–5); raise early |
 | ADSZ and ADFSU largely overlap | fewer cohorts, fewer LOCO folds | rule fixed in T3.8; LOCO with 3 cohorts is still valid |
 | Source data already preprocessed differently | acquisition differences we cannot undo | document (A9); it is part of "cohort" identity; discuss as limitation |
 | 0.5-Hz high-pass on 5–8 s trials causes edge artefacts | spurious low-frequency differences | T4.4.2 padding/IIR decision; check PSD < 2 Hz; fit aperiodic from 2 Hz |
