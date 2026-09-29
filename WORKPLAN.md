@@ -150,7 +150,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 - [x] T2.1.1 Version and size recorded: snapshot **1.0.9** (doi:10.18112/openneuro.ds004504.v1.0.9), licence **CC0**.
 - [ ] T2.1.2 Download only what we use: `python scripts/download_ds004504.py` (run with `--dry-run` first; it should print `65 participants, 201 files, 2.16 GB`). It reads `participants.tsv`, keeps Group A and C, skips FTD and `derivatives/`, resumes if interrupted, and writes `data/raw/ds004504/MANIFEST.tsv` with a sha256 per file. Record the download date in `docs/datasets.md`.
-  - Low-disk alternative: process one participant at a time (download → T4 preprocessing → save processed epochs (< 1 MB) → delete raw). Peak disk ≈ 25 MB. Only use this after the audit (T2.1.6) has been run on every recording, because the audit needs the raw files.
+  - Low-disk alternative: process one participant at a time (download → T4 preprocessing → save processed epochs (< 1 MB) → delete raw). Peak disk ≈ 25 MB. If you use it, run the A1–A12 audit (T2.1.6) inside the same loop, before each raw file is deleted.
 - [ ] T2.1.3 Keep `MANIFEST.tsv` local (it lives in `data/`, which is not committed); copy the sha256 of `participants.tsv` from it into the dataset card.
 - [x] T2.1.4 `participants.tsv` columns confirmed: `participant_id, Gender, Age, Group, MMSE`; Group A = 36, C = 29, F = 23.
 - [x] T2.1.5 Demographics recomputed from `participants.tsv`: female/male AD 24/12 vs HC 11/18 (Fisher's exact p = 0.026); age AD 66.4 ± 7.9 vs HC 67.9 ± 5.4 years (Mann–Whitney p = 0.38). Still to do: MMSE median (IQR) per group, and save the table to `results/tables/T01_cohort_summary.csv`.
