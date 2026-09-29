@@ -9,7 +9,7 @@ Tick when checked and write where (paper + page/table, or file + command).
 - [ ] **APAVA** has exactly the 19-ch 10–20 set minus Fz, Cz, Pz. Check channel labels in files.
 - [ ] **ADSZ** condition: proposal says eyes open + closed, slides say "resting".
 - [ ] **ADSZ–ADFSU overlap** – is there a common original source? (Phase 3)
-- [ ] **ds004504 sex split** 67% vs 38% female – recompute from participants.tsv (T2.1.5).
+- [x] **ds004504 sex split** – confirmed from participants.tsv: 24/36 vs 11/29 female, Fisher p = 0.026 (T2.1.5).
 - [ ] **LaBraM** input convention: 200 Hz, 1-s patches, µV/100 scaling, channel-name list, max
       patches per sample – check the official code (T5.1).
 - [ ] **LEAD** – read the data section; does it define ADFSU/ADSZ/APAVA and how were they preprocessed?

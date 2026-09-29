@@ -4,6 +4,7 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 
 | Script | Stage | WORKPLAN |
 |---|---|---|
+| `download_ds004504.py` | selective download of ds004504 (AD + HC raw, 2.16 GB) | T2.1.2 |
 | `01_audit.py` | inventory + QC of raw data | Phase 2 |
 | `02_overlap_check.py` | ADSZ–ADFSU duplicate detection | Phase 3 |
 | `03_preprocess.py` | harmonised preprocessing | Phase 4 |
