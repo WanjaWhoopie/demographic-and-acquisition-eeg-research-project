@@ -8,6 +8,7 @@ Two layers:
 
 `gaps.md` synthesises the gaps across papers and says which ones this project addresses.
 `to_verify.md` lists claims we currently make that still need a primary source.
+`draft_lit_review.md` is the working literature review text, with verification notes at the end.
 
 ## Columns in `review_matrix.csv`
 | Column | What to write |
