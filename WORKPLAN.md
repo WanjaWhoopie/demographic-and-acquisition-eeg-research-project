@@ -227,28 +227,28 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
   - [ ] T4.0.2 Mentor sign-off (email or meeting note).
   - [ ] T4.0.3 `git tag analysis-plan-v1 && git push --tags`.
 - [ ] **T4.1 Condition selection**
-  - [ ] T4.1.1 ds004504, APAVA: keep all (eyes-closed).
-  - [ ] T4.1.2 ADFSU, ADSZ: keep only trials labelled eyes-closed.
+  - [x] T4.1.1 ds004504, APAVA: keep all (eyes-closed) – done in the loaders (`eegconf.io`).
+  - [x] T4.1.2 ADFSU: `iter_segments(..., condition='eyes_closed')` keeps only the Eyes_closed folders (ADSZ dropped, D-017).
   - [ ] T4.1.3 If condition labels are missing for a cohort: apply the proposal rule – the cohort is kept only in a prespecified sensitivity analysis. Log the decision; tell the mentor (it would remove the cohort from the primary LOCO).
-  - [ ] T4.1.4 Save `data/interim/<cohort>/` as MNE Raw per trial/recording with the global participant ID in `raw.info['subject_info']` or a sidecar CSV.
+  - [x] T4.1.4 (Changed: no interim files are written; loaders deliver segments straight to preprocessing, and `data/processed/<cohort>/<global_id>.npz` is the first saved stage.) Original: save `data/interim/<cohort>/` as MNE Raw per trial/recording with the global participant ID in `raw.info['subject_info']` or a sidecar CSV.
 - [ ] **T4.2 Channel mapping**
-  - [ ] T4.2.1 Fill the channel mapping table in `docs/datasets.md` (dataset label → canonical → LaBraM label). Watch for T3/T7, T4/T8, T5/P7, T6/P8 and case/space differences ("FP1", "EEG Fp1-REF").
-  - [ ] T4.2.2 Implement `eegconf.preprocessing.pick_channels(raw, cohort)` returning exactly the 16 channels in the order in `configs/preprocessing.yaml`.
-  - [ ] T4.2.3 Unit test: every cohort returns identical names and order.
-  - [ ] T4.2.4 Set the standard 10–20 montage (`mne.channels.make_standard_montage('standard_1020')`) for topographic plots later.
-- [ ] **T4.3 Units** – convert to Volts internally (MNE convention) from the unit found in A5; assert median channel SD in 5–100 µV after conversion.
+  - [x] T4.2.1 Fill the channel mapping table in `docs/datasets.md` (dataset label → canonical → LaBraM label). Watch for T3/T7, T4/T8, T5/P7, T6/P8 and case/space differences ("FP1", "EEG Fp1-REF").
+  - [x] T4.2.2 Implement `eegconf.preprocessing.pick_channels(data, ch_names, target)` returning exactly the 16 channels in the order in `configs/preprocessing.yaml`.
+  - [x] T4.2.3 Unit test: every cohort returns identical names and order (`tests/test_preprocessing.py`).
+  - [ ] T4.2.4 (Phase 11, when topographic plots are made) Set the standard 10–20 montage (`mne.channels.make_standard_montage('standard_1020')`) for topographic plots later.
+- [x] **T4.3 Units** – everything is handled in microvolts (ds004504 converted from MNE's volts in the loader; ADFSU/APAVA as stored, D-019). Plausibility was checked by the audit (3–100 µV floor/ceiling).
 - [ ] **T4.4 Filtering**
-  - [ ] T4.4.1 `raw.filter(0.5, 30, method='fir', phase='zero')` per continuous recording/trial, before any epoching.
-  - [ ] T4.4.2 Short trials (5–8 s): check the FIR length MNE reports for the 0.5-Hz high-pass (it can exceed the trial length). If it does, pad (`pad='reflect_limited'`) and record the edge effect; alternative prespecified fallback: IIR Butterworth order 4, zero-phase (`method='iir'`) for all cohorts. Choose once, log in decision log, apply to every cohort.
-  - [ ] T4.4.3 No notch filter (D-014). Verify on the PSD that no line-noise peak survives below 30 Hz.
-- [ ] **T4.5 Re-reference** – common average over the 16 channels (`raw.set_eeg_reference('average')`), after channel selection so every cohort uses the same channel set.
-- [ ] **T4.6 Resample** – `raw.resample(200)` after low-pass (anti-aliasing satisfied because 30 Hz < 100 Hz Nyquist). Note: 128-Hz cohorts are upsampled and have no content above 64 Hz; the 30-Hz low-pass makes this identical across cohorts.
+  - [x] T4.4.1 `eegconf.preprocessing.bandpass`: 0.5–30 Hz, 4th-order Butterworth, zero-phase (`sosfiltfilt`), per continuous segment, before epoching.
+  - [x] T4.4.2 Resolved by D-020 (IIR for every cohort; an FIR 0.5-Hz high-pass would be longer than APAVA's 5-s trials). Original: short trials (5–8 s): check the FIR length MNE reports for the 0.5-Hz high-pass (it can exceed the trial length). If it does, pad (`pad='reflect_limited'`) and record the edge effect; alternative prespecified fallback: IIR Butterworth order 4, zero-phase (`method='iir'`) for all cohorts. Choose once, log in decision log, apply to every cohort.
+  - [ ] T4.4.3 No notch filter (D-014). Verify on the processed PSD (EXP-003) that no line-noise peak survives below 30 Hz.
+- [x] **T4.5 Re-reference** – common average over the 16 channels (`eegconf.preprocessing.rereference`), after channel selection so every cohort uses the same channel set.
+- [x] **T4.6 Resample** – polyphase resampling to 200 Hz (`eegconf.preprocessing.resample`, exact ratios 2/5, 25/16, 25/32) after the low-pass (anti-aliasing satisfied because 30 Hz < 100 Hz Nyquist). Note: 128-Hz cohorts are upsampled and have no content above 64 Hz; the 30-Hz low-pass makes this identical across cohorts.
 - [ ] **T4.7 Epoching and artefact rejection**
-  - [ ] T4.7.1 Fixed-length 4-s non-overlapping epochs (`mne.make_fixed_length_epochs(duration=4.0)`); drop incomplete tails.
-  - [ ] T4.7.2 Reject epochs with any channel peak-to-peak > 150 µV or < 0.5 µV (flat).
-  - [ ] T4.7.3 Log per participant: epochs before/after rejection, reasons.
+  - [x] T4.7.1 Fixed-length 4-s non-overlapping epochs within each segment (`eegconf.preprocessing.epoch`); incomplete tails dropped (D-021).
+  - [x] T4.7.2 Reject epochs with any channel peak-to-peak > 150 µV or < 0.5 µV (`eegconf.preprocessing.reject`).
+  - [x] T4.7.3 Logged per participant in `data/metadata/preproc_<cohort>.csv` (epochs before/after, reasons).
   - [ ] T4.7.4 Check rejection rate by cohort and by diagnosis; a large imbalance is itself a confound – report it.
-- [ ] **T4.8 Equal-length crop**
+- [x] **T4.8 Equal-length crop** – superseded by D-018: all clean epochs are kept; `epoch_idx` in each processed file lets the 8-s sensitivity analysis take a participant's first two epochs. Original sub-steps:
   - [ ] T4.8.1 Table of clean epochs per participant.
   - [ ] T4.8.2 Prespecified rule: exclude participants with fewer than 2 clean epochs; K = minimum clean-epoch count among the remaining participants; keep the first K clean epochs in time order (deterministic, not random).
   - [ ] T4.8.3 Write K into `configs/preprocessing.yaml` and the decision log.
