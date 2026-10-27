@@ -3,6 +3,7 @@
 # Record the exact version / download date of every dataset in `version`.
 
 ds004504:
+  use: true
   source: OpenNeuro
   accession: ds004504
   url: https://openneuro.org/datasets/ds004504
@@ -10,6 +11,7 @@ ds004504:
   descriptor: "Miltiadous et al. (2023), Data 8(6):95, doi:10.3390/data8060095"
   format: BIDS / EEGLAB .set
   reference: A1-A2 (linked ears)
+  line_freq: 50
   size_used_gb: 2.16           # AD + HC raw only; scripts/download_ds004504.py
   groups_used: {A: AD, C: HC}  # F (FTD) excluded from primary analysis
   n_expected: {AD: 36, HC: 29, FTD: 23}
@@ -20,6 +22,11 @@ ds004504:
   raw_path: data/raw/ds004504
 
 ADFSU:
+  use: true
+  exclude_participants: [AD-41, AD-42, AD-43, AD-44]   # duplicates of AD-40 (EXP-002)
+  drop_channels: [F1, F2]      # exact copies of Fp1/Fp2
+  reference: linked mandible (Pineda et al., 2020)
+  line_freq: 60                # USA; above Nyquist-5 at 128 Hz, so not measurable
   source: "Florida State University database (Dr Dennis Duke); named ADFSU in LEAD via Vicchietti et al. 2023"
   url: https://osf.io/2v5md    # EEG_data.zip (6.6 MB), Vicchietti et al. 2023; NOT osf.io/jbysn
   version: null
@@ -33,6 +40,7 @@ ADFSU:
   raw_path: data/raw/ADFSU
 
 ADSZ:
+  use: false                   # subset of ADFSU (D-017); kept only for the overlap record
   source: "figshare 19091771 (Pineda & Alves), CC0; AD data from the FSU / Dennis Duke database"
   url: https://doi.org/10.6084/m9.figshare.19091771.v1
   version: null
@@ -46,6 +54,9 @@ ADSZ:
   raw_path: data/raw/ADSZ
 
 APAVA:
+  use: true
+  reference: common average (applied at source)
+  line_freq: 50                # Spain
   source: "Escudero et al. 2006 (Valladolid); team copy on Google Drive (APAVA.zip, sign-in needed)"
   url: https://drive.google.com/file/d/1FKvUnB8qEcHng7J9CfHaU7gqRLGeS7Ea/view
   alt_url: https://osf.io/jbysn   # AD_Data.tar.gz, described as Escudero et al. 2006 data
