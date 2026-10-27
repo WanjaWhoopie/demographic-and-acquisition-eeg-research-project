@@ -1,0 +1,20 @@
+# Runs the leakage and audit unit tests on every push and pull request (WORKPLAN T0.4.4).
+# Only the lightweight scientific stack is installed: the tests use synthetic arrays and never
+# need MNE, PyTorch or the data.
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install numpy scipy pandas scikit-learn pytest -e .
+      - run: pytest -q
