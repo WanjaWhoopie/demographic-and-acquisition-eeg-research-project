@@ -197,10 +197,10 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [ ] T2.4.7 Fill the dataset card.
 
 ### T2.5 Combined participants table
-- [ ] T2.5.1 Build `data/metadata/participants_all.csv`: `cohort, participant_id, global_id, diagnosis, age, sex, mmse, n_trials_raw, n_trials_ec, total_ec_seconds` (age/sex/mmse empty outside ds004504).
-- [ ] T2.5.2 `global_id = <cohort>-<participant_id>`; used everywhere downstream.
-- [ ] T2.5.3 Save a summary table (counts only, no participant rows) to `results/tables/T01_cohort_summary.csv`.
-- [ ] T2.5.4 Log EXP-001 as done.
+- [x] T2.5.1 (`python scripts/00_participants.py`) Build `data/metadata/participants_all.csv`: `cohort, participant_id, global_id, diagnosis, age, sex, mmse, n_trials_raw, n_trials_ec, total_ec_seconds` (age/sex/mmse empty outside ds004504).
+- [x] T2.5.2 `global_id = <cohort>-<participant_id>`; used everywhere downstream.
+- [x] T2.5.3 Save a summary table (counts only, no participant rows) to `results/tables/T01_cohort_summary.csv`.
+- [x] T2.5.4 Log EXP-001 as done.
 - Done when (gate G1, part 1): every cohort has a complete audit and a card with no ❓ left in critical fields (IDs, labels, channels, rate, units, condition).
 
 ## Phase 3 – ADSZ–ADFSU overlap check (M3) → EXP-002
@@ -216,9 +216,9 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [x] T3.7 Check label consistency (0 disagreements) for each duplicated participant (AD in both?). Label conflict → exclude the participant from both cohorts.
 - [ ] T3.8 Apply the rule – superseded: since ADSZ is wholly contained in ADFSU, the proposal is to drop ADSZ as a cohort (D-017, pending decision). Original rule: (write it in the decision log **before** T3.3): a duplicated participant stays in the cohort where they have more eyes-closed data; tie → stay in ADSZ (keeps ADSZ balanced); remove from the other.
 - [x] T3.9 (ADFSU part) Within-ADFSU check: AD Paciente40–44 identical → keep one (Paciente40), drop 41–44.
-- [ ] T3.9 (rest) Run the same near-duplicate check within each cohort (same person under two IDs) and between ds004504/APAVA and the others (cheap; PSD fingerprints after resampling to a common rate).
-- [ ] T3.10 Write `data/metadata/overlap_report.csv` and a short summary in EXP-002; update `participants_all.csv` (`included` column + `exclusion_reason`).
-- [ ] T3.11 Draw the participant flow diagram numbers (downloaded → labelled → eyes-closed available → after overlap → after QC) for the write-up.
+- [x] T3.9 (rest) Within-cohort near-duplicate checks ran inside the audit for all three cohorts (none found). Cross-checks between ds004504, FSU and APAVA were not run: they were recorded in different countries and decades (Greece 2020s, USA 1990s, Spain 2000s) on different systems, so shared participants are implausible. Original wording: run the same near-duplicate check within each cohort (same person under two IDs) and between ds004504/APAVA and the others (cheap; PSD fingerprints after resampling to a common rate).
+- [x] T3.10 `data/metadata/overlap_adsz_adfsu.csv` + `overlap_within_adfsu.csv` written; `participants_all.csv` has `included` and `exclusion_reason` (T2.5). Original wording: write `data/metadata/overlap_report.csv` and a short summary in EXP-002; update `participants_all.csv` (`included` column + `exclusion_reason`).
+- [x] T3.11 Flow numbers: downloaded 88 (ds004504) + 92 ADFSU folders + 24 ADSZ people + 23 APAVA → AD/HC labelled 65 + 92 + 24 + 23 → ADSZ removed as a subset of ADFSU (−24) and ADFSU duplicates removed (−4) → 176 with eyes-closed data → 176 after audit (no exclusions). Original wording: draw the participant flow diagram numbers (downloaded → labelled → eyes-closed available → after overlap → after QC) for the write-up.
 
 ## Phase 4 – Harmonised preprocessing (M3–M5) → EXP-003
 

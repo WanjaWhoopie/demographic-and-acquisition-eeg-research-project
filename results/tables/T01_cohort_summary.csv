@@ -1,0 +1,7 @@
+cohort,diagnosis,n,ec_seconds_min,ec_seconds_median,ec_seconds_max,age_mean,age_sd,n_female
+ADFSU,AD,76,8.0,8.0,8.0,,,
+ADFSU,HC,12,8.0,8.0,8.0,,,
+APAVA,AD,12,50.0,167.5,295.0,,,
+APAVA,HC,11,5.0,140.0,200.0,,,
+ds004504,AD,36,307.1,828.7,1291.1,66.4,7.9,24.0
+ds004504,HC,29,751.5,826.7,1017.1,67.9,5.4,11.0
