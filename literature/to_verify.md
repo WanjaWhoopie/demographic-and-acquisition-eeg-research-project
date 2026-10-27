@@ -5,8 +5,8 @@ Tick when checked and write where (paper + page/table, or file + command).
 - [ ] **Martin2023interpretable** – proposal §2.7 says "only a minority of studies explicitly
       evaluated generalizability using external datasets". Abstract reports 45/92 used a hold-out
       set (internal or independent). Find the external-only count in the full text.
-- [ ] **ADFSU** band-limited to 0.5–30 Hz at source (slides/notes). Check original source + PSD.
-- [ ] **APAVA** has exactly the 19-ch 10–20 set minus Fz, Cz, Pz. Check channel labels in files.
+- [x] **ADFSU** band-limited to 0.5–30 Hz at source – stated in Vicchietti et al. (2023) and visible in the PSD (40–48 Hz is 7 dB below 20–30 Hz).
+- [x] **APAVA** channels confirmed from the OSF copy's labels: 10–20 minus Fz, Cz, Pz.
 - [x] **ADSZ** condition and counting: 12 AD + 12 HC people, each recorded eyes open and eyes closed (EXP-002).
 - [x] **ADSZ–ADFSU overlap** – ADSZ is a subset of ADFSU: 47/48 files identical (EXP-002).
 - [ ] **FSU amplitude unit** – stored values have robust SD ≈ 7.8; confirm µV (or scale) before LaBraM scaling.

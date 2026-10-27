@@ -42,7 +42,8 @@ eyes-closed session (OpenNeuro ds006036 v1.0.6, CC0, 1.13 GB). Not an independen
 | ⚠️ Extra channels | `F1.txt` and `F2.txt` are exact copies of `Fp1` and `Fp2` in all 182 recordings – drop them; 19 real channels | ✅ |
 | ⚠️ Duplicate IDs | AD Paciente40–44 are **one recording under five IDs** (identical in every channel, eyes open and closed) → 76 unique AD participants | ✅ |
 | ⚠️ Missing data | Healthy/Eyes_open/Paciente5 folder is empty (the recording exists in ADSZ as `eeg24o1`); Healthy/Eyes_closed/Paciente6 has only the 19 real channels (no F1/F2 copies) | ✅ |
-| Amplitude | robust SD ≈ 7.8 in stored units (ds004504: 18 µV after 1–30 Hz) – unit not documented, check before scaling for LaBraM | ✅ / ❓ |
+| Amplitude | robust SD 7.7 after 1–30 Hz (ds004504: 18.3 µV) – unit not documented; treated as µV (D-019) | ✅ |
+| Audit (EXP-001, 2026-10-27) | 76 AD / 12 HC eyes-closed recordings, 19 channels in identical order, 128 Hz, 8.0 s each; 0 flat/NaN/extreme; AD-03 (O1) and AD-31 (F3) sit at their extreme value for 4 samples (borderline; epoch rejection decides); 40–48 Hz is 7 dB below 20–30 Hz (source band-limiting confirmed); 60-Hz mains not measurable at 128 Hz | ✅ |
 | ⚠️ Link in our notes | https://osf.io/jbysn exists but is a different dataset (Smith, 2017: Escudero et al. 2006 AD data + NBT healthy data) | ✅ |
 | Licence / access terms | TODO | ❓ |
 | Groups | 80 AD folders (76 unique people), 12 HC (NINCDS-ADRDA, DSM-III-R) | ✅ |
@@ -84,11 +85,12 @@ eyes-closed session (OpenNeuro ds006036 v1.0.6, CC0, 1.13 GB). Not an independen
 | Same data as OSF copy | rebuilding 5-s trials from the windows reproduces OSF `preproctrials01–23.mat` exactly (r = 1.000, scale 1.000) | ✅ |
 | ⚠️ Use trials, not windows | the 1-s windows overlap by 50%; treating them as samples would duplicate data | ✅ |
 | Recording time | 1–59 trials per person = 5–295 s; HC-05 has one 5-s trial | ✅ |
-| Amplitude | robust SD (1–30 Hz) AD 5.9 vs HC 4.2, unit not stated | ✅ / ❓ |
+| Amplitude | robust SD (1–30 Hz) median 4.9 (AD 5.9 vs HC 4.2); unit not stated, treated as µV (D-019); common-average referencing lowers amplitudes | ✅ |
+| Audit (EXP-001, 2026-10-27) | 12 AD / 11 HC, 16 channels, 256 Hz, 1–59 trials (5–295 s); 0 flat/NaN/clipped; HC-22 robust SD 2.9 (just under the 3 µV plausibility floor); AD-08 has **one 5-s trial** with a channel 21% beyond ±150 µV (other trials normal – epoch rejection removes it); weak 50-Hz peak (+6.5 dB, outside the analysis band) | ✅ |
 | Other copy | OSF https://osf.io/jbysn → `AD_Data.tar.gz` (51 MB, sha256 `125b85ae…d0812`), Smith (2017). Checked 2026-09-29: 23 FieldTrip files `preproctrials01–23.mat`, 16 channels (C3 C4 F3 F4 F7 F8 Fp1 Fp2 O1 O2 P3 P4 T3 T4 T5 T6 = 10–20 minus Fz/Cz/Pz), 256 Hz, 5-s trials (1280 samples), 1–59 trials per participant, already re-referenced to the common average. **No diagnosis labels in the files.** | ✅ |
 | Licence / access terms | TODO | ❓ |
 | Groups | 12 AD, 11 HC | ✅ |
-| Channels | 16 – 10–20 without Fz, Cz, Pz (per slides) – TODO confirm labels | 📄 |
+| Channels | 16: C3 C4 F3 F4 F7 F8 Fp1 Fp2 O1 O2 P3 P4 T3 T4 T5 T6 (10–20 without Fz, Cz, Pz) | ✅ |
 | Sampling rate | 256 Hz | 📄 |
 | Condition | eyes closed | 📄 |
 | Trial length | 5 s, multiple trials per participant | 📄 |

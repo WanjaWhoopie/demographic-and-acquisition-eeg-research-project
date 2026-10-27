@@ -1,0 +1,25 @@
+,value
+cohort,APAVA
+n_recordings,23
+n_AD,12
+n_HC,11
+sfreq_values,256
+n_channels_values,16
+all_channel_orders_match,True
+recordings_missing_target_channels,0
+reference_values,common average (applied at source)
+condition_values,eyesclosed
+duration_s_min,5.0
+duration_s_median,160.0
+duration_s_max,295.0
+raw_robust_sd_uv_median,7.653922500000004
+bandpassed_1_30Hz_robust_sd_uv_median,4.85526454601203
+recordings_units_implausible,1
+recordings_with_flat_channels,0
+recordings_with_clipping,0
+recordings_with_nan_inf,0
+recordings_extreme_amplitude,1
+line_noise_db_median,6.509507349887909
+hf_rolloff_db_median,-3.304563229519715
+possible_duplicate_pairs,0
+recordings_flagged,2

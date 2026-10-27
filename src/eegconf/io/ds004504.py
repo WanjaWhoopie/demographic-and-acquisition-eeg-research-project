@@ -5,13 +5,13 @@ from pathlib import Path
 import mne
 import pandas as pd
 
-from . import Recording
+from . import Segment
 
 COHORT = "ds004504"
 GROUP_TO_DIAGNOSIS = {"A": "AD", "C": "HC", "F": "FTD"}
 
 
-def load_participants(root, groups=("A", "C")):
+def load_participants(root, cfg=None, groups=("A", "C")):
     df = pd.read_csv(Path(root) / "participants.tsv", sep="\t")
     df.columns = [c.strip() for c in df.columns]
     df = df[df["Group"].isin(groups)].copy()
@@ -24,15 +24,22 @@ def load_participants(root, groups=("A", "C")):
     }).reset_index(drop=True)
 
 
-def iter_recordings(root, participants):
+def iter_segments(root, participants, cfg=None):
     root = Path(root)
+    dx = participants.set_index("participant_id")["diagnosis"]
     for pid in participants["participant_id"]:
-        files = sorted((root / pid / "eeg").glob(f"{pid}_task-*_eeg.set"))
-        if not files:
-            yield Recording(COHORT, pid, root / pid, raw=None, sidecar={"missing": True})
-            continue
-        for f in files:
+        for f in sorted((root / pid / "eeg").glob(f"{pid}_task-*_eeg.set")):
             sidecar_path = f.with_name(f.name.replace("_eeg.set", "_eeg.json"))
             sidecar = json.loads(sidecar_path.read_text()) if sidecar_path.exists() else {}
             raw = mne.io.read_raw_eeglab(f, preload=True, verbose="error")
-            yield Recording(COHORT, pid, f, raw, sidecar)
+            picks = mne.pick_types(raw.info, eeg=True)
+            yield Segment(
+                cohort=COHORT, participant_id=pid, diagnosis=dx[pid],
+                condition="eyes_closed" if sidecar.get("TaskName") == "eyesclosed" else sidecar.get("TaskName", ""),
+                sfreq=float(raw.info["sfreq"]),
+                ch_names=[raw.ch_names[i] for i in picks],
+                data=raw.get_data(picks=picks) * 1e6,
+                meta={"file": f.name, "reference": sidecar.get("EEGReference", ""),
+                      "online_filter": str(sidecar.get("SoftwareFilters", "")),
+                      "line_freq": sidecar.get("PowerLineFrequency")},
+            )

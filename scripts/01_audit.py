@@ -1,9 +1,9 @@
 """Raw-data audit for one cohort (WORKPLAN Phase 2, checks A1-A12; EXP-001).
 
-    python scripts/01_audit.py --cohort ds004504
+    python scripts/01_audit.py --cohort ds004504   # or ADFSU, APAVA
 
 Outputs
-- data/metadata/audit_<cohort>.csv          one row per recording (participant-level: stays local)
+- data/metadata/audit_<cohort>.csv          one row per participant (participant-level: stays local)
 - data/metadata/duplicates_<cohort>.csv     near-duplicate recording pairs (A12)
 - data/metadata/psd_<cohort>.npz            Welch PSD per recording, for later plots / overlap checks
 - results/tables/T00_audit_<cohort>_summary.csv   aggregate counts only (safe to commit)
@@ -36,39 +36,62 @@ def main():
     raw_root = ROOT / ds_cfg["raw_path"]
     loader = get_loader(args.cohort)
 
-    participants = loader.load_participants(raw_root)
+    participants = loader.load_participants(raw_root, ds_cfg)
     if args.limit:
         participants = participants.head(args.limit)
     meta = participants.set_index("participant_id")
 
+    # group segments by participant (APAVA has many short trials per person)
+    by_pid = {}
+    for seg in loader.iter_segments(raw_root, participants, ds_cfg):
+        by_pid.setdefault(seg.participant_id, []).append(seg)
+
     rows, fps, ids, psds, freqs_ref, first_order = [], [], [], [], None, None
-    for rec in loader.iter_recordings(raw_root, participants):
-        row = {"cohort": rec.cohort, "participant_id": rec.participant_id,
-               "diagnosis": meta.loc[rec.participant_id, "diagnosis"], "file": rec.path.name}
-        if rec.raw is None:
+    line_freq = float(ds_cfg.get("line_freq", 50))
+    for pid in participants["participant_id"]:
+        segs = by_pid.get(pid, [])
+        row = {"cohort": args.cohort, "participant_id": pid, "diagnosis": meta.loc[pid, "diagnosis"]}
+        if not segs:
             row["flags"] = "A1_missing_file"
             rows.append(row)
             continue
-        raw = rec.raw
-        data = raw.get_data(picks="eeg") * 1e6  # MNE stores volts
-        ch = [raw.ch_names[i] for i in mne_eeg_picks(raw)]
-        first_order = first_order or ch
-        sc = rec.sidecar
+        s0 = segs[0]
+        first_order = first_order or s0.ch_names
+        checks = [audit.amplitude_checks(s.data, s.sfreq) for s in segs]
+        agg = {
+            "n_nan": sum(c["n_nan"] for c in checks), "n_inf": sum(c["n_inf"] for c in checks),
+            "raw_robust_sd_uv_median": float(np.median([c["raw_robust_sd_uv_median"] for c in checks])),
+            "raw_range_uv": max(c["raw_range_uv"] for c in checks),
+            "robust_sd_uv_median": float(np.median([c["robust_sd_uv_median"] for c in checks])),
+            "robust_sd_uv_min": min(c["robust_sd_uv_min"] for c in checks),
+            "robust_sd_uv_max": max(c["robust_sd_uv_max"] for c in checks),
+            "n_flat_channels": max(c["n_flat_channels"] for c in checks),
+            "n_clipped_channels": max(c["n_clipped_channels"] for c in checks),
+            "extreme_fraction_max": max(c["extreme_fraction_max"] for c in checks),
+        }
+        agg["units_plausible"] = bool(audit.UNITS_OK_UV[0] <= agg["robust_sd_uv_median"] <= audit.UNITS_OK_UV[1])
         row.update({
-            "sfreq": float(raw.info["sfreq"]),
-            "duration_s": raw.n_times / raw.info["sfreq"],
-            "condition": sc.get("TaskName", ""),
-            "reference": sc.get("EEGReference", ""),
-            "online_filter": str(sc.get("SoftwareFilters", "")),
-            "line_freq": sc.get("PowerLineFrequency", np.nan),
-            "channel_order_matches_first": ch == first_order,
-            **audit.channel_check(ch, target),
-            **audit.amplitude_checks(data, raw.info["sfreq"]),
+            "file": s0.meta.get("file", ""),
+            "n_segments": len(segs),
+            "sfreq": s0.sfreq,
+            "duration_s": sum(s.data.shape[1] for s in segs) / s0.sfreq,
+            "condition": s0.condition.replace("_", ""),
+            "reference": s0.meta.get("reference", ds_cfg.get("reference", "")),
+            "online_filter": s0.meta.get("online_filter", ""),
+            "line_freq": line_freq,
+            "channel_order_matches_first": all(s.ch_names == first_order for s in segs),
+            **audit.channel_check(s0.ch_names, target),
+            **agg,
         })
-        f, p = audit.psd(data, raw.info["sfreq"])
-        row.update(audit.spectral_checks(f, p, line_freq=float(sc.get("PowerLineFrequency", 50))))
+        # PSD: length-weighted average of per-segment Welch spectra (segments never concatenated)
+        spectra = [audit.psd(s.data, s.sfreq) for s in segs]
+        f = spectra[0][0]
+        w = np.array([s.data.shape[1] for s in segs], dtype=float)
+        p = np.tensordot(w / w.sum(), np.stack([sp[1] for sp in spectra]), axes=1)
+        row.update(audit.spectral_checks(f, p, line_freq=line_freq))
+        cond = ds_cfg.get("condition")
         row["flags"] = audit.flags(row, ds_cfg.get("sfreq_expected"),
-                                   str(ds_cfg.get("condition", "")).replace("_", "") if isinstance(ds_cfg.get("condition"), str) else None)
+                                   cond.replace("_", "") if isinstance(cond, str) else "eyesclosed")
         rows.append(row)
 
         sel = f <= 60
@@ -76,8 +99,8 @@ def main():
         if len(f[sel]) == len(freqs_ref):
             psds.append(p[:, sel])
             fps.append(audit.fingerprint(f, p))
-            ids.append(rec.participant_id)
-        print(f"{rec.participant_id}: {row['duration_s']:.0f}s  sd={row['robust_sd_uv_median']:.1f}uV  flags={row['flags'] or '-'}")
+            ids.append(pid)
+        print(f"{pid}: {row['duration_s']:.0f}s in {len(segs)} segment(s)  sd={row['robust_sd_uv_median']:.1f}uV  flags={row['flags'] or '-'}")
 
     df = pd.DataFrame(rows)
     meta_dir = ROOT / "data/metadata"
@@ -91,11 +114,6 @@ def main():
     write_summary(df, dups, args.cohort)
     plot_psd(freqs_ref, np.array(psds), ids, meta, args.cohort)
     print(f"\n{len(df)} recordings audited; {int((df['flags'].fillna('') != '').sum())} flagged; {len(dups)} possible duplicate pairs")
-
-
-def mne_eeg_picks(raw):
-    import mne
-    return mne.pick_types(raw.info, eeg=True)
 
 
 def write_summary(df, dups, cohort):
