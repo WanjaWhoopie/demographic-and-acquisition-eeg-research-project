@@ -1,6 +1,6 @@
 # Data audit report
 
-**Date:** 29 September 2026 · **Covers:** ds004504, ADFSU, ADSZ, APAVA (+ ds006036, not used)
+**Date:** 29 September 2026, updated 27 October 2026 · **Covers:** ds004504, ADFSU, ADSZ, APAVA (+ ds006036, not used)
 **Evidence:** EXP-001 (raw-data audit), EXP-002 (ADSZ–ADFSU overlap), direct inspection of every archive.
 All numbers below come from the downloaded files unless marked *(from paper)*.
 
@@ -19,10 +19,11 @@ All numbers below come from the downloaded files unless marked *(from paper)*.
 4. **APAVA is usable and now labelled.** The Google Drive copy (`APAVA.zip`) and the OSF copy hold
    identical signals. The Drive copy supplies the labels: 12 AD + 11 HC, 16 channels, 256 Hz,
    5-s trials, and 5–295 s per person.
-5. **Decisions needed now (§6):**
-   - **D-017:** drop ADSZ and run leave-one-cohort-out (LOCO) over **three** cohorts;
-   - **D-018:** how much EEG per participant, since ADFSU caps it at 8 s;
-   - **D-019:** how to handle the large amplitude differences between cohorts.
+5. **Decisions taken on 27 October 2026 (§6):** ADSZ dropped and LOCO runs over **three** cohorts
+   (D-017); all available eyes-closed data used per participant, with an 8-s equal-length sensitivity
+   analysis (D-018); physical units kept, with an amplitude-scaled sensitivity analysis (D-019).
+6. **Full audits of ADFSU and APAVA (27 October)** found no participant that must be excluded: a
+   few borderline samples in ADFSU and one bad 5-s trial in APAVA, all handled by epoch rejection.
 
 ---
 
@@ -65,6 +66,11 @@ All numbers below come from the downloaded files unless marked *(from paper)*.
   above 30 Hz (likely muscle); the 30-Hz low-pass removes it.
 
 ### 3.2 ADFSU
+- **Audit (27 October, cleaned cohort):** 76 AD + 12 HC eyes-closed recordings, 19 channels in the same
+  order, 128 Hz, 8.0 s each; no flat channels, NaN or extreme segments. Two recordings (AD-03, AD-31)
+  sit at a channel's extreme value for 4 samples, which is borderline and left to epoch rejection. The
+  spectrum drops 7 dB above 30 Hz, confirming the source's band-limiting. 60-Hz mains noise cannot be
+  measured at 128 Hz.
 - **Source:** the link in our earlier notes (osf.io/jbysn) was the wrong dataset. The correct one,
   found through the paper's data statement, is osf.io/2v5md.
 - **Contents:** 80 AD + 12 HC folders, each with eyes-closed and eyes-open 8-s recordings at 128 Hz.
@@ -85,6 +91,10 @@ All numbers below come from the downloaded files unless marked *(from paper)*.
   overlap check shows they are 12 different people.
 
 ### 3.4 APAVA
+- **Audit (27 October):** 12 AD + 11 HC; 1–59 trials per person; 16 channels, 256 Hz; no flat, NaN or
+  clipped channels. HC-22's amplitude (2.9) is just under the plausibility floor. AD-08 has one 5-s trial
+  with a channel 21% beyond ±150 µV while the rest of that person's trials are normal: epoch rejection
+  removes that trial, so no participant is excluded.
 - **Two copies, identical signals.** `APAVA.zip` stores each 5-s trial as nine 1-s windows with
   50% overlap. Rebuilding the trials reproduces the OSF FieldTrip copy exactly (r = 1.000,
   scale = 1.000, all 23 participants).
@@ -131,9 +141,11 @@ the total is 176, or 175 if HC-05 is excluded.)
 
 ---
 
-## 6. Decisions needed
+## 6. Decisions
 
-### D-017 – ADSZ and ADFSU are the same source (**recommend: drop ADSZ**)
+All three were taken by the team on 27 October 2026 and are logged in `docs/decision_log.md`.
+
+### D-017 – ADSZ and ADFSU are the same source (**decided: drop ADSZ**)
 
 **The problem.** The design treats each cohort as an independent recording site, so that
 leave-one-cohort-out tests generalisation to people, equipment and protocols the model has never seen.
@@ -157,7 +169,14 @@ avoid. It would also inflate the apparent number of independent cohorts from thr
 - ADSZ is still worth one line in the write-up, as a documented example of hidden duplication
   between public AD-EEG datasets. It supports the project's leakage argument.
 
-### D-018 – How much EEG per participant (**recommend: 8 s for the primary analysis**)
+### D-018 – How much EEG per participant (**decided: use all available data; 8-s crop as a sensitivity analysis**)
+
+*Team decision, differing from the recommendation below.* Rationale: more signal for ds004504 and
+APAVA. The risk recorded in the decision log is that the number of epochs per person then differs by
+cohort (ADFSU 2, APAVA about 1–59, ds004504 about 75–320), so the noise level of a participant's pooled
+embedding could itself reveal the cohort. Mitigations: participant pooling restricted to mean and
+median (no SD features); the 8-s equal-length sensitivity analysis (K = 2 epochs, APAVA HC-05 excluded)
+shows whether the primary result depends on recording length. Original analysis:
 ADFSU has exactly 8 s per person, so the prespecified equal-length rule (T4.8: same number of clean
 epochs for everyone) sets K = 2 epochs of 4 s for all cohorts.
 - **Recommended:** keep K = 2 (8 s) for the primary cross-cohort analysis, so that recording length
@@ -169,7 +188,7 @@ epochs for everyone) sets K = 2 epochs of 4 s for all cohorts.
 - If ADFSU epochs are rejected for artefacts, that person has fewer than 2 epochs and is excluded.
   ADFSU was cleaned at source, so few rejections are expected.
 
-### D-019 – Amplitude differences between cohorts (**recommend: decide before preprocessing**)
+### D-019 – Amplitude differences between cohorts (**decided: physical units, with a scaled sensitivity analysis**)
 After 1–30 Hz filtering, typical signal size is 18.3 µV (ds004504), about 8 (ADFSU) and about 5 (APAVA,
 AD 5.9 vs HC 4.2). The FSU and APAVA units are undocumented. Options:
 1. keep physical units (µV/100 for LaBraM) and treat amplitude as part of "acquisition", which the
@@ -188,10 +207,10 @@ amplitudes.
 
 | Done | Next |
 |---|---|
-| ds004504 downloaded and audited (EXP-001) | agree D-017, D-018, D-019 with the mentor; log them as decided |
-| ADFSU, ADSZ, APAVA downloaded and inspected | write loaders for ADFSU and APAVA (APAVA: rebuild 5-s trials) and run the A1–A12 audit script on them |
-| ADSZ ⊂ ADFSU shown exactly (EXP-002) | update the proposal, slides and `configs/datasets.yaml` for three cohorts |
-| APAVA labels obtained; copies shown identical | confirm FSU/APAVA amplitude units; freeze the analysis plan (T4.0) |
+| All three cohorts audited (EXP-001); loaders written (`eegconf.io`) | update the proposal and slides for three cohorts |
+| ADSZ ⊂ ADFSU shown exactly (EXP-002) | preprocessing (Phase 4) and its QC (EXP-003) |
+| D-017/018/019 decided and in configs | freeze the analysis plan (T4.0, tag `analysis-plan-v1`) |
+| APAVA labels obtained; copies shown identical | record who prepared the APAVA Google Drive copy (data-use terms) |
 
 ## Appendix – files and checksums
 | File | Size | sha256 (first 12 characters) |

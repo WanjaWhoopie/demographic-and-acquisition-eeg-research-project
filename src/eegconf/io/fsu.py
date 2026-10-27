@@ -6,6 +6,10 @@
   no channel header. AD files are named e{c,o}CCSS (code CC, segment SS); healthy files eegNN{c,o}1.
 
 Amplitudes are returned as stored; the unit is not documented (audit A5 checks plausibility).
+
+These are low-level readers used by the overlap check (scripts/02_overlap_check.py). The cohort
+loader used by the pipeline is eegconf.io.adfsu, which applies the EXP-002 cleaning on top.
+Participant IDs: ADFSU "AD-07" = AD/<condition>/Paciente7; ADSZ "AD-02" = files e?02SS.out.
 """
 import re
 from pathlib import Path

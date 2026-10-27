@@ -26,8 +26,20 @@ def test_flat_channel_detected():
 
 def test_clipping_detected():
     x = eeg()
-    x[2] = np.clip(x[2], -15, 15)  # many samples pinned at +/-15 uV
+    x[2] = np.clip(x[2], -15, 15)  # saturated: long runs pinned at +/-15 uV
     assert audit.amplitude_checks(x, FS)["n_clipped_channels"] >= 1
+
+
+def test_quantised_signal_is_not_clipping():
+    # Coarse amplitude quantisation makes the maximum value recur at scattered positions
+    # (as in ADFSU); that is not saturation and must not be flagged.
+    x = np.round(eeg(seconds=8) / 0.5) * 0.5
+    assert audit.amplitude_checks(x, FS)["n_clipped_channels"] == 0
+
+
+def test_longest_run():
+    m = np.array([[0, 1, 1, 1, 0, 1], [1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], bool)
+    assert list(audit.longest_run(m)) == [3, 1, 0]
 
 
 def test_line_noise_peak_detected():

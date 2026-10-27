@@ -1,24 +1,34 @@
 """Cross-cohort duplicate detection (WORKPLAN Phase 3, EXP-002).
 
-Works at the level of single channel time series, so it does not need to know how the two
-releases order or name their channels:
+Problem: two public releases (ADSZ, ADFSU) may contain the same recordings, but with different
+file formats, channel orders, channel names, rounding, or segment lengths. Comparing whole
+recordings would miss copies whose channels are reordered, so the comparison is done one channel
+time series at a time:
 
-1. exact: a channel vector (rounded) appearing in both releases;
-2. near: maximum absolute Pearson correlation between channel vectors of equal length
-   (catches rescaling, sign flips or re-rounding).
-A recording in release A "matches" a recording in release B when most of its channels have an
-exact or near copy in that one recording of B.
+1. exact: the channel's sample vector (rounded to `decimals`) appears in a recording of the other
+   release; implemented by hashing every channel of release B once and looking hashes up;
+2. near: the channel correlates at |r| > NEAR_R with some channel of a B recording (catches
+   rescaled, sign-flipped or re-rounded copies that an exact hash would miss).
+
+A recording of A "matches" a recording of B when at least MIN_CHANNEL_SHARE of its channels have
+a copy in that *one* B recording. Recordings of A longer than B's are scanned window by window,
+because a release may keep a longer stretch of the same recording.
+
+Inputs are plain dicts with keys `recording` (name), `ch_names` and `data` (n_ch, n_samples), as
+produced by eegconf.io.fsu. Nothing here depends on the channel names.
 """
 import hashlib
 from collections import Counter, defaultdict
 
 import numpy as np
 
-NEAR_R = 0.999          # channel copies after rescaling still correlate ~1
+NEAR_R = 0.999           # a rescaled copy of a channel still correlates ~1; unrelated EEG channels ~0-0.9
 MIN_CHANNEL_SHARE = 0.8  # fraction of a recording's channels that must match one other recording
 
 
 def channel_hash(x, decimals=3):
+    """SHA-1 of a channel's samples rounded to `decimals`, so tiny formatting differences
+    (e.g. 1.9231 vs 1.92310) still hash equal while different signals never do."""
     return hashlib.sha1(np.round(np.asarray(x, dtype=float), decimals).tobytes()).hexdigest()
 
 
@@ -64,6 +74,7 @@ def exact_matches(recs_a, recs_b, decimals=3):
 
 
 def _z(M):
+    """Centre and unit-normalise each row so that A @ B.T gives Pearson correlations."""
     M = M - M.mean(axis=1, keepdims=True)
     return M / (np.linalg.norm(M, axis=1, keepdims=True) + 1e-12)
 
