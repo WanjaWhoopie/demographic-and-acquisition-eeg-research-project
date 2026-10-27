@@ -1,0 +1,3 @@
+features,n_features,balanced_accuracy_mean,balanced_accuracy_sd,chance
+relative band power (shape only),64,0.687,0.093,0.333
++ log total power (amplitude),80,0.704,0.087,0.333

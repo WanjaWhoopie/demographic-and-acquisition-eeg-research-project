@@ -203,6 +203,13 @@ amplitudes.
 
 ---
 
+## 6b. After preprocessing (EXP-003, 27 October)
+The common pipeline brought the cohorts to the same form and, unexpectedly, nearly the same amplitude
+(robust SD 4.8–6.8 µV everywhere; the raw 18 / 8 / 5 gap was mostly the reference and the frequency band).
+Spectra show the expected AD slowing in every cohort and no mains residue in 0.5–30 Hz. Rejection removed
+10.6 % of ds004504 epochs (AD 12.6 %, HC 8.2 %), almost none elsewhere. Cohort identity is still decodable
+from relative band power at 0.69 balanced accuracy (chance 0.33), the reference value for the LaBraM probe.
+
 ## 7. Status and next steps
 
 | Done | Next |

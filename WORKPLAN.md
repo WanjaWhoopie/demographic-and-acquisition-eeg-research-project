@@ -240,26 +240,26 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [ ] **T4.4 Filtering**
   - [x] T4.4.1 `eegconf.preprocessing.bandpass`: 0.5–30 Hz, 4th-order Butterworth, zero-phase (`sosfiltfilt`), per continuous segment, before epoching.
   - [x] T4.4.2 Resolved by D-020 (IIR for every cohort; an FIR 0.5-Hz high-pass would be longer than APAVA's 5-s trials). Original: short trials (5–8 s): check the FIR length MNE reports for the 0.5-Hz high-pass (it can exceed the trial length). If it does, pad (`pad='reflect_limited'`) and record the edge effect; alternative prespecified fallback: IIR Butterworth order 4, zero-phase (`method='iir'`) for all cohorts. Choose once, log in decision log, apply to every cohort.
-  - [ ] T4.4.3 No notch filter (D-014). Verify on the processed PSD (EXP-003) that no line-noise peak survives below 30 Hz.
+  - [x] T4.4.3 No notch filter (D-014). Verified on the processed PSD (EXP-003): no line-noise peak or ripple inside 0.5–30 Hz.
 - [x] **T4.5 Re-reference** – common average over the 16 channels (`eegconf.preprocessing.rereference`), after channel selection so every cohort uses the same channel set.
 - [x] **T4.6 Resample** – polyphase resampling to 200 Hz (`eegconf.preprocessing.resample`, exact ratios 2/5, 25/16, 25/32) after the low-pass (anti-aliasing satisfied because 30 Hz < 100 Hz Nyquist). Note: 128-Hz cohorts are upsampled and have no content above 64 Hz; the 30-Hz low-pass makes this identical across cohorts.
 - [ ] **T4.7 Epoching and artefact rejection**
   - [x] T4.7.1 Fixed-length 4-s non-overlapping epochs within each segment (`eegconf.preprocessing.epoch`); incomplete tails dropped (D-021).
   - [x] T4.7.2 Reject epochs with any channel peak-to-peak > 150 µV or < 0.5 µV (`eegconf.preprocessing.reject`).
   - [x] T4.7.3 Logged per participant in `data/metadata/preproc_<cohort>.csv` (epochs before/after, reasons).
-  - [ ] T4.7.4 Check rejection rate by cohort and by diagnosis; a large imbalance is itself a confound – report it.
+  - [x] T4.7.4 Rejection by cohort × diagnosis in EXP-003: ds004504 AD 12.6 % vs HC 8.2 % (report as a confound); ADFSU 0 %; APAVA 0.5 % / 0 %.
 - [x] **T4.8 Equal-length crop** – superseded by D-018: all clean epochs are kept; `epoch_idx` in each processed file lets the 8-s sensitivity analysis take a participant's first two epochs. Original sub-steps:
   - [ ] T4.8.1 Table of clean epochs per participant.
   - [ ] T4.8.2 Prespecified rule: exclude participants with fewer than 2 clean epochs; K = minimum clean-epoch count among the remaining participants; keep the first K clean epochs in time order (deterministic, not random).
   - [ ] T4.8.3 Write K into `configs/preprocessing.yaml` and the decision log.
   - [ ] T4.8.4 Save `data/processed/<cohort>/<global_id>-epo.fif`.
 - [ ] **T4.9 Preprocessing QC (EXP-003)**
-  - [ ] T4.9.1 Mean PSD per cohort × diagnosis on processed data (0.5–30 Hz) – one figure.
-  - [ ] T4.9.2 Per-channel amplitude distribution per cohort.
-  - [ ] T4.9.3 Visual check of 5 random participants per cohort (`epochs.plot()`).
-  - [ ] T4.9.4 Quick classical-feature cohort probe (relative band power → cohort, grouped CV): records how much cohort information survives preprocessing *before* any foundation model. Save as reference value.
-  - [ ] T4.9.5 Write `data/metadata/qc_report.csv`; commit figures to `results/figures/EXP-003_*`.
-- Done when (G2): QC passed, K fixed, tag pushed.
+  - [x] T4.9.1 `results/figures/EXP-003_psd_processed.png`.
+  - [x] T4.9.2 Robust SD per cohort × diagnosis in `results/tables/T03_preprocessing_qc.csv` (amplitudes converged to 4.8–6.8 µV).
+  - [x] T4.9.3 Visual check: `results/figures/EXP-003_snippets.png` (two random participants per cohort; looked at and judged plausible).
+  - [x] T4.9.4 Classical cohort probe: balanced accuracy 0.687 ± 0.093 (shape only), 0.704 with amplitude; chance 0.333 (`results/tables/T03_cohort_probe_classical.csv`). Reference value for O2.
+  - [x] T4.9.5 Per-participant counts in `data/metadata/preproc_<cohort>.csv` (local); aggregate table and figures committed.
+- Done when (G2): QC passed (yes), D-018 replaces K, tag pushed (pending T4.0.2 sign-off).
 
 ## Phase 5 – Frozen LaBraM representations (M5–M6)
 
