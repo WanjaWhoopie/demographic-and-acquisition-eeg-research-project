@@ -18,6 +18,13 @@ data/metadata/
 *.h5
 *.parquet
 
+# Proposal, slides and other office documents stay out of the public repo
+*.docx
+*.pptx
+*.pdf
+*.doc
+*.ppt
+
 # Model weights
 checkpoints/
 *.pth
