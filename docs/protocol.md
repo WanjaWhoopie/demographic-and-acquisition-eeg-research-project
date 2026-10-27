@@ -13,25 +13,26 @@ information change cross-cohort generalisation?
 - **H1:** removing it significantly changes AD performance and/or generalisation.
 
 ## Cohorts
-| Cohort | AD | HC | Channels | Rate | Condition | Demographics |
+| Cohort | AD | HC | Channels | Rate | Eyes-closed EEG per person | Demographics |
 |---|---|---|---|---|---|---|
-| ds004504 | 36 | 29 | 19 | 500 Hz | eyes closed | age, sex, MMSE |
-| ADFSU | 80 | 12 | 19 | 128 Hz | open + closed | none |
-| ADSZ | 24 | 24 | 19 | 128 Hz | open + closed | none |
-| APAVA | 12 | 11 | 16 | 256 Hz | eyes closed | none |
+| ds004504 | 36 | 29 | 19 | 500 Hz | 5–21 min | age, sex, MMSE |
+| ADFSU (deduplicated) | 76 | 12 | 19 | 128 Hz | 8 s | none |
+| APAVA | 12 | 11 | 16 | 256 Hz | 5–295 s | none |
 
-228 participants before the ADSZ–ADFSU overlap check. FTD (ds004504) excluded from the primary analysis.
+176 participants in three cohorts. ADSZ was dropped because it is a subset of ADFSU (D-017, EXP-002);
+FTD (ds004504) excluded from the primary analysis.
 
 ## Pipeline
 1. Duplicate check (ADSZ vs ADFSU).
-2. Eyes-closed only → 16 common channels → µV → 0.5–30 Hz → common average → 200 Hz →
-   4-s epochs → amplitude-based rejection → equal number of epochs per participant.
+2. Eyes-closed only → 16 common channels → µV → 0.5–30 Hz (4th-order Butterworth, zero-phase, per
+   segment) → common average → 200 Hz → 4-s epochs within segments → amplitude-based rejection →
+   all clean epochs kept (D-018; equal 8-s crop as a sensitivity analysis).
 3. Frozen LaBraM → epoch embeddings (every layer) → participant pooling → **Z**.
 4. Branches on Z:
    - **A** linear AD classifier (vs classical band power + 1/f comparator);
    - **B** probes: age, sex (ds004504 only), cohort (all cohorts);
    - **C** nuisance control → **Z\*** → AD classifier.
-5. Leave-one-cohort-out (LOCO) evaluation; participant bootstrap.
+5. Leave-one-cohort-out (LOCO, 3 folds) evaluation; participant bootstrap.
 
 ## Objectives → analyses
 | Obj | Analysis | Where evaluated |
@@ -54,7 +55,7 @@ Mean ΔAUROC = AUROC(Z) − AUROC(Z\*acq) across the four LOCO folds, each fold 
   (no test information); (ii) label-free test mean (transductive, declared as such).
 - A representation controlled for both demographics and cohort is not built for LOCO
   (held-out cohorts have no age/sex).
-- Sensitivity: LOCO without ADFSU; LOCO with ADFSU AD subsampled to 12 (100 draws).
+- Sensitivity: LOCO without ADFSU; LOCO with ADFSU AD subsampled to 12 (100 draws); equal 8-s crop per participant (D-018); per-recording amplitude scaling (D-019).
 - Report whichever pattern appears (A little change / B moderate drop / C large drop).
 
 ## Reporting

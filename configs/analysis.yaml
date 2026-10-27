@@ -7,7 +7,7 @@ representation:
   frozen: true
   layers: all                 # store every block; layer chosen inside training folds
   token_pooling: mean         # mean over channel x time patch tokens
-  participant_pooling: [mean, median, mean_std]   # chosen inside training folds
+  participant_pooling: [mean, median]   # chosen inside training folds; mean_std dropped (D-018)
 
 classifier:
   type: logistic_regression
@@ -24,7 +24,7 @@ cv:
 probes:
   age: {model: ridge, alpha_grid: [0.1, 1, 10, 100, 1000], metrics: [MAE, R2], cohort: ds004504}
   sex: {model: logistic_regression, metrics: [AUROC, balanced_accuracy], cohort: ds004504}
-  cohort: {model: multinomial_logistic, metrics: [balanced_accuracy, macro_F1], chance: 0.25}
+  cohort: {model: multinomial_logistic, metrics: [balanced_accuracy, macro_F1], chance: 0.333}   # 3 cohorts (D-017)
   nonlinear: {model: mlp, hidden: [64], early_stopping: true}
   permutations: 1000
 
@@ -41,5 +41,7 @@ stats:
   alpha: 0.05
 
 sensitivity:
+  equal_length_8s: true       # D-018
+  amplitude_unit_variance: true   # D-019
   exclude_adfsu: true
   adfsu_ad_subsample: {n_draws: 100, match: n_hc}

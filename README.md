@@ -7,7 +7,7 @@ age, sex and the signature of the cohort/recording system?
 
 This project measures how much demographic and acquisition information is encoded in frozen
 LaBraM representations, removes it, and tests whether AD classification still transfers to an
-unseen cohort (leave-one-cohort-out across ds004504, ADFSU, ADSZ and APAVA).
+unseen cohort (leave-one-cohort-out across ds004504, ADFSU and APAVA; ADSZ turned out to be a subset of ADFSU and was dropped).
 
 **Start here:** [`docs/protocol.md`](docs/protocol.md) (design) · [`WORKPLAN.md`](WORKPLAN.md) (tasks) ·
 [`docs/decision_log.md`](docs/decision_log.md) (prespecified choices)
@@ -43,7 +43,7 @@ Data download instructions are in `WORKPLAN.md` Phase 2 and `docs/datasets.md`.
    equal number of epochs per participant.
 3. Frozen LaBraM embeddings → participant-level representation **Z**.
 4. **A** AD classifier · **B** probes for age, sex (ds004504) and cohort · **C** nuisance-controlled **Z\*** → AD classifier.
-5. Leave-one-cohort-out; primary outcome = mean per-fold ΔAUROC(Z, Z\*).
+5. Leave-one-cohort-out over three cohorts; primary outcome = mean per-fold ΔAUROC(Z, Z\*).
 
 ## Working together
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for branches, commit messages, and how to log papers and experiments.
