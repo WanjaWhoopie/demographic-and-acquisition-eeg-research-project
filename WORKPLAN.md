@@ -84,27 +84,27 @@ matplotlib, pytest, git.
 
 ## Phase 0 – Setup and data-use terms (M1)
 
-- [ ] **T0.1 Data-use terms** (all data are public and de-identified)
-  - [ ] T0.1.1 For each dataset, find its licence / terms of use (OpenNeuro: `dataset_description.json` licence field; others: repository page or original paper).
-  - [ ] T0.1.2 Record for each: licence name, whether redistribution is allowed (assume not), required citation(s), any restriction on commercial use or re-identification.
-  - [ ] T0.1.3 Save a copy or link in `docs/licences/<cohort>_terms_<date>.pdf|md` and the licence field in `docs/datasets.md`.
-  - [ ] T0.1.4 Add the required dataset citations to the literature matrix so they are cited in the write-up.
+- [x] **T0.1 Data-use terms** – recorded in `docs/licences/data_use_terms.md` (ds004504 and ADSZ: CC0; ADFSU and APAVA: no licence stated, cite the source papers). Open: who prepared the APAVA Google Drive copy.
+  - [x] T0.1.1 For each dataset, find its licence / terms of use (OpenNeuro: `dataset_description.json` licence field; others: repository page or original paper).
+  - [x] T0.1.2 Record for each: licence name, whether redistribution is allowed (assume not), required citation(s), any restriction on commercial use or re-identification.
+  - [x] T0.1.3 Save a copy or link in `docs/licences/<cohort>_terms_<date>.pdf|md` and the licence field in `docs/datasets.md`.
+  - [x] T0.1.4 Add the required dataset citations to the literature matrix so they are cited in the write-up.
   - Done when: every dataset has a recorded licence and citation.
-- [ ] **T0.2 Environment**
+- [x] **T0.2 Environment** (T0.2.4 remains open; see below)
   - [x] T0.2.1 `conda env create -f environment.yml` (≈ 6 min; CPU-only PyTorch); `conda activate eegconf`.
   - [x] T0.2.2 `python -c "import mne, sklearn, torch, specparam, concept_erasure, timm"` runs (MNE 1.13.2, torch 2.14.0+cpu, timm 0.4.12).
   - [x] T0.2.3 `conda env export --no-builds > docs/env_lock.yml`; committed.
   - [ ] T0.2.4 pip pulled torch 2.14 (via torchvision for timm) over the conda `pytorch-cpu` 2.13. Works, but before T5.1 add `torchvision` to the conda dependencies so only one torch is installed.
   - Done when: both team members can import everything on their machines.
 - [ ] **T0.3 Repository conventions**
-  - [ ] T0.3.1 Agree branch model: `main` protected; work on `feature/<task-id>-short-name`; merge by pull request reviewed by the other person.
-  - [ ] T0.3.2 Agree commit message style (see `CONTRIBUTING.md`).
+  - [ ] T0.3.1 Branch model. So far everything is committed straight to `main` by one person. **Decide:** keep that while a single person commits, and switch to `feature/*` branches + pull requests once both team members commit (recommended), or use pull requests from now on.
+  - [x] T0.3.2 Commit message style agreed and in use (see `CONTRIBUTING.md`): imperative subject, body says why, no author names.
   - [ ] T0.3.3 Create a shared calendar entry for a fortnightly mentor meeting; notes go in `reports/meetings/`.
 - [ ] **T0.4 Leakage unit tests (write early, run forever)**
-  - [ ] T0.4.1 `tests/test_splits.py`: for every split generator, assert the intersection of train and test participant IDs is empty.
-  - [ ] T0.4.2 `tests/test_fit_on_train.py`: wrap each transformer so it records the row IDs it was fitted on; assert ⊆ training IDs.
-  - [ ] T0.4.3 `tests/test_centring.py`: variant (i) must not read any test-cohort row.
-  - [ ] T0.4.4 Add `pytest` to the pre-merge checklist.
+  - [x] T0.4.1 `tests/test_splits.py` + `src/eegconf/evaluation/splits.py`: participant-grouped stratified K-fold and leave-one-cohort-out generators; every split asserts train ∩ test participants = ∅, and `expand_to_epochs` keeps all of a participant's epochs on one side.
+  - [ ] T0.4.2 `tests/test_fit_on_train.py`: written together with the transforms in Phase 8 (residualiser, centring, LEACE), which do not exist yet.
+  - [ ] T0.4.3 `tests/test_centring.py`: as T0.4.2.
+  - [x] T0.4.4 `pytest` runs on every push and pull request (`.github/workflows/tests.yml`) and is in the pre-review checklist in `CONTRIBUTING.md`.
 
 ## Phase 1 – Literature review (M1–M4, then continuous)
 
@@ -170,8 +170,8 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [ ] T2.2.3 Download to `data/raw/ADFSU`; record version/date + checksum.
 - [ ] T2.2.4 Confirm participant IDs exist for every trial (needed for subject-level splits). If trials lack IDs → **stop and raise it with the mentor**: the cohort cannot be used without them.
 - [ ] T2.2.5 Confirm condition labels per trial (eyes open vs closed). If absent → raise it with the mentor (see T4.1.3).
-- [ ] T2.2.6 Run A1–A12. Confirm 80 AD / 12 HC, 19 channels, 128 Hz, 8-s trials, trials per participant.
-- [ ] T2.2.7 Check the 0.5–30 Hz band limit claim from the PSD (A11); tick in `literature/to_verify.md`.
+- [x] T2.2.6 A1–A12 run on the cleaned cohort (76 AD / 12 HC, eyes closed, F1/F2 dropped): 19 channels in identical order, 128 Hz, exactly 8 s each; units plausible (robust SD 7.7 after 1–30 Hz); no flat channels, NaN or extreme segments. Two recordings (AD-03, AD-31) have one channel flat at its extreme for ≥ 4 samples (possible brief saturation) – epoch rejection decides. 60-Hz line noise cannot be measured at 128 Hz.
+- [x] T2.2.7 Band limit confirmed: 40–48 Hz power is 7.2 dB below 20–30 Hz (hf_rolloff) – consistent with the source's 0.5–30 Hz band-limiting.
 - [ ] T2.2.8 Fill the dataset card.
 
 ### T2.3 ADSZ
@@ -192,8 +192,8 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [ ] T2.4.2 Raw vs preprocessed decision.
 - [ ] T2.4.3 Download to `data/raw/APAVA`; version/date + checksum.
 - [ ] T2.4.4 Participant IDs per trial.
-- [ ] T2.4.5 Run A1–A12. Confirm 12 AD / 11 HC, 16 channels, 256 Hz, 5-s trials, trials per participant.
-- [ ] T2.4.6 Confirm the channel set is exactly the 19-ch 10–20 set minus Fz, Cz, Pz; tick in `to_verify.md`.
+- [x] T2.4.5 A1–A12 run: 12 AD / 11 HC, 16 channels, 256 Hz, 1–59 five-second trials per person (5–295 s). Units plausible except HC-22 (robust SD 2.9, just under the 3 µV floor). AD-08 has one channel with 21% of samples beyond ±150 µV (see decision D-022).
+- [x] T2.4.6 Channel set confirmed from the OSF copy's labels: C3 C4 F3 F4 F7 F8 Fp1 Fp2 O1 O2 P3 P4 T3 T4 T5 T6 (10–20 minus Fz, Cz, Pz).
 - [ ] T2.4.7 Fill the dataset card.
 
 ### T2.5 Combined participants table
