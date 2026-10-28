@@ -94,7 +94,7 @@ matplotlib, pytest, git.
   - [x] T0.2.1 `conda env create -f environment.yml` (≈ 6 min; CPU-only PyTorch); `conda activate eegconf`.
   - [x] T0.2.2 `python -c "import mne, sklearn, torch, specparam, concept_erasure, timm"` runs (MNE 1.13.2, torch 2.14.0+cpu, timm 0.4.12).
   - [x] T0.2.3 `conda env export --no-builds > docs/env_lock.yml`; committed.
-  - [x] T0.2.4 PyTorch is now installed once, by pip, as the CUDA 13 build (`torch==2.14.1+cu130`); `environment.yml` no longer lists the conda `pytorch-cpu` package. Fresh installs follow the yml; the existing env was upgraded in place.
+  - [x] T0.2.4 `environment.yml` now installs PyTorch once, by pip, as the CUDA 13 build (`torch==2.14.1+cu130`). On this machine the env was upgraded in place, so the old conda `pytorch-cpu` 2.13 package is still listed in `docs/env_lock.yml` but shadowed by the pip build; a fresh `conda env create` gives a clean env.
   - Done when: both team members can import everything on their machines.
 - [ ] **T0.3 Repository conventions**
   - [ ] T0.3.1 Branch model. So far everything is committed straight to `main` by one person. **Decide:** keep that while a single person commits, and switch to `feature/*` branches + pull requests once both team members commit (recommended), or use pull requests from now on.
@@ -268,19 +268,20 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
   - [x] T5.1.2 timm 0.4.12 and einops already installed; PyTorch switched to the CUDA 13.0 build so extraction runs on the local GPU (RTX 2050, 4 GB).
   - [x] T5.1.3 Confirmed from the code (D-022): input [B, channels, patches, 200] at 200 Hz; µV / 100 (`engine_for_finetuning.py` l.64); channel vocabulary `utils.standard_1020` (upper-case, includes the old names T3/T4/T5/T6 used by the TUAB/TUEV fine-tuning sets); `input_chans = [0] + index+1`; time embedding has 16 slots (≤ 16 s); model flags from the README: `--abs_pos_emb --disable_rel_pos_bias --disable_qkv_bias`, layer-scale 0.1, mean pooling.
   - [x] T5.1.4 `checkpoints/labram-base.pth` ships with the repository (sha256 `7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c`); the extraction script loads 219 tensors and asserts that the only differences are the expected ones (fine-tuning `fc_norm` absent from the checkpoint; pretraining heads and final norm not used). Loaded with `weights_only=True`, allow-listing only the numpy scalar and `argparse.Namespace` stored alongside the weights.
-- [ ] **T5.2 Extraction**
-  - [ ] T5.2.1 For each epoch: shape (16, 800) → scale → reshape to (16, 4, 200) → batch.
-  - [ ] T5.2.2 Build `input_chans` from our 16 LaBraM channel names (mapping table T4.2.1).
-  - [ ] T5.2.3 Register forward hooks on every transformer block; for each block store the mean over all patch tokens (and the CLS token if the model has one) → vector of size d (200 for base; confirm).
-  - [ ] T5.2.4 Run under `torch.no_grad()`, fp32, fixed seed; no dropout (eval mode).
-  - [ ] T5.2.5 Save `data/embeddings/labram-base/<cohort>.npz` with arrays `Z[layer, epoch, d]`, `global_id[epoch]`, `epoch_idx[epoch]`.
-- [ ] **T5.3 Participant pooling** – implement mean, median, mean ⊕ SD over a participant's K epochs; choice is made inside training folds (Phase 6), so store epoch-level embeddings.
-- [ ] **T5.4 Sanity checks**
-  - [ ] T5.4.1 Determinism: same input twice → identical output.
-  - [ ] T5.4.2 No NaN/Inf; embedding norm distribution per cohort (a single cohort with a very different norm suggests a scaling/unit error).
-  - [ ] T5.4.3 Shuffled-channel control: permute the channel order of a few epochs; embeddings should change (confirms `input_chans` is used).
-  - [ ] T5.4.4 Random-weights baseline: extract the same features from a randomly initialised LaBraM (same architecture) – used later as a negative control for probes and classifiers.
-- Done when (G3): embeddings for every included participant, all checks logged.
+- [x] **T5.2 Extraction** (`scripts/04_extract_embeddings.py`, 2026-10-28, GPU RTX 2050)
+  - [x] T5.2.1 (16, 800) µV → ÷100 → (16, 4, 200) → batches of 128.
+  - [x] T5.2.2 `input_chans = [0, 1, 3, 16, 18, 22, 24, 89, 40, 44, 91, 90, 62, 66, 92, 81, 83]` from the LaBraM vocabulary.
+  - [x] T5.2.3 Forward hooks on all 12 blocks: mean over the 64 patch tokens and the CLS token per block (d = 200), plus the model's final pooled feature.
+  - [x] T5.2.4 `torch.no_grad()`, fp32, eval mode, seed 20261001.
+  - [x] T5.2.5 Saved per participant: `data/embeddings/labram-base/<cohort>/<global_id>.npz` (`layer_mean`, `layer_cls`, `pooled`, `epoch_idx`, `segment_idx`) + `_meta.json` (commit, checkpoint hash, device). 12,841 epochs in ~100 s total.
+- [x] **T5.3 Participant pooling** – `representation.pool_participant` (mean, median; mean ⊕ SD dropped by D-018); epoch-level embeddings are stored so the choice is made inside training folds (Phase 6).
+- [x] **T5.4 Sanity checks** (`scripts/04_sanity.py` → `results/tables/T04_embedding_sanity.csv`, all pass)
+  - [x] T5.4.1 Determinism: identical output on repeat (max abs diff 0).
+  - [x] T5.4.2 No NaN/Inf in any file; per-block mean-token norm ≈ 8.2–8.4 in every cohort (no cohort stands out).
+  - [x] T5.4.3 Shuffling the channel order changes the output (relative difference 0.26 of the pooled feature).
+  - [x] T5.4.4 Random-weights control extracted for all cohorts (`data/embeddings/labram-random/`); it differs from the pretrained model (relative difference 1.66).
+  - [x] T5.4.5 (added) Responsiveness: the last-block embedding is dominated by a constant offset (norm 8.4) with input-dependent variation of ~0.3 around it; zeroing the signal moves the embedding 6.7× and white noise 7.8× the normal epoch-to-epoch distance, another participant 2.2×, doubling the amplitude 1.15×. So the model reads the signal; the offset is shared by all inputs and is removed by per-feature standardisation in the classifiers. Between-participant variance exceeds within-participant variance more for the pretrained model (ratio 1–3.6) than for the random one (0.3–1.4), as expected if the pretrained representation carries participant-level structure.
+- Done when (G3): embeddings for every included participant, all checks logged. **Reached 2026-10-28.**
 
 ## Phase 6 – O1 Baseline classification (M6–M7) → EXP-010 to EXP-013
 
