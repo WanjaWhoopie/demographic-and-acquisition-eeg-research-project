@@ -94,7 +94,7 @@ matplotlib, pytest, git.
   - [x] T0.2.1 `conda env create -f environment.yml` (≈ 6 min; CPU-only PyTorch); `conda activate eegconf`.
   - [x] T0.2.2 `python -c "import mne, sklearn, torch, specparam, concept_erasure, timm"` runs (MNE 1.13.2, torch 2.14.0+cpu, timm 0.4.12).
   - [x] T0.2.3 `conda env export --no-builds > docs/env_lock.yml`; committed.
-  - [ ] T0.2.4 pip pulled torch 2.14 (via torchvision for timm) over the conda `pytorch-cpu` 2.13. Works, but before T5.1 add `torchvision` to the conda dependencies so only one torch is installed.
+  - [x] T0.2.4 PyTorch is now installed once, by pip, as the CUDA 13 build (`torch==2.14.1+cu130`); `environment.yml` no longer lists the conda `pytorch-cpu` package. Fresh installs follow the yml; the existing env was upgraded in place.
   - Done when: both team members can import everything on their machines.
 - [ ] **T0.3 Repository conventions**
   - [ ] T0.3.1 Branch model. So far everything is committed straight to `main` by one person. **Decide:** keep that while a single person commits, and switch to `feature/*` branches + pull requests once both team members commit (recommended), or use pull requests from now on.
@@ -264,10 +264,10 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 ## Phase 5 – Frozen LaBraM representations (M5–M6)
 
 - [ ] **T5.1 Model setup**
-  - [ ] T5.1.1 Clone https://github.com/935963004/LaBraM into `external/LaBraM` (git-ignored or as a submodule at a pinned commit; record the commit hash).
-  - [ ] T5.1.2 Install its exact requirements (timm version) into the environment; re-run T0.2.2.
-  - [ ] T5.1.3 From the code, confirm and write down in `docs/decision_log.md`: expected sampling rate (200 Hz), patch size (200 samples = 1 s), amplitude scaling (µV/100 in their data loaders), channel-name list used for positional embeddings (`standard_1020` list in `utils.py`), maximum number of patches, how `input_chans` is built.
-  - [ ] T5.1.4 Download `labram-base.pth`; record sha256; load with the model constructor for the base model; `model.eval()`; confirm all weights loaded (no missing/unexpected keys other than the classification head).
+  - [x] T5.1.1 Cloned into `external/LaBraM` (git-ignored), commit `c431221e6cfd23dbfa9950e0180682fb322b0548` (2025-09-29).
+  - [x] T5.1.2 timm 0.4.12 and einops already installed; PyTorch switched to the CUDA 13.0 build so extraction runs on the local GPU (RTX 2050, 4 GB).
+  - [x] T5.1.3 Confirmed from the code (D-022): input [B, channels, patches, 200] at 200 Hz; µV / 100 (`engine_for_finetuning.py` l.64); channel vocabulary `utils.standard_1020` (upper-case, includes the old names T3/T4/T5/T6 used by the TUAB/TUEV fine-tuning sets); `input_chans = [0] + index+1`; time embedding has 16 slots (≤ 16 s); model flags from the README: `--abs_pos_emb --disable_rel_pos_bias --disable_qkv_bias`, layer-scale 0.1, mean pooling.
+  - [x] T5.1.4 `checkpoints/labram-base.pth` ships with the repository (sha256 `7c50583826afac76c4ab18f43d958df40496c8229accc09ed6a227c9bb57c37c`); the extraction script loads 219 tensors and asserts that the only differences are the expected ones (fine-tuning `fc_norm` absent from the checkpoint; pretraining heads and final norm not used). Loaded with `weights_only=True`, allow-listing only the numpy scalar and `argparse.Namespace` stored alongside the weights.
 - [ ] **T5.2 Extraction**
   - [ ] T5.2.1 For each epoch: shape (16, 800) → scale → reshape to (16, 4, 200) → batch.
   - [ ] T5.2.2 Build `input_chans` from our 16 LaBraM channel names (mapping table T4.2.1).

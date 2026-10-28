@@ -102,24 +102,23 @@ eyes-closed session (OpenNeuro ds006036 v1.0.6, CC0, 1.13 GB). Not an independen
 ## Channel mapping (fill in T4.2)
 | Canonical (old 10–20) | ds004504 label | ADFSU label | ADSZ column | APAVA label | LaBraM label |
 |---|---|---|---|---|---|
-| Fp1 | Fp1 | Fp1 (F1 is a copy) | col01 | Fp1 | T5.1.3 |
-| Fp2 | Fp2 | Fp2 (F2 is a copy) | col02 | Fp2 | T5.1.3 |
-| F7 | F7 | F7 | col03 | F7 | T5.1.3 |
-| F3 | F3 | F3 | col04 | F3 | T5.1.3 |
-| F4 | F4 | F4 | col06 | F4 | T5.1.3 |
-| F8 | F8 | F8 | col07 | F8 | T5.1.3 |
-| T3 (=T7) | T3 | T3 | col08 | T3 | T5.1.3 |
-| C3 | C3 | C3 | col09 | C3 | T5.1.3 |
-| C4 | C4 | C4 | col11 | C4 | T5.1.3 |
-| T4 (=T8) | T4 | T4 | col12 | T4 | T5.1.3 |
-| T5 (=P7) | T5 | T5 | col13 | T5 | T5.1.3 |
-| P3 | P3 | P3 | col14 | P3 | T5.1.3 |
-| P4 | P4 | P4 | col16 | P4 | T5.1.3 |
-| T6 (=P8) | T6 | T6 | col17 | T6 | T5.1.3 |
-| O1 | O1 | O1 | col18 | O1 | T5.1.3 |
-| O2 | O2 | O2 | col19 | O2 | T5.1.3 |
+| Fp1 | Fp1 | Fp1 (F1 is a copy) | col01 | Fp1 | FP1 |
+| Fp2 | Fp2 | Fp2 (F2 is a copy) | col02 | Fp2 | FP2 |
+| F7 | F7 | F7 | col03 | F7 | F7 |
+| F3 | F3 | F3 | col04 | F3 | F3 |
+| F4 | F4 | F4 | col06 | F4 | F4 |
+| F8 | F8 | F8 | col07 | F8 | F8 |
+| T3 (=T7) | T3 | T3 | col08 | T3 | T3 |
+| C3 | C3 | C3 | col09 | C3 | C3 |
+| C4 | C4 | C4 | col11 | C4 | C4 |
+| T4 (=T8) | T4 | T4 | col12 | T4 | T4 |
+| T5 (=P7) | T5 | T5 | col13 | T5 | T5 |
+| P3 | P3 | P3 | col14 | P3 | P3 |
+| P4 | P4 | P4 | col16 | P4 | P4 |
+| T6 (=P8) | T6 | T6 | col17 | T6 | T6 |
+| O1 | O1 | O1 | col18 | O1 | O1 |
+| O2 | O2 | O2 | col19 | O2 | O2 |
 
 Filled 2026-10-27 from the files (T4.2.1). `eegconf.preprocessing.pick_channels` applies this mapping;
 it also accepts the modern names T7/T8/P7/P8 and decorated labels such as `EEG Fp1-REF`. Dropped: Fz, Cz, Pz
-(absent from APAVA) and ADFSU's F1/F2 copies. The LaBraM column is filled in T5.1.3 from the model's
-channel list.
+(absent from APAVA) and ADFSU's F1/F2 copies. The LaBraM column is the model's vocabulary entry (`utils.standard_1020`, upper-case, old temporal names).
