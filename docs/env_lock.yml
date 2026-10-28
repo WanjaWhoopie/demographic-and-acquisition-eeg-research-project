@@ -260,7 +260,7 @@ dependencies:
       - shellingham==1.5.4
       - specparam==2.0.0rc7
       - timm==0.4.12
-      - torch==2.14.0
+      - torch==2.14.1+cu130
       - torchvision==0.29.0
       - tqdm==4.70.1
       - typer==0.27.2

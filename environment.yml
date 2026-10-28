@@ -13,8 +13,10 @@ dependencies:
   - pyyaml
   - jupyterlab
   - pytest
-  - pytorch-cpu        # CPU-only build from conda-forge; LaBraM-base inference does not need a GPU
   - pip:
+      # PyTorch with CUDA 13 for the local GPU (RTX 2050); the CPU build also works, just slower
+      - --extra-index-url https://download.pytorch.org/whl/cu130
+      - torch==2.14.1
       - mne>=1.7
       - mne-bids
       - openneuro-py
