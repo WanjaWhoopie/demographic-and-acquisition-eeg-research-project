@@ -1,0 +1,22 @@
+check,detail,value,pass
+determinism,same input twice,0.0,True
+channel_use,shuffled channel order changes output (rel. diff),0.25769364833831787,True
+control_differs,random-weight model differs from pretrained (rel. diff),1.6626099348068237,True
+finite/labram-base,ds004504,1.0,True
+norm/labram-base,ds004504 median pooled-embedding norm,14.141772270202637,True
+spread/labram-base,ds004504 within-participant epoch spread / mean norm,0.010919392108917236,True
+finite/labram-base,ADFSU,1.0,True
+norm/labram-base,ADFSU median pooled-embedding norm,14.141775131225586,True
+spread/labram-base,ADFSU within-participant epoch spread / mean norm,0.00521162711083889,True
+finite/labram-base,APAVA,1.0,True
+norm/labram-base,APAVA median pooled-embedding norm,14.14178466796875,True
+spread/labram-base,APAVA within-participant epoch spread / mean norm,0.008494926616549492,True
+finite/labram-random,ds004504,1.0,True
+norm/labram-random,ds004504 median pooled-embedding norm,14.142071723937988,True
+spread/labram-random,ds004504 within-participant epoch spread / mean norm,0.012910348363220692,True
+finite/labram-random,ADFSU,1.0,True
+norm/labram-random,ADFSU median pooled-embedding norm,14.142068862915039,True
+spread/labram-random,ADFSU within-participant epoch spread / mean norm,0.007003892213106155,True
+finite/labram-random,APAVA,1.0,True
+norm/labram-random,APAVA median pooled-embedding norm,14.142072677612305,True
+spread/labram-random,APAVA within-participant epoch spread / mean norm,0.010571000166237354,True

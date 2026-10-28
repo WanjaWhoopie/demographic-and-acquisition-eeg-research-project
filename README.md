@@ -13,14 +13,16 @@ unseen cohort (leave-one-cohort-out across ds004504, ADFSU and APAVA; ADSZ turne
 [`docs/decision_log.md`](docs/decision_log.md) (prespecified choices) ·
 [`reports/data_audit_report.md`](reports/data_audit_report.md) (what the data turned out to contain)
 
-## Status (27 October 2026)
+## Status (28 October 2026)
 | Phase | State |
 |---|---|
 | 0 Setup, data-use terms, leakage tests | done (branch model still to agree; PyTorch duplicate to tidy before Phase 5) |
 | 1 Literature review | ongoing: 29 papers in the matrix, draft review written, verification list open |
 | 2 Data acquisition and audit | done for all three cohorts (EXP-001) |
 | 3 Overlap check | done (EXP-002): ADSZ is a subset of ADFSU and was dropped |
-| 4 Preprocessing | next |
+| 4 Preprocessing | done (EXP-003): cohorts harmonised; cohort still decodable from spectral shape at 0.69 |
+| 5 LaBraM embeddings | done: all 176 participants, pretrained + random-weights control, on the local GPU |
+| 6 Baseline classification | next (after the analysis-plan freeze) |
 
 Cohorts in use: ds004504 (36 AD / 29 HC), ADFSU deduplicated (76 / 12), APAVA (12 / 11) = 176 participants.
 
