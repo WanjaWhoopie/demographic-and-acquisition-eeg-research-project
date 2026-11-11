@@ -1,0 +1,16 @@
+representation,held_out,n_AD,n_HC,auroc,ci_low,ci_high,selected,C,inner_cv_auroc,pr_auc,balanced_accuracy,sensitivity,specificity,f1
+labram,ADFSU,76.0,12.0,0.8103,0.6611,0.9375,b01_patch_mean_mean,100.0,0.924,0.9551,0.682,0.6974,0.6667,0.797
+labram,APAVA,12.0,11.0,0.8788,0.697,1.0,b01_patch_mean_median,0.1,0.9612,0.9169,0.8712,0.8333,0.9091,0.8696
+labram,ds004504,36.0,29.0,0.8697,0.7739,0.9521,b01_patch_mean_median,0.1,0.9629,0.9252,0.8161,0.6667,0.9655,0.7869
+labram,MEAN over folds,,,0.8529,0.7731,0.9222,,,,,,,,
+labram,POOLED (secondary),,,0.788,0.719,0.8529,,,,,,,,
+random,ADFSU,76.0,12.0,0.8695,0.762,0.9539,b12_cls_median,0.01,0.8521,0.977,0.7478,0.8289,0.6667,0.8811
+random,APAVA,12.0,11.0,0.8409,0.6667,0.9697,b10_cls_median,0.01,0.9307,0.8807,0.7386,0.75,0.7273,0.75
+random,ds004504,36.0,29.0,0.8046,0.6916,0.9062,b01_cls_mean,0.01,0.8972,0.8778,0.7328,0.5,0.9655,0.6545
+random,MEAN over folds,,,0.8383,0.7585,0.9065,,,,,,,,
+random,POOLED (secondary),,,0.8676,0.8117,0.9194,,,,,,,,
+classical,ADFSU,76.0,12.0,0.9386,0.8717,0.9857,classical,0.1,0.8797,0.9899,0.7873,0.9079,0.6667,0.9262
+classical,APAVA,12.0,11.0,0.8939,0.7273,1.0,classical,0.01,0.9371,0.9305,0.8712,0.8333,0.9091,0.8696
+classical,ds004504,36.0,29.0,0.8669,0.7672,0.9473,classical,0.1,0.9526,0.921,0.8022,0.6389,0.9655,0.7667
+classical,MEAN over folds,,,0.8998,0.8324,0.9562,,,,,,,,
+classical,POOLED (secondary),,,0.9288,0.8903,0.9617,,,,,,,,

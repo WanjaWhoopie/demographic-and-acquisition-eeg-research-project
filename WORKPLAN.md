@@ -285,22 +285,25 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 ## Phase 6 – O1 Baseline classification (M6–M7) → EXP-010 to EXP-013
 
-- [ ] **T6.1 Evaluation framework**
-  - [ ] T6.1.1 `eegconf.evaluation.splits`: `StratifiedGroupKFold` (groups = global_id) for inner CV; repeated version for within-cohort; LOCO generator over cohorts.
-  - [ ] T6.1.2 Pipeline object: pooling → StandardScaler → classifier, fitted per training fold.
-  - [ ] T6.1.3 Nested selection inside each outer training fold: layer (all blocks) × pooling (3) × C (6) by inner-CV AUROC. Record the chosen values per outer fold.
-  - [ ] T6.1.4 Save per-participant out-of-fold predicted probabilities (needed for bootstrap).
-  - [ ] T6.1.5 Metrics: AUROC (primary), balanced accuracy, sensitivity, specificity, F1, PR-AUC; threshold for threshold-based metrics chosen on training data (Youden J), never on test.
-- [ ] **T6.2 Within-cohort (EXP-010)** – for each cohort: repeated (10×) stratified grouped 5-fold; report mean AUROC and participant-bootstrap CI. APAVA/ADFSU small-class folds: check each test fold has ≥ 1 HC; if not, reduce to 3 folds (log it).
-- [ ] **T6.3 LOCO (EXP-011)** – 4 folds; per-fold AUROC + CI; pooled AUROC secondary.
-- [ ] **T6.4 Classical comparator (EXP-012)**
-  - [ ] T6.4.1 Features per participant: relative power (delta 1–4, theta 4–8, alpha 8–13, beta 13–30 Hz; relative to 1–30 Hz) per channel from Welch PSD (2-s Hann, 50% overlap) averaged over the K epochs.
-  - [ ] T6.4.2 Aperiodic exponent per channel: `specparam` fixed mode, 2–30 Hz fit range (avoids the 0.5-Hz filter edge), peak width limits 1–8 Hz, max 6 peaks; drop fits with R² < 0.9 and log them.
-  - [ ] T6.4.3 Same classifier and same splits as T6.2/T6.3; compare AUROC paired per fold.
-- [ ] **T6.5 Nuisance-only baselines (EXP-013)**
-  - [ ] T6.5.1 ds004504: age + sex → AD, logistic regression, same grouped CV.
-  - [ ] T6.5.2 Pooled cohorts: cohort one-hot → AD with participant-grouped CV over the pooled data (not LOCO).
-  - [ ] T6.5.3 Random-weights LaBraM features → AD (negative control from T5.4.4).
+**Done 2026-11-11** (`scripts/06_baseline.py`; results in EXP-010 to EXP-013). Deviations from the original wording: threshold metrics at 0.5 (D-025); search space as D-024 (token added, mean ⊕ SD pooling dropped by D-018); within-cohort uses `StratifiedKFold` over participant rows (one row per person, so it is participant-grouped).
+
+
+- [x] **T6.1 Evaluation framework**
+  - [x] T6.1.1 `eegconf.evaluation.splits`: `StratifiedGroupKFold` (groups = global_id) for inner CV; repeated version for within-cohort; LOCO generator over cohorts.
+  - [x] T6.1.2 Pipeline object: pooling → StandardScaler → classifier, fitted per training fold.
+  - [x] T6.1.3 Nested selection inside each outer training fold: layer (all blocks) × pooling (3) × C (6) by inner-CV AUROC. Record the chosen values per outer fold.
+  - [x] T6.1.4 Save per-participant out-of-fold predicted probabilities (needed for bootstrap).
+  - [x] T6.1.5 Metrics: AUROC (primary), balanced accuracy, sensitivity, specificity, F1, PR-AUC; threshold for threshold-based metrics chosen on training data (Youden J), never on test.
+- [x] **T6.2 Within-cohort (EXP-010)** – for each cohort: repeated (10×) stratified grouped 5-fold; report mean AUROC and participant-bootstrap CI. APAVA/ADFSU small-class folds: check each test fold has ≥ 1 HC; if not, reduce to 3 folds (log it).
+- [x] **T6.3 LOCO (EXP-011)** – 4 folds; per-fold AUROC + CI; pooled AUROC secondary.
+- [x] **T6.4 Classical comparator (EXP-012)**
+  - [x] T6.4.1 Features per participant: relative power (delta 1–4, theta 4–8, alpha 8–13, beta 13–30 Hz; relative to 1–30 Hz) per channel from Welch PSD (2-s Hann, 50% overlap) averaged over the K epochs.
+  - [x] T6.4.2 Aperiodic exponent per channel: `specparam` fixed mode, 2–30 Hz fit range (avoids the 0.5-Hz filter edge), peak width limits 1–8 Hz, max 6 peaks; drop fits with R² < 0.9 and log them.
+  - [x] T6.4.3 Same classifier and same splits as T6.2/T6.3; compare AUROC paired per fold.
+- [x] **T6.5 Nuisance-only baselines (EXP-013)**
+  - [x] T6.5.1 ds004504: age + sex → AD, logistic regression, same grouped CV.
+  - [x] T6.5.2 Pooled cohorts: cohort one-hot → AD with participant-grouped CV over the pooled data (not LOCO).
+  - [x] T6.5.3 Random-weights LaBraM features → AD (negative control from T5.4.4).
 
 ## Phase 7 – O2 Probing nuisance information (M7–M8) → EXP-020 to EXP-022
 

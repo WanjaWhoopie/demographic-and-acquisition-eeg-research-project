@@ -1,0 +1,9 @@
+comparison,held_out,delta_auroc,ci_low,ci_high
+labram - classical,ADFSU,-0.1283,-0.2533,-0.0186
+labram - classical,APAVA,-0.0152,-0.0682,0.0227
+labram - classical,ds004504,0.0029,-0.0565,0.0527
+labram - classical,MEAN over folds,-0.0469,-0.0955,-0.0041
+labram - random,ADFSU,-0.0592,-0.2084,0.0894
+labram - random,APAVA,0.0379,-0.0909,0.1894
+labram - random,ds004504,0.0651,-0.0297,0.1562
+labram - random,MEAN over folds,0.0146,-0.0547,0.0902

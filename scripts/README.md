@@ -11,6 +11,7 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `03_preprocess.py` | harmonised preprocessing | Phase 4 | not yet |
 | `04_extract_embeddings.py --cohort X [--random]` | frozen LaBraM features (GPU) | Phase 5 | yes |
 | `04_sanity.py` | embedding sanity checks | T5.4 | yes |
-| `05_classical_features.py` | band power + aperiodic exponent | Phase 6 | not yet |
-| `06_run_experiment.py --exp EXP-xxx` | probes / classifiers / control / LOCO | Phases 6–9 | not yet |
+| `05_build_features.py` | participant-level LaBraM representations + classical features | T5.3, T6.4 | yes |
+| `06_baseline.py` | within-cohort, LOCO, classical, nuisance-only, random-weights (EXP-010–013) | Phase 6 | yes |
+| `07_probes.py` | age, sex, cohort probes, layer profile, MLP (EXP-020–022) | Phase 7 | yes |
 | `07_stats.py --exp EXP-xxx` | bootstrap CIs, ΔAUROC | Phase 10 | not yet |
