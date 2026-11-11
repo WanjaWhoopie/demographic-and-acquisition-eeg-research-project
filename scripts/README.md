@@ -13,5 +13,5 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `04_sanity.py` | embedding sanity checks | T5.4 | yes |
 | `05_build_features.py` | participant-level LaBraM representations + classical features | T5.3, T6.4 | yes |
 | `06_baseline.py` | within-cohort, LOCO, classical, nuisance-only, random-weights (EXP-010–013) | Phase 6 | yes |
-| `07_probes.py` | age, sex, cohort probes, layer profile, MLP (EXP-020–022) | Phase 7 | yes |
+| `07_probes.py` | age, sex, cohort probes, layer profile, MLP (EXP-020–022); `--only-mlp` re-runs EXP-022 alone | Phase 7 | yes |
 | `07_stats.py --exp EXP-xxx` | bootstrap CIs, ΔAUROC | Phase 10 | not yet |

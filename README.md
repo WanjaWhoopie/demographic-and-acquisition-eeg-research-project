@@ -25,7 +25,8 @@ Analysis plan frozen on 11 November 2026 (git tag `analysis-plan-v1`).
 | 4 Preprocessing | done (EXP-003): cohorts harmonised; cohort still decodable from spectral shape at 0.69 |
 | 5 LaBraM embeddings | done: all 176 participants, pretrained + random-weights control, on the local GPU |
 | 6 Baseline classification | done (EXP-010–013): LaBraM LOCO AUROC 0.85; classical features 0.90; untrained LaBraM 0.84 |
-| 7 Nuisance probes | running |
+| 7 Nuisance probes | done (EXP-020–022): age and sex not decodable in ds004504; cohort decodable from LaBraM at 0.88 balanced accuracy vs 0.77 for classical features and untrained LaBraM |
+| 8 Nuisance control | next |
 
 Cohorts in use: ds004504 (36 AD / 29 HC), ADFSU deduplicated (76 / 12), APAVA (12 / 11) = 176 participants.
 

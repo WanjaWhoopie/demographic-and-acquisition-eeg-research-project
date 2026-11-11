@@ -1,0 +1,4 @@
+representation,balanced_accuracy,balanced_accuracy_sd,macro_f1,chance,most_selected
+labram,0.8786,0.0065,0.8614,0.3333,b11_patch_mean_mean
+random,0.7734,0.0267,0.7423,0.3333,b09_cls_mean
+classical,0.7689,0.0307,0.7588,0.3333,classical

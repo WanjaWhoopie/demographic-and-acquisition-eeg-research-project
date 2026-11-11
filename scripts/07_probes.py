@@ -19,6 +19,7 @@ EXP-022
 
 Outputs: results/tables/T07_*.csv, results/figures/EXP-021_layer_profile.png
 """
+import argparse
 import os
 
 os.environ.setdefault("OPENBLAS_NUM_THREADS", "1")
@@ -106,6 +107,12 @@ def _perm_worker(task, cands, y, seed):
 
 
 def main():
+    # --only-mlp re-runs EXP-022 alone, reading the linear-probe selections from the saved
+    # T07_selected_configs.csv (used after the D-030 fix; EXP-020/021 are not recomputed).
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--only-mlp", action="store_true")
+    args = ap.parse_args()
+
     cfg = yaml.safe_load(open(ROOT / "configs/analysis.yaml"))
     seed, n_rep = cfg["seed"], cfg["cv"]["within_cohort"]["n_repeats"]
     z = np.load(ROOT / "data/features/participant_features.npz", allow_pickle=True)
@@ -115,10 +122,19 @@ def main():
                         ("classical", OrderedDict(classical=z["classical"]))])
     tables = ROOT / "results/tables"
     rows, chosen_all = [], []
-
-    # ---------------- EXP-020: age and sex within ds004504
     ds = np.flatnonzero(meta["cohort"] == "ds004504")
     age, sex, dx = meta["age"].to_numpy(float), meta["sex"].to_numpy(float), meta["diagnosis"].to_numpy(int)
+    yc = meta["cohort"].to_numpy()
+    strata = (meta["cohort"] + "/" + meta["diagnosis"].astype(str)).to_numpy()
+
+    if args.only_mlp:
+        sel = pd.read_csv(tables / "T07_selected_configs.csv")
+        chosen_all = [(r.probe, r.representation, r.data, r.candidate)
+                      for r in sel.itertuples() for _ in range(r.times_chosen)]
+        run_mlp(reps, chosen_all, yc, strata, sex, age, ds, seed, tables)
+        return
+
+    # ---------------- EXP-020: age and sex within ds004504
     subsets = {"ds004504 all (36 AD / 29 HC)": ds, "ds004504 HC only": ds[dx[ds] == 0], "ds004504 AD only": ds[dx[ds] == 1]}
     for name, cands in reps.items():
         for label, idx in subsets.items():
@@ -158,8 +174,6 @@ def main():
     pd.DataFrame(perm_rows).round(4).to_csv(tables / "T07_permutation_tests.csv", index=False)
 
     # ---------------- EXP-021: cohort probe on all participants
-    yc = meta["cohort"].to_numpy()
-    strata = (meta["cohort"] + "/" + meta["diagnosis"].astype(str)).to_numpy()
     crow, conf = [], {}
     for name, cands in reps.items():
         P, ch, _ = run_probe("multiclass", cands, yc, strata, 5, seed)
@@ -203,7 +217,16 @@ def main():
     fig.tight_layout()
     fig.savefig(ROOT / "results/figures/EXP-021_layer_profile.png", dpi=150)
 
-    # ---------------- EXP-022: MLP on the most-selected linear configuration
+    pd.DataFrame(chosen_all, columns=["probe", "representation", "data", "candidate"]).groupby(
+        ["probe", "representation", "data", "candidate"]).size().rename("times_chosen").reset_index().to_csv(
+        tables / "T07_selected_configs.csv", index=False)
+    run_mlp(reps, chosen_all, yc, strata, sex, age, ds, seed, tables)
+    print("\ntables -> results/tables/T07_*.csv")
+
+
+def run_mlp(reps, chosen_all, yc, strata, sex, age, ds, seed, tables):
+    """EXP-022: MLP (64 hidden units) on the pretrained-LaBraM configuration that the linear probe
+    selected most often for each nuisance variable, on the same outer splits (5 repeats)."""
     mrows = []
     for probe, task, y, idx, strat in (("cohort", "multiclass", yc, np.arange(len(yc)), strata),
                                        ("sex", "binary", sex.astype(float), ds, None),
@@ -226,10 +249,6 @@ def main():
         mrows.append({"probe": probe, "representation": f"labram {cfg_name}", "model": "MLP(64)", "metric": metric, "value": val})
         print(f"mlp  {probe:6s} {metric} {val:.3f}")
     pd.DataFrame(mrows).round(4).to_csv(tables / "T07_mlp_probes.csv", index=False)
-    pd.DataFrame(chosen_all, columns=["probe", "representation", "data", "candidate"]).groupby(
-        ["probe", "representation", "data", "candidate"]).size().rename("times_chosen").reset_index().to_csv(
-        tables / "T07_selected_configs.csv", index=False)
-    print("\ntables -> results/tables/T07_*.csv")
 
 
 def _fixed_multiclass(X, y, tr, te):

@@ -18,6 +18,7 @@ Tasks
   fixed representation; used to see whether a nonlinear read-out finds more than a linear one.
 """
 import numpy as np
+from sklearn.compose import TransformedTargetRegressor
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.metrics import balanced_accuracy_score, mean_absolute_error, roc_auc_score
@@ -39,9 +40,16 @@ def make_probe(task, h):
 
 
 def make_mlp(task, seed=0):
-    """One hidden layer of 64 units, early stopping on a 20% inner validation split (T7.4)."""
+    """One hidden layer of 64 units, early stopping on a 20% inner validation split (T7.4).
+
+    For regression the target (age in years) is standardised on the training fold and the
+    predictions are mapped back to years. Without this the network starts from outputs near 0 and
+    early stopping halts it far from ages around 70 (first Phase 7 run: MAE 26.5 years; D-030).
+    """
     if task == "regression":
-        head = MLPRegressor(hidden_layer_sizes=(64,), early_stopping=True, max_iter=2000, random_state=seed)
+        head = TransformedTargetRegressor(
+            regressor=MLPRegressor(hidden_layer_sizes=(64,), early_stopping=True, max_iter=2000, random_state=seed),
+            transformer=StandardScaler())
     else:
         head = MLPClassifier(hidden_layer_sizes=(64,), early_stopping=True, max_iter=2000, random_state=seed)
     return make_pipeline(SimpleImputer(strategy="median"), StandardScaler(), head)

@@ -1,0 +1,10 @@
+representation,,pred ADFSU,pred APAVA,pred ds004504
+labram,true ADFSU,379,35,26
+labram,true APAVA,10,94,11
+labram,true ds004504,9,5,311
+random,true ADFSU,307,65,68
+random,true APAVA,9,79,27
+random,true ds004504,11,10,304
+classical,true ADFSU,369,38,33
+classical,true APAVA,19,74,22
+classical,true ds004504,35,22,268

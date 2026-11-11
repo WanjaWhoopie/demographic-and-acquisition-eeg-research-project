@@ -307,18 +307,18 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 ## Phase 7 – O2 Probing nuisance information (M7–M8) → EXP-020 to EXP-022
 
-- [ ] **T7.1 Age probe (ds004504)**
-  - [ ] T7.1.1 Ridge regression Z → age, grouped 5-fold × 10 repeats, alpha by inner CV.
-  - [ ] T7.1.2 Metrics: MAE and R²; baseline = predicting the training mean.
-  - [ ] T7.1.3 Permutation test: 1000 label permutations through the full pipeline.
-  - [ ] T7.1.4 Also run within HC only (separates age information from disease information, because AD and age are correlated).
-- [ ] **T7.2 Sex probe (ds004504)** – logistic regression, AUROC + balanced accuracy, permutation test; also within each diagnostic group (because sex is imbalanced by diagnosis).
-- [ ] **T7.3 Cohort probe (all cohorts)**
-  - [ ] T7.3.1 Multinomial logistic regression Z → cohort, grouped stratified 5-fold (stratify on cohort × diagnosis).
-  - [ ] T7.3.2 Balanced accuracy, macro-F1, confusion matrix; chance = 0.25.
-  - [ ] T7.3.3 Same probe on classical features (T6.4) and on random-weights features (T5.4.4) as references.
-  - [ ] T7.3.4 Probe per layer → layer profile of cohort information (figure).
-- [ ] **T7.4 Nonlinear probes (EXP-022)** – one-hidden-layer MLP (64 units, early stopping on inner validation) for age, sex, cohort; compare with linear.
+- [x] **T7.1 Age probe (ds004504)**
+  - [x] T7.1.1 Ridge regression Z → age, grouped 5-fold × 10 repeats, alpha by inner CV.
+  - [x] T7.1.2 Metrics: MAE and R²; baseline = predicting the training mean.
+  - [x] T7.1.3 Permutation test: 1000 label permutations through the full pipeline (sex: 200, D-029).
+  - [x] T7.1.4 Also run within HC only (separates age information from disease information, because AD and age are correlated).
+- [x] **T7.2 Sex probe (ds004504)** – logistic regression, AUROC + balanced accuracy, permutation test; also within each diagnostic group (because sex is imbalanced by diagnosis).
+- [x] **T7.3 Cohort probe (all cohorts)**
+  - [x] T7.3.1 Multinomial logistic regression Z → cohort, grouped stratified 5-fold (stratify on cohort × diagnosis).
+  - [x] T7.3.2 Balanced accuracy, macro-F1, confusion matrix; chance = 1/3 (three cohorts).
+  - [x] T7.3.3 Same probe on classical features (T6.4) and on random-weights features (T5.4.4) as references.
+  - [x] T7.3.4 Probe per layer → layer profile of cohort information (figure).
+- [x] **T7.4 Nonlinear probes (EXP-022)** – one-hidden-layer MLP (64 units, early stopping on inner validation) for age, sex, cohort; compare with linear.
 - [ ] **T7.5 (optional) Variance decomposition** – share of embedding variance explained by cohort, diagnosis, participant (following Lin2026identitytrap); compare with a random-Gaussian null.
 
 ## Phase 8 – O3 Nuisance control (M7–M9) → EXP-030 to EXP-032

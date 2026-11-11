@@ -1,0 +1,3 @@
+probe,statistic,observed_single_split,null_mean,null_95pct,n_permutations,p_value
+age,-MAE,-5.884,-6.2343,-5.6008,1000,0.2068
+sex,AUROC,0.5714,0.4997,0.6225,200,0.2139

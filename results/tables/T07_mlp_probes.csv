@@ -1,0 +1,4 @@
+probe,representation,model,metric,value
+cohort,labram b11_patch_mean_mean,MLP(64),balanced_accuracy,0.6396
+sex,labram b12_patch_mean_mean,MLP(64),auroc,0.5625
+age,labram b01_cls_median,MLP(64),mae,6.5449

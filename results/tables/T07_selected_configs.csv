@@ -1,0 +1,225 @@
+probe,representation,data,candidate,times_chosen
+age,classical,ds004504 HC only,classical,50
+age,classical,ds004504 all (36 AD / 29 HC),classical,50
+age,labram,ds004504 HC only,b01_cls_mean,1
+age,labram,ds004504 HC only,b01_cls_median,4
+age,labram,ds004504 HC only,b01_patch_mean_mean,2
+age,labram,ds004504 HC only,b01_patch_mean_median,12
+age,labram,ds004504 HC only,b02_cls_mean,2
+age,labram,ds004504 HC only,b02_patch_mean_median,2
+age,labram,ds004504 HC only,b06_cls_mean,1
+age,labram,ds004504 HC only,b06_cls_median,1
+age,labram,ds004504 HC only,b06_patch_mean_median,1
+age,labram,ds004504 HC only,b07_patch_mean_median,1
+age,labram,ds004504 HC only,b08_cls_mean,1
+age,labram,ds004504 HC only,b08_cls_median,1
+age,labram,ds004504 HC only,b09_patch_mean_median,2
+age,labram,ds004504 HC only,b10_cls_median,3
+age,labram,ds004504 HC only,b11_cls_mean,1
+age,labram,ds004504 HC only,b11_cls_median,4
+age,labram,ds004504 HC only,b12_cls_mean,2
+age,labram,ds004504 HC only,b12_cls_median,4
+age,labram,ds004504 HC only,b12_patch_mean_mean,2
+age,labram,ds004504 HC only,b12_patch_mean_median,3
+age,labram,ds004504 all (36 AD / 29 HC),b01_cls_mean,2
+age,labram,ds004504 all (36 AD / 29 HC),b01_cls_median,7
+age,labram,ds004504 all (36 AD / 29 HC),b01_patch_mean_mean,1
+age,labram,ds004504 all (36 AD / 29 HC),b02_cls_mean,4
+age,labram,ds004504 all (36 AD / 29 HC),b02_cls_median,4
+age,labram,ds004504 all (36 AD / 29 HC),b03_cls_median,1
+age,labram,ds004504 all (36 AD / 29 HC),b04_cls_mean,1
+age,labram,ds004504 all (36 AD / 29 HC),b04_cls_median,3
+age,labram,ds004504 all (36 AD / 29 HC),b05_cls_median,1
+age,labram,ds004504 all (36 AD / 29 HC),b08_cls_median,2
+age,labram,ds004504 all (36 AD / 29 HC),b09_cls_mean,3
+age,labram,ds004504 all (36 AD / 29 HC),b09_cls_median,3
+age,labram,ds004504 all (36 AD / 29 HC),b11_cls_mean,1
+age,labram,ds004504 all (36 AD / 29 HC),b11_cls_median,6
+age,labram,ds004504 all (36 AD / 29 HC),b12_cls_median,4
+age,labram,ds004504 all (36 AD / 29 HC),b12_patch_mean_mean,2
+age,labram,ds004504 all (36 AD / 29 HC),b12_patch_mean_median,5
+age,random,ds004504 HC only,b01_cls_mean,3
+age,random,ds004504 HC only,b01_cls_median,3
+age,random,ds004504 HC only,b01_patch_mean_mean,1
+age,random,ds004504 HC only,b01_patch_mean_median,4
+age,random,ds004504 HC only,b02_cls_median,6
+age,random,ds004504 HC only,b02_patch_mean_mean,1
+age,random,ds004504 HC only,b03_cls_median,1
+age,random,ds004504 HC only,b03_patch_mean_median,9
+age,random,ds004504 HC only,b04_patch_mean_mean,1
+age,random,ds004504 HC only,b04_patch_mean_median,1
+age,random,ds004504 HC only,b05_cls_mean,2
+age,random,ds004504 HC only,b05_cls_median,1
+age,random,ds004504 HC only,b05_patch_mean_mean,2
+age,random,ds004504 HC only,b06_patch_mean_median,1
+age,random,ds004504 HC only,b07_patch_mean_median,1
+age,random,ds004504 HC only,b08_cls_mean,1
+age,random,ds004504 HC only,b08_patch_mean_median,1
+age,random,ds004504 HC only,b09_cls_median,2
+age,random,ds004504 HC only,b09_patch_mean_median,2
+age,random,ds004504 HC only,b10_patch_mean_mean,1
+age,random,ds004504 HC only,b11_cls_mean,1
+age,random,ds004504 HC only,b11_cls_median,2
+age,random,ds004504 HC only,b11_patch_mean_median,2
+age,random,ds004504 HC only,b12_cls_mean,1
+age,random,ds004504 all (36 AD / 29 HC),b01_cls_mean,2
+age,random,ds004504 all (36 AD / 29 HC),b01_patch_mean_median,10
+age,random,ds004504 all (36 AD / 29 HC),b02_cls_mean,6
+age,random,ds004504 all (36 AD / 29 HC),b02_cls_median,1
+age,random,ds004504 all (36 AD / 29 HC),b03_cls_mean,1
+age,random,ds004504 all (36 AD / 29 HC),b03_cls_median,6
+age,random,ds004504 all (36 AD / 29 HC),b04_cls_median,1
+age,random,ds004504 all (36 AD / 29 HC),b05_cls_median,1
+age,random,ds004504 all (36 AD / 29 HC),b07_cls_median,1
+age,random,ds004504 all (36 AD / 29 HC),b07_patch_mean_median,1
+age,random,ds004504 all (36 AD / 29 HC),b08_cls_median,1
+age,random,ds004504 all (36 AD / 29 HC),b08_patch_mean_median,1
+age,random,ds004504 all (36 AD / 29 HC),b09_cls_median,13
+age,random,ds004504 all (36 AD / 29 HC),b10_patch_mean_median,2
+age,random,ds004504 all (36 AD / 29 HC),b11_cls_median,2
+age,random,ds004504 all (36 AD / 29 HC),b12_patch_mean_median,1
+cohort,classical,all,classical,25
+cohort,labram,all,b05_patch_mean_mean,1
+cohort,labram,all,b08_patch_mean_mean,5
+cohort,labram,all,b08_patch_mean_median,3
+cohort,labram,all,b10_patch_mean_mean,1
+cohort,labram,all,b10_patch_mean_median,2
+cohort,labram,all,b11_patch_mean_mean,11
+cohort,labram,all,b11_patch_mean_median,2
+cohort,random,all,b01_cls_median,1
+cohort,random,all,b01_patch_mean_median,2
+cohort,random,all,b02_cls_median,2
+cohort,random,all,b02_patch_mean_median,1
+cohort,random,all,b03_cls_mean,3
+cohort,random,all,b03_cls_median,2
+cohort,random,all,b05_cls_mean,1
+cohort,random,all,b05_patch_mean_median,1
+cohort,random,all,b06_cls_mean,1
+cohort,random,all,b07_cls_mean,1
+cohort,random,all,b09_cls_mean,4
+cohort,random,all,b10_cls_mean,1
+cohort,random,all,b10_patch_mean_median,1
+cohort,random,all,b11_patch_mean_median,1
+cohort,random,all,b12_cls_mean,1
+cohort,random,all,b12_patch_mean_median,2
+sex,classical,ds004504 AD only,classical,50
+sex,classical,ds004504 HC only,classical,50
+sex,classical,ds004504 all (36 AD / 29 HC),classical,50
+sex,labram,ds004504 AD only,b01_cls_mean,4
+sex,labram,ds004504 AD only,b01_cls_median,1
+sex,labram,ds004504 AD only,b01_patch_mean_mean,3
+sex,labram,ds004504 AD only,b02_patch_mean_mean,2
+sex,labram,ds004504 AD only,b02_patch_mean_median,5
+sex,labram,ds004504 AD only,b03_cls_mean,2
+sex,labram,ds004504 AD only,b03_cls_median,2
+sex,labram,ds004504 AD only,b03_patch_mean_median,1
+sex,labram,ds004504 AD only,b04_cls_median,1
+sex,labram,ds004504 AD only,b05_cls_mean,1
+sex,labram,ds004504 AD only,b06_cls_mean,1
+sex,labram,ds004504 AD only,b07_cls_mean,2
+sex,labram,ds004504 AD only,b07_cls_median,2
+sex,labram,ds004504 AD only,b08_cls_median,1
+sex,labram,ds004504 AD only,b09_cls_mean,1
+sex,labram,ds004504 AD only,b09_cls_median,1
+sex,labram,ds004504 AD only,b09_patch_mean_mean,1
+sex,labram,ds004504 AD only,b10_cls_mean,1
+sex,labram,ds004504 AD only,b10_cls_median,4
+sex,labram,ds004504 AD only,b11_cls_mean,1
+sex,labram,ds004504 AD only,b11_patch_mean_mean,3
+sex,labram,ds004504 AD only,b11_patch_mean_median,2
+sex,labram,ds004504 AD only,b12_cls_mean,1
+sex,labram,ds004504 AD only,b12_cls_median,1
+sex,labram,ds004504 AD only,b12_patch_mean_mean,3
+sex,labram,ds004504 AD only,b12_patch_mean_median,3
+sex,labram,ds004504 HC only,b01_cls_mean,8
+sex,labram,ds004504 HC only,b01_cls_median,1
+sex,labram,ds004504 HC only,b01_patch_mean_mean,2
+sex,labram,ds004504 HC only,b02_cls_mean,2
+sex,labram,ds004504 HC only,b02_cls_median,4
+sex,labram,ds004504 HC only,b02_patch_mean_mean,1
+sex,labram,ds004504 HC only,b03_cls_mean,2
+sex,labram,ds004504 HC only,b03_cls_median,2
+sex,labram,ds004504 HC only,b03_patch_mean_mean,2
+sex,labram,ds004504 HC only,b04_cls_mean,1
+sex,labram,ds004504 HC only,b04_patch_mean_median,1
+sex,labram,ds004504 HC only,b05_cls_median,1
+sex,labram,ds004504 HC only,b06_cls_mean,1
+sex,labram,ds004504 HC only,b06_cls_median,2
+sex,labram,ds004504 HC only,b08_cls_mean,1
+sex,labram,ds004504 HC only,b08_cls_median,2
+sex,labram,ds004504 HC only,b08_patch_mean_mean,2
+sex,labram,ds004504 HC only,b08_patch_mean_median,1
+sex,labram,ds004504 HC only,b09_cls_mean,1
+sex,labram,ds004504 HC only,b09_cls_median,1
+sex,labram,ds004504 HC only,b10_cls_mean,1
+sex,labram,ds004504 HC only,b10_cls_median,1
+sex,labram,ds004504 HC only,b11_cls_mean,2
+sex,labram,ds004504 HC only,b11_patch_mean_mean,4
+sex,labram,ds004504 HC only,b12_cls_mean,1
+sex,labram,ds004504 HC only,b12_patch_mean_mean,1
+sex,labram,ds004504 HC only,b12_patch_mean_median,2
+sex,labram,ds004504 all (36 AD / 29 HC),b02_cls_mean,2
+sex,labram,ds004504 all (36 AD / 29 HC),b02_cls_median,2
+sex,labram,ds004504 all (36 AD / 29 HC),b02_patch_mean_mean,1
+sex,labram,ds004504 all (36 AD / 29 HC),b03_cls_mean,4
+sex,labram,ds004504 all (36 AD / 29 HC),b03_patch_mean_mean,1
+sex,labram,ds004504 all (36 AD / 29 HC),b03_patch_mean_median,1
+sex,labram,ds004504 all (36 AD / 29 HC),b04_patch_mean_median,1
+sex,labram,ds004504 all (36 AD / 29 HC),b05_patch_mean_mean,1
+sex,labram,ds004504 all (36 AD / 29 HC),b06_patch_mean_mean,1
+sex,labram,ds004504 all (36 AD / 29 HC),b08_cls_median,1
+sex,labram,ds004504 all (36 AD / 29 HC),b11_cls_median,1
+sex,labram,ds004504 all (36 AD / 29 HC),b11_patch_mean_mean,7
+sex,labram,ds004504 all (36 AD / 29 HC),b11_patch_mean_median,2
+sex,labram,ds004504 all (36 AD / 29 HC),b12_cls_median,1
+sex,labram,ds004504 all (36 AD / 29 HC),b12_patch_mean_mean,17
+sex,labram,ds004504 all (36 AD / 29 HC),b12_patch_mean_median,7
+sex,random,ds004504 AD only,b01_cls_mean,7
+sex,random,ds004504 AD only,b01_patch_mean_median,2
+sex,random,ds004504 AD only,b02_cls_median,2
+sex,random,ds004504 AD only,b03_patch_mean_median,1
+sex,random,ds004504 AD only,b04_cls_median,2
+sex,random,ds004504 AD only,b06_cls_median,2
+sex,random,ds004504 AD only,b07_cls_mean,2
+sex,random,ds004504 AD only,b07_cls_median,11
+sex,random,ds004504 AD only,b08_cls_median,3
+sex,random,ds004504 AD only,b09_cls_median,2
+sex,random,ds004504 AD only,b09_patch_mean_mean,4
+sex,random,ds004504 AD only,b10_patch_mean_mean,3
+sex,random,ds004504 AD only,b11_patch_mean_mean,2
+sex,random,ds004504 AD only,b12_cls_mean,1
+sex,random,ds004504 AD only,b12_cls_median,1
+sex,random,ds004504 AD only,b12_patch_mean_mean,2
+sex,random,ds004504 AD only,b12_patch_mean_median,3
+sex,random,ds004504 HC only,b01_cls_mean,9
+sex,random,ds004504 HC only,b01_cls_median,19
+sex,random,ds004504 HC only,b03_patch_mean_median,1
+sex,random,ds004504 HC only,b04_cls_mean,1
+sex,random,ds004504 HC only,b04_patch_mean_median,1
+sex,random,ds004504 HC only,b05_cls_mean,2
+sex,random,ds004504 HC only,b05_cls_median,2
+sex,random,ds004504 HC only,b06_cls_mean,2
+sex,random,ds004504 HC only,b06_cls_median,1
+sex,random,ds004504 HC only,b06_patch_mean_median,1
+sex,random,ds004504 HC only,b07_cls_median,2
+sex,random,ds004504 HC only,b08_cls_median,2
+sex,random,ds004504 HC only,b09_cls_median,1
+sex,random,ds004504 HC only,b11_cls_mean,1
+sex,random,ds004504 HC only,b12_cls_mean,1
+sex,random,ds004504 HC only,b12_patch_mean_mean,2
+sex,random,ds004504 HC only,b12_patch_mean_median,2
+sex,random,ds004504 all (36 AD / 29 HC),b01_cls_mean,9
+sex,random,ds004504 all (36 AD / 29 HC),b01_cls_median,9
+sex,random,ds004504 all (36 AD / 29 HC),b02_cls_mean,1
+sex,random,ds004504 all (36 AD / 29 HC),b02_cls_median,1
+sex,random,ds004504 all (36 AD / 29 HC),b03_cls_median,1
+sex,random,ds004504 all (36 AD / 29 HC),b05_cls_mean,1
+sex,random,ds004504 all (36 AD / 29 HC),b05_cls_median,2
+sex,random,ds004504 all (36 AD / 29 HC),b06_cls_median,2
+sex,random,ds004504 all (36 AD / 29 HC),b07_cls_median,5
+sex,random,ds004504 all (36 AD / 29 HC),b08_cls_median,8
+sex,random,ds004504 all (36 AD / 29 HC),b09_cls_mean,1
+sex,random,ds004504 all (36 AD / 29 HC),b09_cls_median,4
+sex,random,ds004504 all (36 AD / 29 HC),b10_cls_median,3
+sex,random,ds004504 all (36 AD / 29 HC),b11_cls_median,2
+sex,random,ds004504 all (36 AD / 29 HC),b12_cls_mean,1

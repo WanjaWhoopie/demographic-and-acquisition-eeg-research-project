@@ -67,3 +67,17 @@ def test_mean_over_folds_averages_fold_aurocs():
 def test_metrics_threshold_metrics():
     m = stats.metrics([1, 1, 0, 0], [0.9, 0.4, 0.6, 0.1])
     assert m["sensitivity"] == 0.5 and m["specificity"] == 0.5 and m["auroc"] == 0.75
+
+
+def test_mlp_age_probe_predicts_on_the_target_scale():
+    # Regression check for D-030: with an unscaled age target the MLP probe returned predictions
+    # far outside the age range. With target standardisation, pure-noise features should give
+    # predictions near the training mean, i.e. an error close to "guess the mean".
+    from eegconf import probing
+    X = RNG.normal(size=(80, 20))
+    age = RNG.normal(70, 8, size=80)
+    m = probing.make_mlp("regression", seed=0).fit(X[:60], age[:60])
+    pred = m.predict(X[60:])
+    baseline = np.abs(age[60:] - age[:60].mean()).mean()
+    assert np.abs(pred - age[60:]).mean() < 2 * baseline
+    assert 40 < pred.mean() < 100
