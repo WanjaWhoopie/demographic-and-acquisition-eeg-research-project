@@ -125,7 +125,7 @@ def main():
     cfg = yaml.safe_load(open(ROOT / "configs/analysis.yaml"))
     seed = cfg["seed"]
     z = np.load(ROOT / "data/features/participant_features.npz", allow_pickle=True)
-    meta = pd.DataFrame({k: z[k] for k in ("global_id", "cohort", "diagnosis")})
+    meta = pd.DataFrame({k: z[k] for k in ("global_id", "cohort", "participant_id", "diagnosis")})
     meta["diagnosis"] = meta["diagnosis"].astype(int)
     Z = z["Z_labram-base"]
     every = np.arange(len(meta))

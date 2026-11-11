@@ -343,16 +343,16 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 ## Phase 9 – O4 Cross-cohort generalisation and sensitivity (M9–M10) → EXP-040 to EXP-042
 
-- [ ] **T9.1 Primary outcome (EXP-040)**
-  - [ ] T9.1.1 Collect per-fold out-of-fold predictions for original Z and cohort-controlled Z\* (variant (i) centring is the primary controlled representation; variant (ii), LEACE, INLP are secondary) – confirm this choice in the decision log at T4.0.
-  - [ ] T9.1.2 Per-fold ΔAUROC with paired bootstrap CI (Phase 10).
-  - [ ] T9.1.3 Mean ΔAUROC across the three folds with CI.
-  - [ ] T9.1.4 Classify the pattern: A (little change), B (moderate drop, still above nuisance-only baseline), C (large drop) – define numeric thresholds in the decision log before running (e.g. A: CI includes 0; C: controlled AUROC CI includes the nuisance-only baseline).
-- [ ] **T9.2 Sensitivity without ADFSU (EXP-041)** – repeat T9.1 with the 2 remaining cohorts (2 folds: train on ds004504 → test APAVA, and the reverse).
-- [ ] **T9.3 Sensitivity with ADFSU subsampled (EXP-042)** – 100 draws, each subsampling ADFSU AD participants to the number of ADFSU HC (fixed seeds 1–100); rerun T9.1 per draw; report the distribution (median, 2.5–97.5 percentiles) of mean ΔAUROC.
-- [ ] **T9.5 Sensitivity 8-s equal length (EXP-043)** – T9.1 on Z8 (first two clean epochs per participant, D-018).
-- [ ] **T9.6 Sensitivity amplitude-scaled (EXP-044)** – T9.1 on embeddings re-extracted with every recording at the same overall SD (D-019, D-033).
-- [ ] **T9.4 Summary table** `results/tables/T09_primary_and_sensitivity.csv`: rows = analysis, columns = per-fold AUROC(Z), AUROC(Z\*), ΔAUROC, CI, mean ΔAUROC.
+- [x] **T9.1 Primary outcome (EXP-040)**
+  - [x] T9.1.1 Collect per-fold out-of-fold predictions for original Z and cohort-controlled Z\* (variant (i) centring is the primary controlled representation; variant (ii), LEACE, INLP are secondary) – confirm this choice in the decision log at T4.0.
+  - [x] T9.1.2 Per-fold ΔAUROC with paired bootstrap CI (Phase 10).
+  - [x] T9.1.3 Mean ΔAUROC across the three folds with CI.
+  - [x] T9.1.4 Classify the pattern: A (little change), B (moderate drop, still above nuisance-only baseline), C (large drop) – define numeric thresholds in the decision log before running (e.g. A: CI includes 0; C: controlled AUROC CI includes the nuisance-only baseline).
+- [x] **T9.2 Sensitivity without ADFSU (EXP-041)** – repeat T9.1 with the 2 remaining cohorts (2 folds: train on ds004504 → test APAVA, and the reverse).
+- [x] **T9.3 Sensitivity with ADFSU subsampled (EXP-042)** – 100 draws, each subsampling ADFSU AD participants to the number of ADFSU HC (fixed seeds 1–100); rerun T9.1 per draw; report the distribution (median, 2.5–97.5 percentiles) of mean ΔAUROC.
+- [x] **T9.5 Sensitivity 8-s equal length (EXP-043)** – T9.1 on Z8 (first two clean epochs per participant, D-018).
+- [x] **T9.6 Sensitivity amplitude-scaled (EXP-044)** – T9.1 on embeddings re-extracted with every recording at the same overall SD (D-019, D-033).
+- [x] **T9.4 Summary table** `results/tables/T09_primary_and_sensitivity.csv`: rows = analysis, columns = per-fold AUROC(Z), AUROC(Z\*), ΔAUROC, CI, mean ΔAUROC.
 
 ## Phase 10 – Statistics (M9–M11)
 
