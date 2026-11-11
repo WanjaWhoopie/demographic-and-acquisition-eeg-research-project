@@ -26,7 +26,8 @@ probes:
   sex: {model: logistic_regression, metrics: [AUROC, balanced_accuracy], cohort: ds004504}
   cohort: {model: multinomial_logistic, metrics: [balanced_accuracy, macro_F1], chance: 0.333}   # 3 cohorts (D-017)
   nonlinear: {model: mlp, hidden: [64], early_stopping: true}
-  permutations: 1000
+  permutations: 1000            # ridge (age) probe
+  permutations_logistic: 200    # logistic (sex) probe; D-029
 
 control:
   demographic: {method: ols_residualisation, covariates: [age, sex], cohort: ds004504}
