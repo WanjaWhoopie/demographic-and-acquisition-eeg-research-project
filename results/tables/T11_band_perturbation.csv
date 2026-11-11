@@ -1,0 +1,33 @@
+band,classifier,held_out,delta_auroc,ci_low,ci_high,mean_dp_AD,mean_dp_AD_ci,mean_dp_HC,mean_dp_HC_ci
+delta,none,ADFSU,0.0428,0.0,0.1009,,,,
+delta,none,APAVA,0.0076,-0.0,0.0455,,,,
+delta,none,ds004504,0.0105,-0.0144,0.0374,,,,
+delta,none,MEAN over folds,0.0203,0.0012,0.0431,-0.0651,"[-0.094, -0.038]",-0.0543,"[-0.072, -0.039]"
+delta,centring_i,ADFSU,0.0406,0.0055,0.0822,,,,
+delta,centring_i,APAVA,0.0076,-0.0,0.0455,,,,
+delta,centring_i,ds004504,0.0239,-0.0038,0.0575,,,,
+delta,centring_i,MEAN over folds,0.024,0.0077,0.0456,-0.1068,"[-0.154, -0.062]",-0.034,"[-0.087, +0.016]"
+theta,none,ADFSU,0.1612,0.0757,0.2637,,,,
+theta,none,APAVA,0.0227,-0.0379,0.1061,,,,
+theta,none,ds004504,0.0144,-0.0239,0.0556,,,,
+theta,none,MEAN over folds,0.0661,0.0255,0.1092,-0.4076,"[-0.482, -0.335]",-0.1027,"[-0.154, -0.063]"
+theta,centring_i,ADFSU,0.1678,0.0844,0.2632,,,,
+theta,centring_i,APAVA,0.0152,-0.0455,0.0835,,,,
+theta,centring_i,ds004504,0.0077,-0.0297,0.045,,,,
+theta,centring_i,MEAN over folds,0.0635,0.0258,0.1044,-0.4325,"[-0.512, -0.351]",-0.1349,"[-0.215, -0.068]"
+alpha,none,ADFSU,-0.0126,-0.0954,0.057,,,,
+alpha,none,APAVA,-0.0076,-0.0606,0.0379,,,,
+alpha,none,ds004504,0.0316,-0.0259,0.0929,,,,
+alpha,none,MEAN over folds,0.0038,-0.0321,0.0369,-0.0029,"[-0.033, +0.030]",-0.0015,"[-0.066, +0.054]"
+alpha,centring_i,ADFSU,0.1129,0.0153,0.2106,,,,
+alpha,centring_i,APAVA,-0.0152,-0.0758,0.0379,,,,
+alpha,centring_i,ds004504,0.0431,-0.0067,0.1006,,,,
+alpha,centring_i,MEAN over folds,0.047,0.0041,0.0871,-0.0372,"[-0.077, +0.001]",0.1336,"[+0.043, +0.234]"
+beta,none,ADFSU,-0.0066,-0.1053,0.0976,,,,
+beta,none,APAVA,-0.0227,-0.1061,0.0455,,,,
+beta,none,ds004504,0.0192,-0.0431,0.0785,,,,
+beta,none,MEAN over folds,-0.0034,-0.05,0.0399,0.2043,"[+0.144, +0.272]",0.2021,"[+0.139, +0.278]"
+beta,centring_i,ADFSU,-0.011,-0.1162,0.113,,,,
+beta,centring_i,APAVA,-0.0227,-0.1061,0.0455,,,,
+beta,centring_i,ds004504,0.0268,-0.0096,0.0699,,,,
+beta,centring_i,MEAN over folds,-0.0023,-0.049,0.044,0.1412,"[+0.091, +0.199]",0.451,"[+0.333, +0.560]"

@@ -8,3 +8,30 @@
 - **Expected (T11.5):** score correlates positively with theta and the theta/alpha ratio, and negatively with alpha and peak alpha frequency. No directional prior for the aperiodic exponent.
 - **Reading:** correlations in the expected direction across cohorts support the view that the score tracks EEG slowing. Correlations of the same size as the marker–diagnosis correlation could arise just because both relate to diagnosis, so this shows plausibility, not mechanism (T11.6).
 - **Script:** `scripts/11_interpret.py --part markers` → `results/tables/T11_markers.csv`
+
+## Run record
+- **Date:** 2026-11-12 · same run as EXP-050 (`python scripts/11_interpret.py`)
+- **Output:** `results/tables/T11_markers.csv`
+
+## Results
+Spearman ρ between the cross-cohort AD score (centred classifier) and each marker, within each held-out cohort. For comparison, each marker's own correlation with diagnosis is given in brackets. n = 88 ADFSU, 23 APAVA, 65 ds004504.
+
+| Marker | ADFSU | APAVA | ds004504 |
+|---|---|---|---|
+| Theta/alpha ratio, posterior | 0.51 (0.47) | 0.89 (0.67) | 0.91 (0.66) |
+| Theta/alpha ratio, global | 0.52 (0.48) | 0.91 (0.71) | 0.90 (0.65) |
+| Relative theta, posterior | 0.64 (0.56) | 0.84 (0.68) | 0.86 (0.62) |
+| Relative theta, global | 0.59 (0.57) | 0.84 (0.67) | 0.84 (0.61) |
+| Relative alpha, posterior | −0.42 (−0.34) | −0.64 (−0.46) | −0.79 (−0.57) |
+| Relative alpha, global | −0.45 (−0.35) | −0.62 (−0.45) | −0.78 (−0.55) |
+| Peak alpha frequency, posterior | −0.60 (−0.47) | −0.78 (−0.60) | −0.58 (−0.37) |
+| Peak alpha frequency, global | −0.56 (−0.46) | −0.73 (−0.62) | −0.62 (−0.42) |
+| Aperiodic exponent, global | 0.37 (0.21) | 0.76 (0.52) | 0.75 (0.53) |
+
+All 27 correlations are significant after Benjamini–Hochberg FDR (largest adjusted p = 0.002). The original classifier gives the same picture (27 of 27; ρ up to 0.89).
+
+## Interpretation (exploratory)
+- **Every marker moves in the expected direction in every cohort.** A higher AD score goes with more theta, a higher theta/alpha ratio, less alpha and a slower alpha peak. A higher score also goes with a steeper aperiodic exponent, for which there was no prior.
+- **The score tracks these markers more closely than diagnosis does.** In ds004504 the theta/alpha ratio correlates 0.90 with the score but only 0.65 with diagnosis. So the classifier is not just inheriting the marker–diagnosis link: its output behaves like a continuous EEG-slowing index.
+- This is plausibility, not mechanism (T11.6). Together with EXP-050 and EXP-012, it says that what LaBraM transfers across cohorts is largely the classical slowing signature of AD, read through a frozen pretrained network.
+- Correlations are weakest in ADFSU (8 s per person, pre-cleaned, 128 Hz), where markers estimated from 8 s of EEG are noisier.

@@ -29,7 +29,8 @@ Analysis plan frozen on 11 November 2026 (git tag `analysis-plan-v1`).
 | 8 Nuisance control | done (EXP-030–032): removing cohort information did not hurt cross-cohort AD transfer; centring raised mean LOCO AUROC 0.853 → 0.887 (Δ −0.034 [−0.069, −0.001]); LEACE 0.883, INLP 0.876 |
 | 9 Primary outcome and sensitivity | done (EXP-040–044): removing cohort information never reduced cross-cohort AD performance; the small improvement in the primary analysis did not hold with 8 s per participant or equalised amplitude (pattern A in both) |
 | 10 Statistics | done: primary ΔAUROC −0.034, p = 0.046; no secondary comparison significant after Holm; DeLong agrees with the bootstrap CIs; every headline number reproduced from saved predictions |
-| 11 Neurophysiological interpretation (exploratory) | next |
+| 11 Neurophysiological interpretation (exploratory) | done (EXP-050, 052, 053): the cross-cohort AD score is mainly a theta-slowing signal and tracks classical markers closely; the first epochs of a recording are the most informative; channel occlusion deferred |
+| 12 Writing and reporting | next |
 
 Cohorts in use: ds004504 (36 AD / 29 HC), ADFSU deduplicated (76 / 12), APAVA (12 / 11) = 176 participants.
 
