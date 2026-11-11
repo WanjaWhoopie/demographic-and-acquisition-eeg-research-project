@@ -1,0 +1,17 @@
+control,held_out,delta_auroc,ci_low,ci_high
+centring_i,ADFSU,-0.045,-0.136,0.0389
+centring_i,APAVA,0.0,-0.0,0.0
+centring_i,ds004504,-0.0565,-0.1131,-0.0124
+centring_i,MEAN over folds,-0.0338,-0.0694,-0.0007
+centring_ii,ADFSU,-0.045,-0.136,0.0389
+centring_ii,APAVA,0.0,-0.0,0.0
+centring_ii,ds004504,-0.0565,-0.1131,-0.0124
+centring_ii,MEAN over folds,-0.0338,-0.0694,-0.0007
+leace,ADFSU,-0.0307,-0.131,0.0614
+leace,APAVA,-0.0606,-0.1667,0.0076
+leace,ds004504,0.001,-0.0757,0.0728
+leace,MEAN over folds,-0.0301,-0.0809,0.0156
+inlp,ADFSU,-0.0603,-0.1656,0.0367
+inlp,APAVA,-0.0227,-0.0909,0.0076
+inlp,ds004504,0.0134,-0.0575,0.0852
+inlp,MEAN over folds,-0.0232,-0.0709,0.02

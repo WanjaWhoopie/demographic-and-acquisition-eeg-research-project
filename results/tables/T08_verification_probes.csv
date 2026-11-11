@@ -1,0 +1,45 @@
+check,control,fold,config,probe,metric,value,sd,chance
+"cohort, within LOCO training set",none,held out ADFSU,b01_patch_mean_mean,linear,balanced_accuracy,0.8393,0.0204,0.5
+"cohort, within LOCO training set",none,held out ADFSU,b01_patch_mean_mean,MLP(64),balanced_accuracy,0.5552,0.0445,0.5
+"cohort, within LOCO training set",none,held out APAVA,b01_patch_mean_median,linear,balanced_accuracy,0.893,0.0107,0.5
+"cohort, within LOCO training set",none,held out APAVA,b01_patch_mean_median,MLP(64),balanced_accuracy,0.726,0.0493,0.5
+"cohort, within LOCO training set",none,held out ds004504,b01_patch_mean_median,linear,balanced_accuracy,0.7773,0.0233,0.5
+"cohort, within LOCO training set",none,held out ds004504,b01_patch_mean_median,MLP(64),balanced_accuracy,0.5832,0.025,0.5
+"cohort, within LOCO training set",centring_i,held out ADFSU,b11_cls_mean,linear,balanced_accuracy,0.5664,0.0488,0.5
+"cohort, within LOCO training set",centring_i,held out ADFSU,b11_cls_mean,MLP(64),balanced_accuracy,0.5437,0.0295,0.5
+"cohort, within LOCO training set",centring_i,held out APAVA,b01_patch_mean_median,linear,balanced_accuracy,0.8762,0.0086,0.5
+"cohort, within LOCO training set",centring_i,held out APAVA,b01_patch_mean_median,MLP(64),balanced_accuracy,0.6519,0.0439,0.5
+"cohort, within LOCO training set",centring_i,held out ds004504,b12_patch_mean_median,linear,balanced_accuracy,0.8293,0.0236,0.5
+"cohort, within LOCO training set",centring_i,held out ds004504,b12_patch_mean_median,MLP(64),balanced_accuracy,0.587,0.071,0.5
+"cohort, within LOCO training set",leace,held out ADFSU,b11_cls_mean,linear,balanced_accuracy,0.5,0.0,0.5
+"cohort, within LOCO training set",leace,held out ADFSU,b11_cls_mean,MLP(64),balanced_accuracy,0.5361,0.0358,0.5
+"cohort, within LOCO training set",leace,held out APAVA,b12_cls_mean,linear,balanced_accuracy,0.5,0.0,0.5
+"cohort, within LOCO training set",leace,held out APAVA,b12_cls_mean,MLP(64),balanced_accuracy,0.5684,0.0469,0.5
+"cohort, within LOCO training set",leace,held out ds004504,b12_patch_mean_median,linear,balanced_accuracy,0.5,0.0,0.5
+"cohort, within LOCO training set",leace,held out ds004504,b12_patch_mean_median,MLP(64),balanced_accuracy,0.5287,0.0395,0.5
+"cohort, within LOCO training set",inlp,held out ADFSU,b11_cls_mean,linear,balanced_accuracy,0.5824,0.0195,0.5
+"cohort, within LOCO training set",inlp,held out ADFSU,b11_cls_mean,MLP(64),balanced_accuracy,0.5645,0.0193,0.5
+"cohort, within LOCO training set",inlp,held out APAVA,b01_patch_mean_mean,linear,balanced_accuracy,0.5727,0.0177,0.5
+"cohort, within LOCO training set",inlp,held out APAVA,b01_patch_mean_mean,MLP(64),balanced_accuracy,0.5401,0.0334,0.5
+"cohort, within LOCO training set",inlp,held out ds004504,b02_cls_median,linear,balanced_accuracy,0.6082,0.023,0.5
+"cohort, within LOCO training set",inlp,held out ds004504,b02_cls_median,MLP(64),balanced_accuracy,0.5465,0.0412,0.5
+"cohort, all 176",none,5-fold,b11_patch_mean_mean,linear,balanced_accuracy,0.8745,0.0095,0.3333
+"cohort, all 176",none,5-fold,b11_patch_mean_mean,MLP(64),balanced_accuracy,0.6396,0.048,0.3333
+"cohort, all 176",centring_i,5-fold,b11_patch_mean_mean,linear,balanced_accuracy,0.6524,0.0169,0.3333
+"cohort, all 176",centring_i,5-fold,b11_patch_mean_mean,MLP(64),balanced_accuracy,0.5109,0.0449,0.3333
+"cohort, all 176",leace,5-fold,b11_patch_mean_mean,linear,balanced_accuracy,0.3333,0.0,0.3333
+"cohort, all 176",leace,5-fold,b11_patch_mean_mean,MLP(64),balanced_accuracy,0.4078,0.0332,0.3333
+"cohort, all 176",inlp,5-fold,b11_patch_mean_mean,linear,balanced_accuracy,0.4331,0.0307,0.3333
+"cohort, all 176",inlp,5-fold,b11_patch_mean_mean,MLP(64),balanced_accuracy,0.391,0.081,0.3333
+"age, ds004504",none,5-fold,b01_cls_mean,linear,mae,6.2924,0.3029,
+"sex, ds004504",none,5-fold,b01_cls_mean,linear,auroc,0.463,0.0427,0.5
+"age, ds004504",none,5-fold,b01_cls_mean,MLP(64),mae,6.4245,0.2555,
+"sex, ds004504",none,5-fold,b01_cls_mean,MLP(64),auroc,0.481,0.054,0.5
+"age, ds004504",resid_all,5-fold,b02_cls_mean,linear,mae,5.7075,0.0608,
+"sex, ds004504",resid_all,5-fold,b02_cls_mean,linear,auroc,0.5,0.0,0.5
+"age, ds004504",resid_all,5-fold,b02_cls_mean,MLP(64),mae,5.9223,0.7454,
+"sex, ds004504",resid_all,5-fold,b02_cls_mean,MLP(64),auroc,0.4903,0.0428,0.5
+"age, ds004504",resid_hc,5-fold,b02_cls_mean,linear,mae,3.4112,0.4075,
+"sex, ds004504",resid_hc,5-fold,b02_cls_mean,linear,auroc,0.9025,0.0121,0.5
+"age, ds004504",resid_hc,5-fold,b02_cls_mean,MLP(64),mae,5.3453,0.6994,
+"sex, ds004504",resid_hc,5-fold,b02_cls_mean,MLP(64),auroc,0.6114,0.0382,0.5

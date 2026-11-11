@@ -1,0 +1,4 @@
+control,auroc_mean_over_repeats,auroc_sd_over_repeats,auroc_avg_proba,ci_low,ci_high,most_selected,delta_auroc,delta_ci_low,delta_ci_high,delta_mean_over_repeats,delta_sd_over_repeats
+none,0.8211,0.0302,0.8659,0.7701,0.9416,b01_cls_mean,,,,,
+resid_all,0.7755,0.0188,0.8238,0.7126,0.9186,b02_cls_mean,0.0421,-0.0259,0.1178,0.0456,0.0337
+resid_hc,0.8111,0.0201,0.8697,0.7739,0.9464,b02_cls_mean,-0.0038,-0.0421,0.0345,0.01,0.0202

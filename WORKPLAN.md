@@ -323,22 +323,22 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 ## Phase 8 – O3 Nuisance control (M7–M9) → EXP-030 to EXP-032
 
-- [ ] **T8.1 Demographic control within ds004504 (EXP-030)**
-  - [ ] T8.1.1 Inside each training fold: OLS per embedding dimension Z_d ~ age + sex; store coefficients.
-  - [ ] T8.1.2 Apply to training and test participants using their own age/sex → Z\*demo.
-  - [ ] T8.1.3 Re-run the AD classifier on Z\*demo with identical splits; paired ΔAUROC.
-  - [ ] T8.1.4 Sensitivity: fit the residualiser on training HC only (normative approach, avoids removing disease-correlated variance through age).
-  - [ ] T8.1.5 Verify: re-run age and sex probes on Z\*demo (linear and MLP).
-- [ ] **T8.2 Cohort centring in LOCO (EXP-031)**
-  - [ ] T8.2.1 For each training cohort c: μ_c = ½(mean of AD participants + mean of HC participants) using training labels; subtract μ_c from that cohort's participants.
-  - [ ] T8.2.2 Held-out cohort, variant (i): subtract the pooled training mean (mean of the μ_c) – no test data used.
-  - [ ] T8.2.3 Held-out cohort, variant (ii): subtract the unweighted mean of the held-out cohort's own embeddings (no labels) – transductive, reported as such.
-  - [ ] T8.2.4 Train the AD classifier on centred training data; evaluate on each variant; paired ΔAUROC against the original representation, per fold.
-- [ ] **T8.3 Linear erasure (EXP-032)**
-  - [ ] T8.3.1 LEACE (`concept_erasure.LeaceEraser`) fitted on training participants with cohort one-hot as the concept; apply to train and test.
-  - [ ] T8.3.2 INLP: 20 iterations of linear SVM/logistic cohort classifier + nullspace projection on training data; apply the final projection to test.
-  - [ ] T8.3.3 AD classifier on each; paired ΔAUROC per fold.
-- [ ] **T8.4 Verification of removal** – on training folds (inner CV), re-run linear and MLP cohort probes on every controlled representation; report residual balanced accuracy vs chance. Linear probe should be ≈ chance after LEACE by construction; the MLP result is the informative one.
+- [x] **T8.1 Demographic control within ds004504 (EXP-030)**
+  - [x] T8.1.1 Inside each training fold: OLS per embedding dimension Z_d ~ age + sex; store coefficients.
+  - [x] T8.1.2 Apply to training and test participants using their own age/sex → Z\*demo.
+  - [x] T8.1.3 Re-run the AD classifier on Z\*demo with identical splits; paired ΔAUROC.
+  - [x] T8.1.4 Sensitivity: fit the residualiser on training HC only (normative approach, avoids removing disease-correlated variance through age).
+  - [x] T8.1.5 Verify: re-run age and sex probes on Z\*demo (linear and MLP).
+- [x] **T8.2 Cohort centring in LOCO (EXP-031)**
+  - [x] T8.2.1 For each training cohort c: μ_c = ½(mean of AD participants + mean of HC participants) using training labels; subtract μ_c from that cohort's participants.
+  - [x] T8.2.2 Held-out cohort, variant (i): subtract the pooled training mean (mean of the μ_c) – no test data used.
+  - [x] T8.2.3 Held-out cohort, variant (ii): subtract the unweighted mean of the held-out cohort's own embeddings (no labels) – transductive, reported as such.
+  - [x] T8.2.4 Train the AD classifier on centred training data; evaluate on each variant; paired ΔAUROC against the original representation, per fold.
+- [x] **T8.3 Linear erasure (EXP-032)**
+  - [x] T8.3.1 LEACE (`concept_erasure.LeaceEraser`) fitted on training participants with cohort one-hot as the concept; apply to train and test.
+  - [x] T8.3.2 INLP: 20 iterations of linear SVM/logistic cohort classifier + nullspace projection on training data; apply the final projection to test.
+  - [x] T8.3.3 AD classifier on each; paired ΔAUROC per fold.
+- [x] **T8.4 Verification of removal** – on training folds (inner CV), re-run linear and MLP cohort probes on every controlled representation; report residual balanced accuracy vs chance. Linear probe should be ≈ chance after LEACE by construction; the MLP result is the informative one.
 - [x] **T8.5 Unit tests** – T0.4.2/T0.4.3 pass for every control method.
 
 ## Phase 9 – O4 Cross-cohort generalisation and sensitivity (M9–M10) → EXP-040 to EXP-042

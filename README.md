@@ -26,7 +26,8 @@ Analysis plan frozen on 11 November 2026 (git tag `analysis-plan-v1`).
 | 5 LaBraM embeddings | done: all 176 participants, pretrained + random-weights control, on the local GPU |
 | 6 Baseline classification | done (EXP-010–013): LaBraM LOCO AUROC 0.85; classical features 0.90; untrained LaBraM 0.84 |
 | 7 Nuisance probes | done (EXP-020–022): age and sex not decodable in ds004504; cohort decodable from LaBraM at 0.88 balanced accuracy vs 0.77 for classical features and untrained LaBraM |
-| 8 Nuisance control | next |
+| 8 Nuisance control | done (EXP-030–032): removing cohort information did not hurt cross-cohort AD transfer; centring raised mean LOCO AUROC 0.853 → 0.887 (Δ −0.034 [−0.069, −0.001]); LEACE 0.883, INLP 0.876 |
+| 9 Primary outcome and sensitivity | next |
 
 Cohorts in use: ds004504 (36 AD / 29 HC), ADFSU deduplicated (76 / 12), APAVA (12 / 11) = 176 participants.
 
