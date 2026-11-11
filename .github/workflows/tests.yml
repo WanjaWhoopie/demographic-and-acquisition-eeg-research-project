@@ -17,5 +17,5 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
-      - run: pip install numpy scipy pandas scikit-learn pytest concept-erasure -e .
+      - run: pip install numpy scipy pandas scikit-learn pyyaml pytest concept-erasure -e .
       - run: pytest -q
