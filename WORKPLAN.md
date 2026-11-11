@@ -350,7 +350,9 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
   - [ ] T9.1.4 Classify the pattern: A (little change), B (moderate drop, still above nuisance-only baseline), C (large drop) – define numeric thresholds in the decision log before running (e.g. A: CI includes 0; C: controlled AUROC CI includes the nuisance-only baseline).
 - [ ] **T9.2 Sensitivity without ADFSU (EXP-041)** – repeat T9.1 with the 2 remaining cohorts (2 folds: train on ds004504 → test APAVA, and the reverse).
 - [ ] **T9.3 Sensitivity with ADFSU subsampled (EXP-042)** – 100 draws, each subsampling ADFSU AD participants to the number of ADFSU HC (fixed seeds 1–100); rerun T9.1 per draw; report the distribution (median, 2.5–97.5 percentiles) of mean ΔAUROC.
-- [ ] **T9.4 Summary table** `results/tables/T05_primary_and_sensitivity.csv`: rows = analysis, columns = per-fold AUROC(Z), AUROC(Z\*), ΔAUROC, CI, mean ΔAUROC.
+- [ ] **T9.5 Sensitivity 8-s equal length (EXP-043)** – T9.1 on Z8 (first two clean epochs per participant, D-018).
+- [ ] **T9.6 Sensitivity amplitude-scaled (EXP-044)** – T9.1 on embeddings re-extracted with every recording at the same overall SD (D-019, D-033).
+- [ ] **T9.4 Summary table** `results/tables/T09_primary_and_sensitivity.csv`: rows = analysis, columns = per-fold AUROC(Z), AUROC(Z\*), ΔAUROC, CI, mean ΔAUROC.
 
 ## Phase 10 – Statistics (M9–M11)
 

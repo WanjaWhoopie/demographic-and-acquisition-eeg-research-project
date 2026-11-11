@@ -15,4 +15,5 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `06_baseline.py` | within-cohort, LOCO, classical, nuisance-only, random-weights (EXP-010–013) | Phase 6 | yes |
 | `07_probes.py` | age, sex, cohort probes, layer profile, MLP (EXP-020–022); `--only-mlp` re-runs EXP-022 alone | Phase 7 | yes |
 | `08_control.py` | age/sex residualisation, cohort centring (i, ii), LEACE, INLP; ΔAUROC and verification probes (EXP-030–032); `--quick` smoke test | Phase 8 | yes |
+| `09_sensitivity.py` | primary outcome and pattern (EXP-040); sensitivity without ADFSU, ADFSU subsampled, 8 s, amplitude-scaled (EXP-041–044); `--part` runs one | Phase 9 | yes |
 | `07_stats.py --exp EXP-xxx` | bootstrap CIs, ΔAUROC | Phase 10 | not yet |

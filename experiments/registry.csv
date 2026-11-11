@@ -15,6 +15,8 @@ EXP-032,O3,LEACE and INLP erasure,Do linear erasers change LOCO AUROC and remove
 EXP-040,O4,Primary outcome,Mean per-fold delta AUROC original vs cohort-controlled,3 cohorts LOCO,paired participant bootstrap,mean delta AUROC,T9.1,planned,,
 EXP-041,O4,Sensitivity without ADFSU,Is the primary result driven by ADFSU?,"2 cohorts LOCO (ds004504, APAVA)",as EXP-040,mean delta AUROC,T9.2,planned,,
 EXP-042,O4,Sensitivity ADFSU subsampled,Does balancing ADFSU change the result?,3 cohorts; ADFSU AD subsampled x100,as EXP-040,mean delta AUROC distribution,T9.3,planned,,
+EXP-043,O4,Sensitivity 8-s equal length,Does the result hold when every participant contributes 8 s?,3 cohorts LOCO; 175 participants,as EXP-040 on Z8,mean delta AUROC,T9.5,planned,,
+EXP-044,O4,Sensitivity amplitude-scaled,Does the result hold when every recording has the same overall amplitude?,3 cohorts LOCO,as EXP-040 on re-extracted scaled embeddings,mean delta AUROC,T9.6,planned,,
 EXP-050,O5,Band perturbation,Which frequency bands drive the residual AD signal?,all cohorts,band-stop perturbation of input; re-extract,change in AD probability,T11.2,planned,,
 EXP-051,O5,Channel occlusion,Which channels drive the residual AD signal?,all cohorts,channel occlusion,change in AD probability,T11.3,planned,,
 EXP-052,O5,Z* vs classical markers,Does Z* correlate with theta/alpha ratio; PAF; aperiodic exponent?,all cohorts,correlation/ridge mapping with FDR,correlation,T11.4,planned,,
