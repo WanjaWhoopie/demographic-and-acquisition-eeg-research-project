@@ -369,7 +369,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [x] **T11.0 Data amount per participant (EXP-053, exploratory, D-035)** – pool the first k ∈ {1, 2, 4, …, 64, all} clean epochs; LOCO and within-ds004504 AUROC, cohort probe and dispersion against k.
 - [x] T11.1 Compute per participant: relative theta, relative alpha, theta/alpha ratio, peak alpha frequency (maximum of the periodic component in 7–13 Hz from specparam; fallback: centre of gravity 7–13 Hz), aperiodic exponent; posterior (O1, O2, P3, P4, T5, T6) and global averages.
 - [x] T11.2 **Band perturbation (EXP-050)**: band-stop filter one band (delta, theta, alpha, beta) in the preprocessed input, re-extract embeddings, apply the frozen controlled classifier, record change in predicted AD probability per participant.
-- [ ] T11.3 **Channel occlusion (EXP-051)** – deferred (D-036);: replace one channel at a time with zeros (after CAR) or the channel mean, re-extract, record change; topographic map with `mne.viz.plot_topomap`.
+- [ ] T11.3 **Channel occlusion (EXP-051)** – deferred for time (D-036). Planned design: replace one channel at a time with zeros (after CAR) or the channel mean, re-extract, record change; topographic map with `mne.viz.plot_topomap`.
 - [x] T11.4 **Z\* vs classical markers (EXP-052)**: correlate the classifier decision score on Z\* with each marker (Spearman), and ridge-map Z\* → each marker (grouped CV R²); FDR correction.
 - [x] T11.5 Compare directions with the priors from T1.5 (expected: higher theta, lower alpha, higher theta/alpha, lower PAF in AD).
 - [x] T11.6 Write it up as plausibility, not proof of disease specificity.
