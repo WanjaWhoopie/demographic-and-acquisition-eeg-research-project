@@ -356,13 +356,13 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 ## Phase 10 – Statistics (M9–M11)
 
-- [ ] T10.1 Implement stratified participant bootstrap (resample participants with replacement within AD and within HC of the test set, B = 2000), percentile 95% CI.
-- [ ] T10.2 Paired version: same resampled indices for both representations → ΔAUROC distribution.
-- [ ] T10.3 Across-fold mean: for each bootstrap replicate resample every fold independently and average the fold ΔAUROCs.
-- [ ] T10.4 Cross-check per-fold AUROC CIs with DeLong's method; report if they disagree materially.
-- [ ] T10.5 Holm correction across secondary comparisons (list them in the decision log first).
-- [ ] T10.6 Report effect sizes with CIs everywhere; p-values only where prespecified.
-- [ ] T10.7 Reproduce every reported number from saved predictions with `scripts/07_stats.py` on a clean checkout.
+- [x] T10.1 Implement stratified participant bootstrap (resample participants with replacement within AD and within HC of the test set, B = 2000), percentile 95% CI.
+- [x] T10.2 Paired version: same resampled indices for both representations → ΔAUROC distribution.
+- [x] T10.3 Across-fold mean: for each bootstrap replicate resample every fold independently and average the fold ΔAUROCs.
+- [x] T10.4 Cross-check per-fold AUROC CIs with DeLong's method; report if they disagree materially.
+- [x] T10.5 Holm correction across secondary comparisons (list them in the decision log first).
+- [x] T10.6 Report effect sizes with CIs everywhere; p-values only where prespecified.
+- [x] T10.7 Reproduce every reported number from saved predictions with `scripts/10_stats.py` on a clean checkout.
 
 ## Phase 11 – O5 Neurophysiological interpretation (exploratory, M10–M11) → EXP-050 to EXP-052
 

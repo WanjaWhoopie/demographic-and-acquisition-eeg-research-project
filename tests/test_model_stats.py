@@ -81,3 +81,24 @@ def test_mlp_age_probe_predicts_on_the_target_scale():
     baseline = np.abs(age[60:] - age[:60].mean()).mean()
     assert np.abs(pred - age[60:]).mean() < 2 * baseline
     assert 40 < pred.mean() < 100
+
+
+def test_bootstrap_p_matches_interval():
+    assert stats.bootstrap_p(np.full(1999, 0.1)) == pytest.approx(2 / 2000)      # all above 0
+    assert stats.bootstrap_p(np.r_[np.full(1000, -0.1), np.full(999, 0.1)]) == 1.0
+
+
+def test_holm_known_example():
+    # p = 0.01, 0.04, 0.03 (m = 3): sorted 0.01*3 = 0.03, 0.03*2 = 0.06, 0.04*1 -> max(0.06, 0.04) = 0.06
+    np.testing.assert_allclose(stats.holm([0.01, 0.04, 0.03]), [0.03, 0.06, 0.06])
+    adj = stats.holm([0.02, np.nan, 0.5])
+    assert np.isnan(adj[1]) and adj[0] == pytest.approx(0.04) and adj[2] == pytest.approx(0.5)
+
+
+def test_delong_auc_equals_roc_auc_and_ci_is_close_to_bootstrap():
+    y = np.r_[np.ones(40), np.zeros(40)].astype(int)
+    p = y * 0.5 + RNG.uniform(0, 0.8, 80)
+    auc, lo, hi = stats.delong_ci(y, p)
+    b_auc, b_lo, b_hi = stats.bootstrap_auc(y, p, n_boot=2000)
+    assert auc == pytest.approx(b_auc)
+    assert abs(lo - b_lo) < 0.05 and abs(hi - b_hi) < 0.05

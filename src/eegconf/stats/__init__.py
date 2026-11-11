@@ -9,8 +9,12 @@
   people (e.g. original vs controlled representation), giving a CI for the AUROC difference.
 - `mean_over_folds`: for LOCO, every fold is resampled independently in each replicate and the
   per-fold values are averaged (T10.3), giving a CI for the fold-averaged AUROC or ΔAUROC.
+- `bootstrap_p`: two-sided p-value for "difference = 0" from the same bootstrap replicates (D-034).
+- `holm`: Holm step-down adjustment for the secondary family (D-028, T10.5).
+- `delong_ci`: DeLong's analytic AUROC CI, used only to cross-check the bootstrap CIs (T10.4).
 """
 import numpy as np
+from scipy.stats import norm
 from sklearn.metrics import (average_precision_score, balanced_accuracy_score, f1_score,
                              recall_score, roc_auc_score)
 
@@ -44,8 +48,9 @@ def bootstrap_auc(y, p, n_boot=N_BOOT, seed=0):
     return roc_auc_score(y, p), *np.percentile(reps, [2.5, 97.5])
 
 
-def paired_delta(y, p_a, p_b, n_boot=N_BOOT, seed=0):
-    """AUROC(a) − AUROC(b) on the same participants, with a paired stratified bootstrap CI."""
+def paired_delta(y, p_a, p_b, n_boot=N_BOOT, seed=0, return_reps=False):
+    """AUROC(a) − AUROC(b) on the same participants, with a paired stratified bootstrap CI.
+    With return_reps=True the replicate values are returned as a fourth element (for bootstrap_p)."""
     y, p_a, p_b = map(np.asarray, (y, p_a, p_b))
     rng = np.random.default_rng(seed)
     reps = []
@@ -53,10 +58,11 @@ def paired_delta(y, p_a, p_b, n_boot=N_BOOT, seed=0):
         i = _strat_indices(y, rng)
         reps.append(roc_auc_score(y[i], p_a[i]) - roc_auc_score(y[i], p_b[i]))
     d = roc_auc_score(y, p_a) - roc_auc_score(y, p_b)
-    return d, *np.percentile(reps, [2.5, 97.5])
+    out = (d, *np.percentile(reps, [2.5, 97.5]))
+    return (*out, np.array(reps)) if return_reps else out
 
 
-def mean_over_folds(folds, n_boot=N_BOOT, seed=0):
+def mean_over_folds(folds, n_boot=N_BOOT, seed=0, return_reps=False):
     """Fold-averaged AUROC (one prediction set per fold) or ΔAUROC (two) with a bootstrap CI.
 
     `folds`: list of (y, p) or (y, p_a, p_b) tuples, one per held-out cohort.
@@ -72,4 +78,43 @@ def mean_over_folds(folds, n_boot=N_BOOT, seed=0):
     folds = [tuple(np.asarray(v) for v in f) for f in folds]
     est = np.mean([value(*f) for f in folds])
     reps = [np.mean([value(*f, idx=_strat_indices(f[0], rng)) for f in folds]) for _ in range(n_boot)]
-    return est, *np.percentile(reps, [2.5, 97.5])
+    out = (est, *np.percentile(reps, [2.5, 97.5]))
+    return (*out, np.array(reps)) if return_reps else out
+
+
+def bootstrap_p(reps):
+    """Two-sided bootstrap p-value for a difference of 0 (D-034):
+    p = min(1, 2 * min(1 + #(reps <= 0), 1 + #(reps >= 0)) / (1 + B)).
+    Consistent with the percentile CI: p < 0.05 exactly when 0 lies outside the 95% interval
+    (up to the +1 correction, which keeps p above 0)."""
+    reps = np.asarray(reps)
+    b = len(reps)
+    return min(1.0, 2 * min(1 + np.sum(reps <= 0), 1 + np.sum(reps >= 0)) / (1 + b))
+
+
+def holm(pvals):
+    """Holm step-down adjusted p-values (same order as the input); NaN entries are skipped."""
+    p = np.asarray(pvals, dtype=float)
+    ok = np.flatnonzero(~np.isnan(p))
+    order = ok[np.argsort(p[ok])]
+    m = len(order)
+    adj = np.full(len(p), np.nan)
+    running = 0.0
+    for k, i in enumerate(order):
+        running = max(running, min(1.0, (m - k) * p[i]))
+        adj[i] = running
+    return adj
+
+
+def delong_ci(y, p, alpha=0.05):
+    """AUROC with DeLong's variance (DeLong et al., 1988) and a normal-approximation CI."""
+    y, p = np.asarray(y), np.asarray(p, dtype=float)
+    pos, neg = p[y == 1], p[y == 0]
+    # psi(x, y) = 1 if x > y, 0.5 if equal, 0 otherwise
+    psi = (pos[:, None] > neg[None, :]) + 0.5 * (pos[:, None] == neg[None, :])
+    auc = psi.mean()
+    v10, v01 = psi.mean(1), psi.mean(0)                  # structural components per positive / negative
+    var = v10.var(ddof=1) / len(pos) + v01.var(ddof=1) / len(neg)
+    z = norm.ppf(1 - alpha / 2)
+    se = np.sqrt(var)
+    return auc, max(0.0, auc - z * se), min(1.0, auc + z * se)

@@ -36,3 +36,22 @@
 - **The small improvement in the primary analysis is not robust.** It shrinks when ADFSU is balanced, and it disappears when every participant contributes the same 8 s or when amplitudes are equalised. It is best read as centring partly compensating for two cohort differences that those sensitivity analyses remove directly: the amount of data per participant and the signal amplitude.
 - **Data amount itself looks like a cohort effect.** With 8 s per participant the original representation transfers at 0.928, against 0.853 with all available data. This was not a pre-specified comparison, and the participant sets differ by one, so it is descriptive. It fits the risk recorded in D-018: averaging hundreds of epochs (ds004504) against two (ADFSU) makes participant embeddings differ by cohort for reasons unrelated to disease. It is a candidate for a Phase 11 follow-up and a point for the final report.
 - Formal multiplicity correction across the secondary comparisons (D-028) follows in Phase 10.
+
+## Statistics (Phase 10, D-034)
+`python scripts/10_stats.py` works from the saved predictions only. All 10 headline ΔAUROCs and CIs in T08/T09 were reproduced, with a largest difference of 0.00005 (`results/tables/T10_reproduction.csv`).
+
+| Comparison | ΔAUROC [95% CI] | Bootstrap p | Holm-adjusted p (m = 6) |
+|---|---|---|---|
+| **Primary: centring (i)** | **−0.034 [−0.069, −0.001]** | **0.046** | tested alone |
+| 1 Centring (ii) | −0.034 [−0.069, −0.001] | 0.046 | 0.28 |
+| 2 LEACE | −0.030 [−0.081, 0.016] | 0.24 | 0.92 |
+| 3 INLP | −0.023 [−0.071, 0.020] | 0.31 | 0.92 |
+| 4 Age/sex residualisation, ds004504 | +0.042 [−0.026, 0.118] | 0.23 | 0.92 |
+| 5 8 s per participant | +0.005 [−0.001, 0.014] | 0.11 | 0.55 |
+| 6 Amplitude-scaled | +0.009 [−0.037, 0.060] | 0.76 | 0.92 |
+| 7 Without ADFSU | not estimable (D-033) | – | – |
+| 8 ADFSU subsampled | distribution, not tested (EXP-042) | – | – |
+
+- **The primary outcome is just significant (p = 0.046).** No secondary comparison survives Holm correction. The same contrast as the primary, under centring (ii), gives an adjusted p of 0.28, because it is the most significant of six.
+- **DeLong cross-check (T10.4):** across 22 per-fold AUROC CIs, the largest difference between a DeLong and a bootstrap limit is 0.029, below the 0.05 materiality threshold. Bootstrap and analytic intervals agree (`T10_delong.csv`).
+- **Overall statistical reading:** one borderline improvement in the primary analysis, and no evidence in any analysis that removing cohort information reduces cross-cohort AD performance.

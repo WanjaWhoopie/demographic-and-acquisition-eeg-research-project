@@ -1,0 +1,23 @@
+analysis,control,held_out,auroc,boot_ci,delong_ci,max_limit_diff,material
+primary (EXP-040),none,ADFSU,0.8103,"[0.661, 0.938]","[0.664, 0.957]",0.0195,False
+primary (EXP-040),none,APAVA,0.8788,"[0.697, 1.000]","[0.726, 1.000]",0.0286,False
+primary (EXP-040),none,ds004504,0.8697,"[0.774, 0.952]","[0.778, 0.962]",0.0098,False
+primary (EXP-040),centring_i,ADFSU,0.8553,"[0.726, 0.959]","[0.730, 0.980]",0.0209,False
+primary (EXP-040),centring_i,APAVA,0.8788,"[0.697, 1.000]","[0.726, 1.000]",0.0286,False
+primary (EXP-040),centring_i,ds004504,0.9262,"[0.853, 0.980]","[0.862, 0.991]",0.0107,False
+without ADFSU (EXP-041),none,APAVA,0.8636,"[0.682, 1.000]","[0.704, 1.000]",0.0222,False
+without ADFSU (EXP-041),none,ds004504,0.8841,"[0.794, 0.953]","[0.804, 0.964]",0.0112,False
+without ADFSU (EXP-041),centring_i,APAVA,0.8636,"[0.682, 1.000]","[0.704, 1.000]",0.0222,False
+without ADFSU (EXP-041),centring_i,ds004504,0.8841,"[0.794, 0.953]","[0.804, 0.964]",0.0112,False
+8-s equal length (EXP-043),none,ADFSU,0.8613,"[0.744, 0.953]","[0.754, 0.968]",0.0154,False
+8-s equal length (EXP-043),none,APAVA,1.0,"[1.000, 1.000]","[1.000, 1.000]",0.0,False
+8-s equal length (EXP-043),none,ds004504,0.9215,"[0.847, 0.979]","[0.853, 0.989]",0.0105,False
+8-s equal length (EXP-043),centring_i,ADFSU,0.8487,"[0.723, 0.946]","[0.735, 0.962]",0.0158,False
+8-s equal length (EXP-043),centring_i,APAVA,1.0,"[1.000, 1.000]","[1.000, 1.000]",0.0,False
+8-s equal length (EXP-043),centring_i,ds004504,0.9176,"[0.843, 0.978]","[0.849, 0.986]",0.0085,False
+amplitude-scaled (EXP-044),none,ADFSU,0.7418,"[0.556, 0.905]","[0.558, 0.926]",0.0209,False
+amplitude-scaled (EXP-044),none,APAVA,0.9394,"[0.826, 1.000]","[0.848, 1.000]",0.022,False
+amplitude-scaled (EXP-044),none,ds004504,0.9033,"[0.824, 0.966]","[0.830, 0.976]",0.0096,False
+amplitude-scaled (EXP-044),centring_i,ADFSU,0.7873,"[0.602, 0.939]","[0.611, 0.964]",0.0251,False
+amplitude-scaled (EXP-044),centring_i,APAVA,0.9015,"[0.757, 1.000]","[0.769, 1.000]",0.0117,False
+amplitude-scaled (EXP-044),centring_i,ds004504,0.8697,"[0.773, 0.951]","[0.780, 0.959]",0.008,False

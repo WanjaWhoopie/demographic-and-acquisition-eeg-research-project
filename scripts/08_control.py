@@ -1,6 +1,7 @@
 """Phase 8: nuisance control (EXP-030 demographic, EXP-031 cohort centring, EXP-032 LEACE / INLP).
 
     python scripts/08_control.py [--n-jobs 20] [--quick]
+    python scripts/08_control.py --only-demographic   # re-runs EXP-030 alone and saves its predictions
 
 All analyses use pretrained LaBraM with the same nested selection as Phase 6 (D-024); the control
 is refitted inside every inner and outer training fold (D-031) via
@@ -24,8 +25,8 @@ T8.4 verification of removal (descriptive)
   (c) T8.1.5: age (ridge alpha 10) and sex (logistic C = 1) probes in ds004504, plus MLP, with and
       without residualisation, on the configuration the AD classifier chose most often.
 
-Outputs: results/tables/T08_*.csv; participant predictions results/runs/EXP-031/predictions.csv
-(local, not in git; Phase 9 reads them).
+Outputs: results/tables/T08_*.csv; participant predictions results/runs/EXP-031/predictions.csv and
+results/runs/EXP-030/predictions.csv (repeat-averaged; local, not in git; Phases 9-10 read them).
 """
 import os
 
@@ -108,11 +109,57 @@ def probe_cv(X, target, task, rows, strata, ctrl, mlp, n_repeats, seed, n_jobs):
     return [mean_absolute_error(yt, P[r].astype(float)) for r in range(n_repeats)]
 
 
+def demographic(cands, meta, y, cohort, n_rep, seed, n_jobs):
+    """EXP-030: original vs age/sex residualisation (all / HC-only fit) in ds004504, EXP-010 splits.
+    Returns summary rows, per-control (n_rep, n_ds) probability arrays and the chosen configurations."""
+    ds = np.flatnonzero(cohort == "ds004504")
+    yd = y[ds]
+    cov = meta.iloc[ds][["age", "sex"]].to_numpy(float)
+    cands_ds = OrderedDict((k, v[ds]) for k, v in cands.items())
+    split_jobs = kfold(yd, n_rep, seed)                       # identical to the EXP-010 splits
+    djobs = [(ctrl, rep, fold, tr, te) for ctrl in DEMO_CONTROLS for rep, fold, tr, te in split_jobs]
+    dres = Parallel(n_jobs=n_jobs)(
+        delayed(classify)(cands_ds, yd, tr, te, None, seed + 1000 * rep + fold, make_control(ctrl, y=yd, covariates=cov))
+        for ctrl, rep, fold, tr, te in djobs)
+    P = {c: np.full((n_rep, len(ds)), np.nan) for c in DEMO_CONTROLS}
+    demo_chosen = {c: [] for c in DEMO_CONTROLS}
+    for (ctrl, rep, fold, tr, te), (p, cand, C, _) in zip(djobs, dres):
+        P[ctrl][rep, te] = p
+        demo_chosen[ctrl].append(cand)
+    drows = []
+    for ctrl in DEMO_CONTROLS:
+        per_rep = [stats.metrics(yd, P[ctrl][r])["auroc"] for r in range(n_rep)]
+        auc, lo, hi = stats.bootstrap_auc(yd, P[ctrl].mean(0), seed=seed)
+        row = {"control": ctrl, "auroc_mean_over_repeats": np.mean(per_rep), "auroc_sd_over_repeats": np.std(per_rep),
+               "auroc_avg_proba": auc, "ci_low": lo, "ci_high": hi,
+               "most_selected": Counter(demo_chosen[ctrl]).most_common(1)[0][0]}
+        if ctrl != "none":
+            d, dlo, dhi = stats.paired_delta(yd, P["none"].mean(0), P[ctrl].mean(0), seed=seed)
+            per_d = [stats.metrics(yd, P["none"][r])["auroc"] - stats.metrics(yd, P[ctrl][r])["auroc"] for r in range(n_rep)]
+            row.update({"delta_auroc": d, "delta_ci_low": dlo, "delta_ci_high": dhi,
+                        "delta_mean_over_repeats": np.mean(per_d), "delta_sd_over_repeats": np.std(per_d)})
+        drows.append(row)
+        print(f"demo {ctrl:10s} AUROC {np.mean(per_rep):.3f} ± {np.std(per_rep):.3f}"
+              + (f"  ΔAUROC {row['delta_auroc']:+.3f} [{row['delta_ci_low']:+.3f}, {row['delta_ci_high']:+.3f}]" if ctrl != "none" else ""))
+
+    return drows, P, demo_chosen
+
+
+def save_demographic_predictions(meta, P):
+    """Repeat-averaged probabilities per ds004504 participant and control (Phase 10 recomputes ΔAUROC)."""
+    ds = np.flatnonzero(meta["cohort"].to_numpy() == "ds004504")
+    out = pd.concat([meta.iloc[ds][["global_id", "cohort", "diagnosis"]].assign(control=c, proba=P[c].mean(0)) for c in P])
+    d = ROOT / "results/runs/EXP-030"
+    d.mkdir(parents=True, exist_ok=True)
+    out.to_csv(d / "predictions.csv", index=False)
+
+
 # ----------------------------------------------------------------------------- main
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--n-jobs", type=int, default=20)
     ap.add_argument("--quick", action="store_true", help="smoke test: 3 blocks, 2 repeats, nothing written")
+    ap.add_argument("--only-demographic", action="store_true", help="EXP-030 only; checks T08_demographic.csv is reproduced")
     args = ap.parse_args()
     cfg = yaml.safe_load(open(ROOT / "configs/analysis.yaml"))
     seed = cfg["seed"]
@@ -125,6 +172,15 @@ def main():
     cohort = meta["cohort"].to_numpy()
     strata = (meta["cohort"] + "/" + meta["diagnosis"].astype(str)).to_numpy()
     tables = ROOT / "results/tables"
+
+    if args.only_demographic:
+        drows, P, _ = demographic(cands, meta, y, cohort, n_rep, seed, args.n_jobs)
+        old = pd.read_csv(tables / "T08_demographic.csv")
+        new = pd.DataFrame(drows).round(4)
+        assert np.allclose(old["auroc_mean_over_repeats"], new["auroc_mean_over_repeats"]), "EXP-030 not reproduced"
+        save_demographic_predictions(meta, P)
+        print("EXP-030 reproduced; predictions -> results/runs/EXP-030/predictions.csv")
+        return
 
     # ======================================================== EXP-031 / EXP-032: LOCO with controls
     folds = list(splits.leave_one_cohort_out(meta))
@@ -159,35 +215,9 @@ def main():
         print(f"delta {ctrl:12s} mean ΔAUROC (orig − controlled) {d:+.3f} [{lo:+.3f}, {hi:+.3f}]")
 
     # ======================================================== EXP-030: age/sex residualisation, ds004504
+    drows, P, demo_chosen = demographic(cands, meta, y, cohort, n_rep, seed, args.n_jobs)
     ds = np.flatnonzero(cohort == "ds004504")
-    yd = y[ds]
     cov = meta.iloc[ds][["age", "sex"]].to_numpy(float)
-    cands_ds = OrderedDict((k, v[ds]) for k, v in cands.items())
-    split_jobs = kfold(yd, n_rep, seed)                       # identical to the EXP-010 splits
-    djobs = [(ctrl, rep, fold, tr, te) for ctrl in DEMO_CONTROLS for rep, fold, tr, te in split_jobs]
-    dres = Parallel(n_jobs=args.n_jobs)(
-        delayed(classify)(cands_ds, yd, tr, te, None, seed + 1000 * rep + fold, make_control(ctrl, y=yd, covariates=cov))
-        for ctrl, rep, fold, tr, te in djobs)
-    P = {c: np.full((n_rep, len(ds)), np.nan) for c in DEMO_CONTROLS}
-    demo_chosen = {c: [] for c in DEMO_CONTROLS}
-    for (ctrl, rep, fold, tr, te), (p, cand, C, _) in zip(djobs, dres):
-        P[ctrl][rep, te] = p
-        demo_chosen[ctrl].append(cand)
-    drows = []
-    for ctrl in DEMO_CONTROLS:
-        per_rep = [stats.metrics(yd, P[ctrl][r])["auroc"] for r in range(n_rep)]
-        auc, lo, hi = stats.bootstrap_auc(yd, P[ctrl].mean(0), seed=seed)
-        row = {"control": ctrl, "auroc_mean_over_repeats": np.mean(per_rep), "auroc_sd_over_repeats": np.std(per_rep),
-               "auroc_avg_proba": auc, "ci_low": lo, "ci_high": hi,
-               "most_selected": Counter(demo_chosen[ctrl]).most_common(1)[0][0]}
-        if ctrl != "none":
-            d, dlo, dhi = stats.paired_delta(yd, P["none"].mean(0), P[ctrl].mean(0), seed=seed)
-            per_d = [stats.metrics(yd, P["none"][r])["auroc"] - stats.metrics(yd, P[ctrl][r])["auroc"] for r in range(n_rep)]
-            row.update({"delta_auroc": d, "delta_ci_low": dlo, "delta_ci_high": dhi,
-                        "delta_mean_over_repeats": np.mean(per_d), "delta_sd_over_repeats": np.std(per_d)})
-        drows.append(row)
-        print(f"demo {ctrl:10s} AUROC {np.mean(per_rep):.3f} ± {np.std(per_rep):.3f}"
-              + (f"  ΔAUROC {row['delta_auroc']:+.3f} [{row['delta_ci_low']:+.3f}, {row['delta_ci_high']:+.3f}]" if ctrl != "none" else ""))
 
     # ======================================================== T8.4 verification probes
     vrows = []
@@ -240,6 +270,7 @@ def main():
     run_dir = ROOT / "results/runs/EXP-031"
     run_dir.mkdir(parents=True, exist_ok=True)
     pd.concat(preds).to_csv(run_dir / "predictions.csv", index=False)
+    save_demographic_predictions(meta, P)
     print("\ntables -> results/tables/T08_*.csv; predictions -> results/runs/EXP-031/predictions.csv")
 
 
