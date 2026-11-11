@@ -24,6 +24,8 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
+from eegconf.control import fit_apply
+
 C_GRID = (0.001, 0.01, 0.1, 1.0, 10.0, 100.0)
 
 
@@ -48,33 +50,41 @@ def _inner_folds(y, strata, n_splits, seed):
     return list(StratifiedKFold(n_splits=k, shuffle=True, random_state=seed).split(np.zeros(len(y)), strata))
 
 
-def select_and_fit(candidates, y, train_idx, test_idx, strata=None, c_grid=C_GRID, n_splits=5, seed=0):
+def select_and_fit(candidates, y, train_idx, test_idx, strata=None, c_grid=C_GRID, n_splits=5, seed=0,
+                   control=None):
     """Pick the best (candidate, C) by inner-CV AUROC on train_idx, refit on train_idx, predict test_idx.
 
     `candidates`: ordered dict name -> X (n_participants, d) covering ALL participants; only the rows
     in train_idx are ever used for fitting or selection.
     `strata`: per-participant labels to stratify the inner folds on (default: y; LOCO passes cohort×dx).
+    `control`: optional zero-argument factory from eegconf.control.make_control (Phase 8). A fresh
+    control is fitted on the inner-training rows of every inner fold (and on all of train_idx for the
+    final model), so selection evaluates exactly the pipeline that is applied to the test rows (D-031).
+    With control=None the result is identical to the Phase 6 classifier.
     """
     y = np.asarray(y)
+    train_idx, test_idx = np.asarray(train_idx), np.asarray(test_idx)
     ytr = y[train_idx]
     st = (np.asarray(strata) if strata is not None else y)[train_idx]
     folds = _inner_folds(ytr, st, n_splits, seed)
     best, table = None, []
     for name, X in candidates.items():
-        Xtr = X[train_idx]
+        # out-of-fold probabilities for every C; the control is fitted once per inner fold and reused
+        oof = {C: np.empty(len(ytr)) for C in c_grid}
+        for itr, iva in folds:
+            Xa, Xb = fit_apply(control, X, train_idx[itr], [train_idx[iva]])
+            for C in c_grid:
+                oof[C][iva] = make_clf(C).fit(Xa, ytr[itr]).predict_proba(Xb)[:, 1]
         for C in c_grid:
-            oof = np.empty(len(ytr))
-            for itr, iva in folds:
-                m = make_clf(C).fit(Xtr[itr], ytr[itr])
-                oof[iva] = m.predict_proba(Xtr[iva])[:, 1]
-            auc = roc_auc_score(ytr, oof)
+            auc = roc_auc_score(ytr, oof[C])
             table.append((name, C, auc))
             # strict '>' keeps the earlier (preferred) candidate / smaller C on ties
             if best is None or auc > best[2] + 1e-12:
                 best = (name, C, auc)
     name, C, auc = best
-    final = make_clf(C).fit(candidates[name][train_idx], ytr)
-    return Fit(name, C, auc, final.predict_proba(candidates[name][test_idx])[:, 1], table)
+    Xa, Xt = fit_apply(control, candidates[name], train_idx, [test_idx])
+    final = make_clf(C).fit(Xa, ytr)
+    return Fit(name, C, auc, final.predict_proba(Xt)[:, 1], table)
 
 
 def fixed_fit(X, y, train_idx, test_idx, C=1.0):

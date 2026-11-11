@@ -100,10 +100,10 @@ matplotlib, pytest, git.
   - [x] T0.3.1 (D-023: keep committing to `main`.) Branch model. So far everything is committed straight to `main` by one person. **Decide:** keep that while a single person commits, and switch to `feature/*` branches + pull requests once both team members commit (recommended), or use pull requests from now on.
   - [x] T0.3.2 Commit message style agreed and in use (see `CONTRIBUTING.md`): imperative subject, body says why, no author names.
   - [ ] T0.3.3 Create a shared calendar entry for a fortnightly mentor meeting; notes go in `reports/meetings/`.
-- [ ] **T0.4 Leakage unit tests (write early, run forever)**
+- [x] **T0.4 Leakage unit tests (write early, run forever)**
   - [x] T0.4.1 `tests/test_splits.py` + `src/eegconf/evaluation/splits.py`: participant-grouped stratified K-fold and leave-one-cohort-out generators; every split asserts train ∩ test participants = ∅, and `expand_to_epochs` keeps all of a participant's epochs on one side.
-  - [ ] T0.4.2 `tests/test_fit_on_train.py`: written together with the transforms in Phase 8 (residualiser, centring, LEACE), which do not exist yet.
-  - [ ] T0.4.3 `tests/test_centring.py`: as T0.4.2.
+  - [x] T0.4.2 `tests/test_fit_on_train.py`: every control (residualiser, centring i/ii, LEACE, INLP) is checked for test-label leakage and for fitting on test rows, alone and inside the nested classifier.
+  - [x] T0.4.3 `tests/test_centring.py`: prevalence-balanced means, variant (i) pooled training mean, variant (ii) unseen cohort's own mean, seen cohorts in inner folds.
   - [x] T0.4.4 `pytest` runs on every push and pull request (`.github/workflows/tests.yml`) and is in the pre-review checklist in `CONTRIBUTING.md`.
 
 ## Phase 1 – Literature review (M1–M4, then continuous)
@@ -339,7 +339,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
   - [ ] T8.3.2 INLP: 20 iterations of linear SVM/logistic cohort classifier + nullspace projection on training data; apply the final projection to test.
   - [ ] T8.3.3 AD classifier on each; paired ΔAUROC per fold.
 - [ ] **T8.4 Verification of removal** – on training folds (inner CV), re-run linear and MLP cohort probes on every controlled representation; report residual balanced accuracy vs chance. Linear probe should be ≈ chance after LEACE by construction; the MLP result is the informative one.
-- [ ] **T8.5 Unit tests** – T0.4.2/T0.4.3 pass for every control method.
+- [x] **T8.5 Unit tests** – T0.4.2/T0.4.3 pass for every control method.
 
 ## Phase 9 – O4 Cross-cohort generalisation and sensitivity (M9–M10) → EXP-040 to EXP-042
 
@@ -348,7 +348,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
   - [ ] T9.1.2 Per-fold ΔAUROC with paired bootstrap CI (Phase 10).
   - [ ] T9.1.3 Mean ΔAUROC across the three folds with CI.
   - [ ] T9.1.4 Classify the pattern: A (little change), B (moderate drop, still above nuisance-only baseline), C (large drop) – define numeric thresholds in the decision log before running (e.g. A: CI includes 0; C: controlled AUROC CI includes the nuisance-only baseline).
-- [ ] **T9.2 Sensitivity without ADFSU (EXP-041)** – repeat T9.1 with 3 cohorts (3 folds).
+- [ ] **T9.2 Sensitivity without ADFSU (EXP-041)** – repeat T9.1 with the 2 remaining cohorts (2 folds: train on ds004504 → test APAVA, and the reverse).
 - [ ] **T9.3 Sensitivity with ADFSU subsampled (EXP-042)** – 100 draws, each subsampling ADFSU AD participants to the number of ADFSU HC (fixed seeds 1–100); rerun T9.1 per draw; report the distribution (median, 2.5–97.5 percentiles) of mean ΔAUROC.
 - [ ] **T9.4 Summary table** `results/tables/T05_primary_and_sensitivity.csv`: rows = analysis, columns = per-fold AUROC(Z), AUROC(Z\*), ΔAUROC, CI, mean ΔAUROC.
 

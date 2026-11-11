@@ -1,6 +1,6 @@
 # Runs the leakage and audit unit tests on every push and pull request (WORKPLAN T0.4.4).
-# Only the lightweight scientific stack is installed: the tests use synthetic arrays and never
-# need MNE, PyTorch or the data.
+# The tests use synthetic arrays and never need MNE or the data. CPU-only PyTorch and
+# concept-erasure are installed so the LEACE control (Phase 8) is tested too.
 name: tests
 
 on:
@@ -16,5 +16,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install numpy scipy pandas scikit-learn pytest -e .
+      - run: pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: pip install numpy scipy pandas scikit-learn pytest concept-erasure -e .
       - run: pytest -q
