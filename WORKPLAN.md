@@ -343,7 +343,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [ ] **T9.1 Primary outcome (EXP-040)**
   - [ ] T9.1.1 Collect per-fold out-of-fold predictions for original Z and cohort-controlled Z\* (variant (i) centring is the primary controlled representation; variant (ii), LEACE, INLP are secondary) – confirm this choice in the decision log at T4.0.
   - [ ] T9.1.2 Per-fold ΔAUROC with paired bootstrap CI (Phase 10).
-  - [ ] T9.1.3 Mean ΔAUROC across the four folds with CI.
+  - [ ] T9.1.3 Mean ΔAUROC across the three folds with CI.
   - [ ] T9.1.4 Classify the pattern: A (little change), B (moderate drop, still above nuisance-only baseline), C (large drop) – define numeric thresholds in the decision log before running (e.g. A: CI includes 0; C: controlled AUROC CI includes the nuisance-only baseline).
 - [ ] **T9.2 Sensitivity without ADFSU (EXP-041)** – repeat T9.1 with 3 cohorts (3 folds).
 - [ ] **T9.3 Sensitivity with ADFSU subsampled (EXP-042)** – 100 draws, each subsampling ADFSU AD participants to the number of ADFSU HC (fixed seeds 1–100); rerun T9.1 per draw; report the distribution (median, 2.5–97.5 percentiles) of mean ΔAUROC.

@@ -44,7 +44,7 @@ FTD (ds004504) excluded from the primary analysis.
 | O5 Interpret (exploratory) | band/channel perturbation, correlation of Z\* with theta/alpha, PAF, aperiodic exponent | all |
 
 ## Primary outcome
-Mean ΔAUROC = AUROC(Z) − AUROC(Z\*acq) across the four LOCO folds, each fold reported with a
+Mean ΔAUROC = AUROC(Z) − AUROC(Z\*acq) across the three LOCO folds (D-017, D-026), each fold reported with a
 95% participant-bootstrap CI (paired). Z\*acq = cohort-controlled representation.
 
 ## Key rules
