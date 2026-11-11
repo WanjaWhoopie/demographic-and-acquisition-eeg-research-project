@@ -20,3 +20,4 @@ EXP-044,O4,Sensitivity amplitude-scaled,Does the result hold when every recordin
 EXP-050,O5,Band perturbation,Which frequency bands drive the residual AD signal?,all cohorts,band-stop perturbation of input; re-extract,change in AD probability,T11.2,planned,,
 EXP-051,O5,Channel occlusion,Which channels drive the residual AD signal?,all cohorts,channel occlusion,change in AD probability,T11.3,planned,,
 EXP-052,O5,Z* vs classical markers,Does Z* correlate with theta/alpha ratio; PAF; aperiodic exponent?,all cohorts,correlation/ridge mapping with FDR,correlation,T11.4,planned,,
+EXP-053,O5,Data amount per participant (exploratory),Is unequal EEG length per participant a cohort effect that hurts transfer?,3 cohorts; k = 1..all epochs,"first-k-epoch pooling; LOCO, within-ds004504, cohort probe",LOCO AUROC vs k,T11.0,planned,,

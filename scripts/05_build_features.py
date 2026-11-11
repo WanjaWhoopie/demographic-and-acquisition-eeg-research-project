@@ -26,23 +26,10 @@ import pandas as pd
 import yaml
 
 from eegconf.features import classical_vector
-from eegconf.representation import pool_participant
+from eegconf.representation import participant_tensor as pooled
 
 ROOT = Path(__file__).resolve().parents[1]
 MODELS = ("labram-base", "labram-random")
-TOKENS = ("layer_mean", "layer_cls")      # stored names; reported as patch_mean, cls
-POOLINGS = ("mean", "median")
-
-
-def pooled(emb, idx=None):
-    """(12, 2, 2, 200) participant representation from one embedding file, optionally on a subset of epochs."""
-    out = np.empty((12, len(TOKENS), len(POOLINGS), 200), np.float32)
-    for t, tok in enumerate(TOKENS):
-        L = emb[tok] if idx is None else emb[tok][:, idx]
-        for b in range(L.shape[0]):
-            for q, pool in enumerate(POOLINGS):
-                out[b, t, q] = pool_participant(L[b], pool)
-    return out
 
 
 def scaled_only(parts):

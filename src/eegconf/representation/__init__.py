@@ -176,3 +176,22 @@ def pool_participant(Z, method="mean"):
     if method == "median":
         return np.median(Z, axis=0)
     raise ValueError(method)
+
+
+EMB_TOKENS = ("layer_mean", "layer_cls")     # stored names in the embedding files; reported as patch_mean, cls
+POOLINGS = ("mean", "median")
+
+
+def participant_tensor(emb, idx=None):
+    """(12 blocks, 2 tokens, 2 poolings, 200) participant representation from one embedding file.
+
+    `emb` is a loaded data/embeddings/<model>/<cohort>/<id>.npz; `idx` optionally restricts pooling
+    to a subset of epochs (e.g. the first k clean epochs for the 8-s and data-amount analyses).
+    """
+    out = np.empty((12, len(EMB_TOKENS), len(POOLINGS), 200), np.float32)
+    for t, tok in enumerate(EMB_TOKENS):
+        L = emb[tok] if idx is None else emb[tok][:, idx]
+        for b in range(L.shape[0]):
+            for q, pool in enumerate(POOLINGS):
+                out[b, t, q] = pool_participant(L[b], pool)
+    return out

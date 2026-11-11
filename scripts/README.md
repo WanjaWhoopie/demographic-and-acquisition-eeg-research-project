@@ -17,4 +17,5 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `08_control.py` | age/sex residualisation, cohort centring (i, ii), LEACE, INLP; ΔAUROC and verification probes (EXP-030–032); `--quick` smoke test; `--only-demographic` re-runs EXP-030 and saves its predictions | Phase 8 | yes |
 | `09_sensitivity.py` | primary outcome and pattern (EXP-040); sensitivity without ADFSU, ADFSU subsampled, 8 s, amplitude-scaled (EXP-041–044); `--part` runs one | Phase 9 | yes |
 | `10_stats.py` | reproduces headline numbers from saved predictions; bootstrap p-values, Holm, DeLong cross-check | Phase 10 | yes |
+| `11_data_amount.py` | EXP-053: AD transfer, within-cohort AUROC and cohort probe against epochs per participant (exploratory) | Phase 11 | yes |
 | `07_stats.py --exp EXP-xxx` | bootstrap CIs, ΔAUROC | Phase 10 | not yet |
