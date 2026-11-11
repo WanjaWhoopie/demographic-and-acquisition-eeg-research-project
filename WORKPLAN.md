@@ -97,7 +97,7 @@ matplotlib, pytest, git.
   - [x] T0.2.4 `environment.yml` now installs PyTorch once, by pip, as the CUDA 13 build (`torch==2.14.1+cu130`). On this machine the env was upgraded in place, so the old conda `pytorch-cpu` 2.13 package is still listed in `docs/env_lock.yml` but shadowed by the pip build; a fresh `conda env create` gives a clean env.
   - Done when: both team members can import everything on their machines.
 - [ ] **T0.3 Repository conventions**
-  - [ ] T0.3.1 Branch model. So far everything is committed straight to `main` by one person. **Decide:** keep that while a single person commits, and switch to `feature/*` branches + pull requests once both team members commit (recommended), or use pull requests from now on.
+  - [x] T0.3.1 (D-023: keep committing to `main`.) Branch model. So far everything is committed straight to `main` by one person. **Decide:** keep that while a single person commits, and switch to `feature/*` branches + pull requests once both team members commit (recommended), or use pull requests from now on.
   - [x] T0.3.2 Commit message style agreed and in use (see `CONTRIBUTING.md`): imperative subject, body says why, no author names.
   - [ ] T0.3.3 Create a shared calendar entry for a fortnightly mentor meeting; notes go in `reports/meetings/`.
 - [ ] **T0.4 Leakage unit tests (write early, run forever)**
@@ -222,10 +222,10 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 ## Phase 4 – Harmonised preprocessing (M3–M5) → EXP-003
 
-- [ ] **T4.0 Freeze the analysis plan**
-  - [ ] T4.0.1 Re-read `configs/preprocessing.yaml`, `configs/analysis.yaml`, `docs/protocol.md` against the audit; adjust only with a decision-log entry.
-  - [ ] T4.0.2 Mentor sign-off (email or meeting note).
-  - [ ] T4.0.3 `git tag analysis-plan-v1 && git push --tags`.
+- [x] **T4.0 Freeze the analysis plan** (tag `analysis-plan-v1`, 2026-11-11; pre-freeze decisions D-023 to D-028)
+  - [x] T4.0.1 Re-read `configs/preprocessing.yaml`, `configs/analysis.yaml`, `docs/protocol.md` against the audit; adjust only with a decision-log entry.
+  - [x] T4.0.2 Sign-off confirmed by the team on 2026-11-11.
+  - [x] T4.0.3 `git tag analysis-plan-v1 && git push --tags`.
 - [ ] **T4.1 Condition selection**
   - [x] T4.1.1 ds004504, APAVA: keep all (eyes-closed) – done in the loaders (`eegconf.io`).
   - [x] T4.1.2 ADFSU: `iter_segments(..., condition='eyes_closed')` keeps only the Eyes_closed folders (ADSZ dropped, D-017).
@@ -259,7 +259,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
   - [x] T4.9.3 Visual check: `results/figures/EXP-003_snippets.png` (two random participants per cohort; looked at and judged plausible).
   - [x] T4.9.4 Classical cohort probe: balanced accuracy 0.687 ± 0.093 (shape only), 0.704 with amplitude; chance 0.333 (`results/tables/T03_cohort_probe_classical.csv`). Reference value for O2.
   - [x] T4.9.5 Per-participant counts in `data/metadata/preproc_<cohort>.csv` (local); aggregate table and figures committed.
-- Done when (G2): QC passed (yes), D-018 replaces K, tag pushed (pending T4.0.2 sign-off).
+- Done when (G2): QC passed (yes), D-018 replaces K, tag pushed (2026-11-11).
 
 ## Phase 5 – Frozen LaBraM representations (M5–M6)
 
