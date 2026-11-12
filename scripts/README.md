@@ -8,7 +8,8 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `00_participants.py` | combined participant table + cohort summary | T2.5 | yes |
 | `01_audit.py --cohort X` | inventory + QC of raw data (A1–A12) | Phase 2 | yes |
 | `02_overlap_check.py` | ADSZ–ADFSU duplicate detection | Phase 3 | yes |
-| `03_preprocess.py` | harmonised preprocessing | Phase 4 | not yet |
+| `03_preprocess.py --cohort X` | harmonised preprocessing | Phase 4 | yes |
+| `03_qc.py` | preprocessing QC: epochs kept, amplitude, PSD, classical cohort probe (EXP-003) | T4.9 | yes |
 | `04_extract_embeddings.py --cohort X [--random \| --amplitude-scaled \| --band-stop B]` | frozen LaBraM features (GPU); `--amplitude-scaled` for EXP-044, `--band-stop` for EXP-050 | Phase 5 | yes |
 | `04_sanity.py` | embedding sanity checks | T5.4 | yes |
 | `05_build_features.py [--scaled-only]` | participant-level LaBraM representations + classical features; `--scaled-only` for EXP-044 | T5.3, T6.4 | yes |
@@ -20,4 +21,4 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `11_data_amount.py` | EXP-053: AD transfer, within-cohort AUROC and cohort probe against epochs per participant (exploratory) | Phase 11 | yes |
 | `11_random_epochs.py` | EXP-054: first, middle or last 8 epochs vs randomly drawn epochs; separates time in recording from amount of data (exploratory) | Phase 11 | yes |
 | `11_interpret.py` | EXP-050 band perturbation (needs `04_extract_embeddings.py --band-stop <band>`), EXP-052 score vs EEG markers (exploratory) | Phase 11 | yes |
-| `07_stats.py --exp EXP-xxx` | bootstrap CIs, ΔAUROC | Phase 10 | not yet |
+| `12_figures.py` | Report figures F5 (LOCO AUROC by control) and F6 (ΔAUROC across analyses) from committed tables | Phase 12 | yes |
