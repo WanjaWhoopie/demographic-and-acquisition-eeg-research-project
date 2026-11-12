@@ -27,7 +27,8 @@ information never reduced transfer: centring raised mean AUROC to 0.887 (ΔAUROC
 with equal EEG length per participant or equalised amplitude, and no secondary comparison survived
 Holm correction. In exploratory analyses the cross-cohort AD score behaved as an EEG-slowing index:
 removing theta cost most discrimination, and the score correlated with the theta/alpha ratio at up
-to ρ = 0.91. **Conclusion.** Frozen LaBraM encodes its cohort strongly, but its cross-cohort AD signal
+to ρ = 0.91. Which epochs were pooled per participant changed AUROC by up to several hundredths, with
+no reliable effect of their position in the recording. **Conclusion.** Frozen LaBraM encodes its cohort strongly, but its cross-cohort AD signal
 does not depend on that information. What transfers is largely the classical spectral slowing of AD.
 
 ---
@@ -228,7 +229,7 @@ Reporting follows TRIPOD+AI (Collins et al., 2024; `reports/checklists/tripod_ai
 ### 3.8 Exploratory interpretation (O5)
 Added or re-scoped after the confirmatory results and labelled exploratory (D-035 to D-037):
 - **EXP-053:** pool only the first k epochs of each recording, k = 1 … all.
-- **EXP-054:** 8 epochs from the first, middle or last part of each recording; k randomly drawn epochs.
+- **EXP-054:** 8 epochs from the first, middle or last part of each recording; k ∈ {2, 8, 32} randomly drawn epochs, 5 draws.
 - **EXP-050:** band-stop one band in the held-out cohort's EEG and re-apply the trained classifier.
 - **EXP-052:** correlate the out-of-fold AD score with classical markers within each held-out cohort (Spearman, BH-FDR).
 - Channel occlusion (EXP-051) was planned but deferred for time (D-036).
@@ -349,10 +350,16 @@ representation and each cohort control.
 
 **Amount of EEG and time in the recording (EXP-053, EXP-054).** Pooling only the first few epochs
 gave *higher* AD discrimination than pooling all of them: LOCO AUROC 0.922 with 2 epochs and 0.908
-with 8, against 0.853 with all. Within ds004504 alone, AUROC fell by about as much (0.882 with 2
-epochs, 0.821 with all), so the loss is not specific to transfer between cohorts. More data per
-person did make the cohort easier to recognise (block-11 probe 0.68 → 0.88). **[EXP-054: fill in
-whether this is time in the recording or amount of data.]**
+with 8, against 0.853 with all. Within ds004504, AUROC rose too (0.882 with the first 2 epochs, 0.821
+with all). More data per person did make the cohort easier to recognise (block-11 probe 0.68 → 0.88).
+
+A follow-up separated time in the recording from amount of data and supported neither (EXP-054,
+`EXP-054_random_epochs.png`). Within ds004504 the *last* 8 epochs classified best (0.895, against
+0.840 for the first 8), and fewer randomly drawn epochs did worse (0.777 with 2, 0.816 with 8, 0.827
+with 32). Across cohorts, random subsets transferred slightly better than all epochs (means 0.868–0.880;
+13 of 15 draws above 0.853), below the pre-set 0.03 threshold. AUROC varied by about ±0.03 between
+random 8-epoch subsets within ds004504, and by up to 0.15 in the ADFSU fold, as much as the EXP-053
+differences. The within-cohort "early epochs are best" pattern is therefore not reliable.
 
 **Band removal (EXP-050; F7, `EXP-050_band_perturbation.png`).** Removing **theta** (4–8 Hz) from the
 held-out cohort's EEG cost the most discrimination (ΔAUROC +0.066 [0.026, 0.109]) and cut the
@@ -402,11 +409,13 @@ differences: how much EEG each participant contributes and the signal amplitude.
 equalised directly, centring has nothing left to correct.
 
 ### 5.3 Amount and position of EEG
-Fewer epochs per participant gave higher AD discrimination, within and across cohorts. **[Update with
-EXP-054: whether early epochs are more informative (e.g. drowsiness later in long recordings) or
-fewer epochs help regardless of position.]** In practice this means data quantity and recording
-duration are themselves cohort properties that a cross-cohort study must report and, where possible,
-equalise.
+Which epochs are pooled matters about as much as how many. No reliable effect of the position of the EEG
+in the recording was found. Within a cohort, more epochs help up to about 32 and then plateau. Across
+cohorts, there is a small, consistent advantage to pooling fewer epochs. This fits the finding that
+averaging more epochs makes the cohort easier to recognise, but it is below the pre-set threshold.
+Recording length is therefore a cohort property that a cross-cohort study should report and, where
+possible, equalise (as in the 8-s analysis). The results also show that single estimates from small
+cohorts can move by several hundredths of AUROC with an arbitrary choice of epochs.
 
 ### 5.4 Limitations
 - **Small cohorts.** 176 participants; held-out folds of 23–88; 11–29 HC per fold. CIs are wide, and

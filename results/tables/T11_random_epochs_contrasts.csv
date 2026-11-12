@@ -1,0 +1,13 @@
+contrast,setting,delta_auroc,ci_low,ci_high,representation,metric,mean,min,max
+first_8 - last_8,LOCO (mean over folds),0.0477,-0.0145,0.1184,,,,,
+first_8 - last_8,within ds004504 (repeat-averaged),-0.0527,-0.1284,0.0144,,,,,
+first_8 - middle_8,LOCO (mean over folds),0.0568,0.0071,0.1122,,,,,
+first_8 - middle_8,within ds004504 (repeat-averaged),0.0383,-0.0431,0.1226,,,,,
+first_8 - all,LOCO (mean over folds),0.0555,0.0119,0.1051,,,,,
+first_8 - all,within ds004504 (repeat-averaged),0.0163,-0.0469,0.0767,,,,,
+,,,,,random_2 (5 draws),loco_auroc,0.8675,0.8213,0.8984
+,,,,,random_2 (5 draws),within_ds004504_auroc,0.7772,0.7282,0.8231
+,,,,,random_8 (5 draws),loco_auroc,0.8803,0.8489,0.9053
+,,,,,random_8 (5 draws),within_ds004504_auroc,0.8158,0.7877,0.8594
+,,,,,random_32 (5 draws),loco_auroc,0.8728,0.8592,0.8905
+,,,,,random_32 (5 draws),within_ds004504_auroc,0.8269,0.814,0.8365
