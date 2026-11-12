@@ -36,7 +36,7 @@ does not depend on that information. What transfers is largely the classical spe
 
 Alzheimer's disease is the most common cause of dementia. Resting-state EEG is cheap, non-invasive
 and widely available, and the EEG of people with AD shows well-described changes, chiefly spectral
-slowing **[cite needed: primary reviews, T1.5]**. Machine-learning models can separate AD from
+slowing, with more delta and theta power, less alpha and beta power and a slower alpha peak (Jeong, 2004; Babiloni et al., 2020). Machine-learning models can separate AD from
 healthy controls using EEG. High accuracy alone does not show that a model has learned disease
 neurophysiology: an EEG recording also carries the person's age and sex, and the signature of the
 recording system and site. When any of these is correlated with diagnosis in the training data, it
@@ -91,7 +91,7 @@ available in the representation without adding a flexible model that could learn
 ### 2.3 Demographic and acquisition confounds
 Sex is detectable from EEG and can become a hidden confounder in disease classifiers (Jochmann et
 al., 2023). In ds004504, 24 of 36 AD participants are female against 11 of 29 controls (Fisher
-p = 0.026). Normal ageing changes the EEG **[cite needed]**; ds004504's groups are age-matched
+p = 0.026). Normal ageing also changes the EEG, including slower and weaker alpha and a flatter aperiodic spectrum (Ishii et al., 2017; Voytek et al., 2015); ds004504's groups are age-matched
 (66.4 ± 7.9 vs 67.9 ± 5.4 years). Public AD-EEG cohorts differ in amplifier, montage, reference,
 sampling rate, source filtering, recording length, era and diagnostic mix. Within a cohort these
 are constant, so they are inseparable from cohort identity, which this project treats as the
@@ -99,7 +99,7 @@ acquisition nuisance variable.
 
 ### 2.4 Removing information from representations
 Options range from residualisation and per-site centring, common in neuroimaging harmonisation
-**[cite needed: harmonisation review]**, to concept erasure: iterative nullspace projection (INLP;
+(ComBat: Johnson, Li, & Rabinovic, 2007; Fortin et al., 2018), to concept erasure: iterative nullspace projection (INLP;
 Ravfogel et al., 2020) and LEACE, after which no linear classifier can predict the concept better
 than a constant (Belrose et al., 2023). Two problems are specific to cross-cohort EEG. Demographic
 control needs demographics for everyone it is applied to, and only ds004504 has them. Cohort
@@ -124,8 +124,10 @@ it was run (`experiments/EXP-xxx/README.md`, "Before running").
 | Cohort | Source | AD / HC | Original rate, channels | Eyes-closed EEG per person, median | Age, sex |
 |---|---|---|---|---|---|
 | ds004504 | OpenNeuro, Miltiadous et al. (2023) | 36 / 29 | 500 Hz, 19 ch, linked ears | 829 s (AD), 827 s (HC) | yes: 66.4 ± 7.9 / 67.9 ± 5.4 y; 24/36 and 11/29 female |
-| ADFSU | Vicchietti et al. (2023); FSU database (Pritchard et al., 1991 **[reference needed]**) | 76 / 12 | 128 Hz, 19 ch, cleaned and band-limited at source | 8 s | no |
-| APAVA | Escudero et al. (2006) **[verify]** | 12 / 11 | 256 Hz, 16 ch, common average | 168 s (AD), 140 s (HC); 5-s trials | no |
+| ADFSU | Vicchietti et al. (2023); recordings from the FSU database (Pritchard, Duke, & Coburn, 1991) | 76 / 12 | 128 Hz, 19 ch, cleaned and band-limited at source | 8 s | no |
+| APAVA | Escudero et al. (2006)ᵃ | 12 / 11 | 256 Hz, 16 ch, common average | 168 s (AD), 140 s (HC); 5-s trials | no |
+
+ᵃ APAVA is attributed to Escudero et al. (2006) by LEAD (Wang et al., 2025). That paper reports 11 AD and 11 controls with 19 electrodes; the released data have 12 AD and 11 HC with 16 channels, so the exact correspondence is unconfirmed.
 
 Only AD and HC with eyes-closed resting EEG were used. FTD participants in ds004504 were excluded. A
 fourth candidate cohort, ADSZ, turned out to be a subset of ADFSU (47 of 48 files identical) and was
@@ -219,8 +221,8 @@ to a common SD of 10 µV (EXP-044).
 **Sample size.** Fixed by the public cohorts available; no formal calculation was possible. The
 smallest held-out class is 11 HC (APAVA), so per-fold CIs are wide.
 
-### 3.7 Data and ethics
-Secondary analysis of public, de-identified datasets under their published terms
+### 3.7 Data, ethics and reporting
+Reporting follows TRIPOD+AI (Collins et al., 2024; `reports/checklists/tripod_ai.md`), and risk of bias was self-assessed with PROBAST (Wolff et al., 2019; `reports/checklists/probast.md`). Secondary analysis of public, de-identified datasets under their published terms
 (`docs/licences/`). No data are redistributed. Code is public; `README.md` gives the run order.
 
 ### 3.8 Exploratory interpretation (O5)
@@ -417,8 +419,8 @@ equalise.
 - **Case–control samples.** Clear-cut AD versus controls; no mild cognitive impairment, other
   dementias or comorbidity. Performance would be lower in a clinical population (PROBAST:
   `reports/checklists/probast.md`).
-- **One foundation model**, frozen, with linear read-outs. Fine-tuning or other models (CBraMod,
-  LEAD, REVE) may behave differently.
+- **One foundation model**, frozen, with linear read-outs. Fine-tuning or other models (CBraMod and
+  REVE, Lin, Wu, Jung, et al., 2026; LEAD, Wang et al., 2025) may behave differently.
 - **Linear controls.** LEACE and INLP remove linear information; the nonlinear MLP probe was too weak
   at this sample size to rule out nonlinear cohort information.
 - **Clinical labels** from three sources with different criteria; treatment status unknown.
@@ -451,6 +453,60 @@ reporting checklists: `reports/checklists/`.
 **[to write]**
 
 ## References
-Full entries are in `literature/draft_lit_review.md`. Still to add: Collins et al. (2024) TRIPOD+AI;
-Wolff et al. (2019) PROBAST; Vicchietti et al. (2023); Pritchard, Duke & Coburn (1991); Escudero et
-al. (2006) **[verify]**; primary AD-EEG marker reviews and an ageing-EEG review **[cite needed]**.
+
+Babiloni, C., Blinowska, K., Bonanni, L., et al. (2020). What electrophysiology tells us about Alzheimer's disease: A window into the synchronization and connectivity of brain neurons. *Neurobiology of Aging, 85*, 58–73. https://doi.org/10.1016/j.neurobiolaging.2019.09.008
+
+Belrose, N., Schneider-Joseph, D., Ravfogel, S., Cotterell, R., Raff, E., & Biderman, S. (2023). LEACE: Perfect linear concept erasure in closed form. *Advances in Neural Information Processing Systems, 36*, 66044–66063. https://doi.org/10.48550/arXiv.2306.03819
+
+Brookshire, G., Kasper, J., Blauch, N. M., et al. (2024). Data leakage in deep learning studies of translational EEG. *Frontiers in Neuroscience, 18*, 1373515. https://doi.org/10.3389/fnins.2024.1373515
+
+Collins, G. S., Moons, K. G. M., Dhiman, P., et al. (2024). TRIPOD+AI statement: Updated guidance for reporting clinical prediction models that use regression or machine learning methods. *BMJ, 385*, e078378. https://doi.org/10.1136/bmj-2023-078378
+
+Escudero, J., Abásolo, D., Hornero, R., Espino, P., & López, M. (2006). Analysis of electroencephalograms in Alzheimer's disease patients with multiscale entropy. *Physiological Measurement, 27*(11), 1091–1106. https://doi.org/10.1088/0967-3334/27/11/004
+
+Fortin, J.-P., Cullen, N. C., Sheline, Y. I., et al. (2018). Harmonization of cortical thickness measurements across scanners and sites. *NeuroImage, 167*, 104–120. https://doi.org/10.1016/j.neuroimage.2017.11.024
+
+Ishii, R., Canuet, L., Aoki, Y., et al. (2017). Healthy and pathological brain aging: From the perspective of oscillations, functional connectivity, and signal complexity. *Neuropsychobiology, 75*(4), 151–161. https://doi.org/10.1159/000486870
+
+Jeong, J. (2004). EEG dynamics in patients with Alzheimer's disease. *Clinical Neurophysiology, 115*(7), 1490–1505. https://doi.org/10.1016/j.clinph.2004.01.001
+
+Jiang, W.-B., Zhao, L.-M., & Lu, B.-L. (2024). Large brain model for learning generic representations with tremendous EEG data in BCI. *International Conference on Learning Representations*. https://arxiv.org/abs/2405.18765
+
+Jochmann, T., Seibel, M. S., Jochmann, E., Khan, S., Hämäläinen, M. S., & Haueisen, J. (2023). Sex-related patterns in the electroencephalogram and their relevance in machine learning classifiers. *Human Brain Mapping, 44*(14), 4848–4858. https://doi.org/10.1002/hbm.26417
+
+Johnson, W. E., Li, C., & Rabinovic, A. (2007). Adjusting batch effects in microarray expression data using empirical Bayes methods. *Biostatistics, 8*(1), 118–127. https://doi.org/10.1093/biostatistics/kxj037
+
+Lin, J.-Y., Wu, Y. C., Jung, T.-P., et al. (2026). The identity trap in EEG foundation models: A diagnostic audit. *arXiv*. https://doi.org/10.48550/arXiv.2606.06647
+
+Lin, M., Hou, C.-L., & Jung, T.-P. (2026). Leveraging a foundation model for the EEG-based diagnosis of Alzheimer's disease. *arXiv*. https://doi.org/10.48550/arXiv.2608.27719
+
+Liu, D., Chen, Y., Chen, Z., Cui, Z., Wen, Y., An, J., Luo, J., & Wu, D. (2026). EEG-FM-Compass: Progress, benchmarking, and future directions for EEG foundation models. *arXiv*. https://doi.org/10.48550/arXiv.2601.17883
+
+Miltiadous, A., Ntetska, A., Aspiotis, V., et al. (2026). The AHEPA EEG benchmark: Setting the standard for machine learning in dementia diagnosis, a scoping review. *Cognitive Neurodynamics, 20*(1). https://doi.org/10.1007/s11571-026-10464-w
+
+Miltiadous, A., Tzimourta, K. D., Afrantou, T., Ioannidis, P., Grigoriadis, N., Tsalikakis, D. G., Angelidis, P., Tsipouras, M. G., Glavas, E., Giannakeas, N., & Tzallas, A. T. (2023). A dataset of scalp EEG recordings of Alzheimer's disease, frontotemporal dementia and healthy subjects from routine EEG. *Data, 8*(6), 95. https://doi.org/10.3390/data8060095
+
+Moons, K. G. M., Damen, J. A. A. G., Hooft, L., et al. (2025). PROBAST+AI: An updated quality, risk of bias, and applicability assessment tool for prediction models using regression or artificial intelligence methods. *BMJ, 388*, e082505. https://doi.org/10.1136/bmj-2024-082505
+
+Pritchard, W. S., Duke, D. W., & Coburn, K. L. (1991). Altered EEG dynamical responsivity associated with normal aging and probable Alzheimer's disease. *Dementia, 2*(2), 102–105. https://doi.org/10.1159/000107183
+
+Ravfogel, S., Elazar, Y., Gonen, H., Twiton, M., & Goldberg, Y. (2020). Null it out: Guarding protected attributes by iterative nullspace projection. In *Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics* (pp. 7237–7256). https://doi.org/10.18653/v1/2020.acl-main.647
+
+Tang, L., Chen, Q., Mei, J., Xu, H., Zhang, Q., Shao, J., Zou, N., Hu, X., & Liu, D. (2026). What do EEG foundation models capture from human brain signals? *arXiv*. https://doi.org/10.48550/arXiv.2605.11410
+
+Vicchietti, M. L., Ramos, F. M., Betting, L. E., & Campanharo, A. S. L. O. (2023). Computational methods of EEG signals analysis for Alzheimer's disease classification. *Scientific Reports, 13*, 8184. https://doi.org/10.1038/s41598-023-32664-8
+
+Voytek, B., Kramer, M. A., et al. (2015). Age-related changes in 1/f neural electrophysiological noise. *Journal of Neuroscience, 35*(38), 13257–13265. https://doi.org/10.1523/JNEUROSCI.2332-14.2015
+
+Wang, Y., Huang, N., Mammone, N., et al. (2025). LEAD: An EEG foundation model for Alzheimer's disease detection. *arXiv*. https://doi.org/10.48550/arXiv.2502.01678
+
+Wolff, R. F., Moons, K. G. M., Riley, R. D., et al. (2019). PROBAST: A tool to assess the risk of bias and applicability of prediction model studies. *Annals of Internal Medicine, 170*(1), 51–58. https://doi.org/10.7326/M18-1376
+
+Young, V. M., & Salardini, A. (2025). Data leakage in deep learning for Alzheimer's disease diagnosis: A scoping review of methodological rigor and performance inflation. *Diagnostics, 15*(18), 2348. https://doi.org/10.3390/diagnostics15182348
+
+Zare, M. (2026). A negative-control protocol for clinical EEG foundation-model benchmarks: Dataset identity and external-cohort stress testing (Version 3). *arXiv*. https://doi.org/10.48550/arXiv.2607.24519
+
+### Still to check
+- Pritchard et al. (1991): the journal *Dementia* is now *Dementia and Geriatric Cognitive Disorders*; author order taken from the citation used in `docs/datasets.md` (the index lists the authors in reverse order).
+- Vicchietti et al. (2023): fourth author's initials from memory; confirm on the article page.
+- Voytek et al. (2015), Ishii et al. (2017): second and later authors beyond those shown by the index.

@@ -6,8 +6,8 @@ bias (RoB) and, for the first three, applicability concerns. Ratings: low · hig
 **Note.** PROBAST was written for prediction-model studies. This project measures what a frozen
 model encodes and whether its AD signal transfers between cohorts; it does not propose a clinical
 model. The assessment is still useful because it names the weaknesses a reader should weigh.
-An AI-specific update (PROBAST+AI) has since been published **[verify reference: Moons et al., 2025,
-*BMJ*]**; consider re-rating with it if time allows.
+An AI-specific update has since been published (PROBAST+AI; Moons et al., 2025, *BMJ* 388:e082505),
+which separates model development from model evaluation; consider re-rating with it if time allows.
 
 ## Summary
 
@@ -45,7 +45,7 @@ discrimination compared with a memory-clinic population (mild cognitive impairme
 | Signalling question | Answer | Notes |
 |---|---|---|
 | 3.1 Outcome determined appropriately? | Probably yes | Clinical AD diagnosis from each source. |
-| 3.2 Pre-specified or standard outcome definition? | Unclear | Diagnostic criteria differ by cohort and era (ds004504: DSM-IV/NINCDS-ADRDA per its descriptor **[verify]**; ADFSU: NINCDS-ADRDA and DSM-III-R (`docs/datasets.md`); APAVA: as reported by Escudero et al. (2006) **[verify]**). |
+| 3.2 Pre-specified or standard outcome definition? | Unclear | Diagnostic criteria differ by cohort and era (ds004504: DSM-IIIR, DSM-IV, ICD-10 and NINCDS-ADRDA, Miltiadous et al., 2023; ADFSU: NINCDS-ADRDA and DSM-III-R (`docs/datasets.md`); APAVA: as reported by Escudero et al. (2006) **[verify]**). |
 | 3.3 Predictors excluded from the outcome definition? | Yes | EEG was not part of the diagnoses as far as reported **[verify]**. |
 | 3.4 Outcome defined the same way for all participants? | No | Three sources, three diagnostic processes. |
 | 3.5 Outcome determined without knowledge of predictors? | Probably yes | Diagnoses predate this analysis. |

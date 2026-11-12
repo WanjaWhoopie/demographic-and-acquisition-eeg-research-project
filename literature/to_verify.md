@@ -13,15 +13,17 @@ Tick when checked and write where (paper + page/table, or file + command).
 - [x] **ADFSU download link** – https://osf.io/2v5md (`EEG_data.zip`).
 - [x] **APAVA copies** – Google Drive APAVA.zip and OSF jbysn hold identical signals; labels from APAVA.zip (12 AD / 11 HC).
 - [ ] **APAVA label coding** – 1 = AD inferred from counts; confirm against the source paper or the Medformer/LEAD data loader.
-- [ ] **Escudero et al. (2006)** – confirm the citation and cohort description from the paper itself.
+- [x] **Escudero et al. (2006)** – citation confirmed: *Physiol. Meas.* 27(11):1091–1106, doi:10.1088/0967-3334/27/11/004. The abstract reports 11 AD + 11 controls, 19 electrodes; APAVA has 12 AD + 11 HC, 16 channels, so the match to APAVA is still unconfirmed (noted in the report).
 - [x] **ds004504 sex split** – confirmed from participants.tsv: 24/36 vs 11/29 female, Fisher p = 0.026 (T2.1.5).
 - [ ] **LaBraM** input convention: 200 Hz, 1-s patches, µV/100 scaling, channel-name list, max
       patches per sample – check the official code (T5.1).
 - [ ] **LEAD** – read the data section; does it define ADFSU/ADSZ/APAVA and how were they preprocessed?
 - [x] **Slide 7 "Negative-control audit (2026)"** – Zare (2026), arXiv:2607.24519, "A Negative-Control Protocol for Clinical EEG Foundation-Model Benchmarks".
 - [ ] **LinHou2026labramdementia** – which dataset, and does "dementia" pool AD with FTD? (full text)
-- [ ] **Zare2026negcontrol** – was LaBraM among the five encoders?
+- [ ] **Zare2026negcontrol** – was LaBraM among the encoders? A summary of v3 lists six models including LaBraM; confirm in the paper itself.
 - [ ] **LaBraM pretraining size** – "over 2,500 hours" (quoted by Lin, Hou & Jung) – confirm in Jiang et al. (2024).
 - [ ] **ds006036 citation** – author list and year for the dataset reference.
-- [ ] Primary sources for AD EEG markers and ageing-related EEG change (draft lit review §2, §4).
+- [x] Primary sources for AD EEG markers and ageing-related EEG change: Jeong (2004); Babiloni et al. (2020); Ishii et al. (2017); Voytek et al. (2015) – added to the final report.
+- [x] **Pritchard, Duke & Coburn (1991)** – *Dementia* 2(2):102–105, doi:10.1159/000107183.
+- [x] **Vicchietti et al. (2023)** – *Sci Rep* 13:8184, doi:10.1038/s41598-023-32664-8 (160 AD and 24 HC records, i.e. 80 AD + 12 HC × eyes open/closed).
 - [ ] Full author lists for entries ending in "et al." in the proposal reference list.

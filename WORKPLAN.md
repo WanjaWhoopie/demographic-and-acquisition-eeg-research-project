@@ -377,7 +377,7 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 
 ## Phase 12 – Writing and reporting (M9–M12)
 
-- [ ] T12.1 Fill the TRIPOD+AI checklist (`reports/checklists/tripod_ai.md`) item by item with section references. *Drafted; open: abstract check, recording years, funding/COI, item numbering.*
+- [ ] T12.1 Fill the TRIPOD+AI checklist (`reports/checklists/tripod_ai.md`) item by item with section references. *Drafted; open: abstract check, recording years, funding/COI, sub-item wording.*
 - [ ] T12.2 PROBAST self-assessment (participants, predictors, outcome, analysis domains). *Drafted (`reports/checklists/probast.md`): overall high risk of bias, driven by case–control sampling and small samples.*
 - [ ] T12.3 Figures: F1 pipeline; F2 participant flow; F3 PSD by cohort × diagnosis; F4 probe results by layer; F5 per-fold AUROC original vs controlled (forest plot); F6 sensitivity analyses; F7 interpretation topomaps/bands. *F1, F2 as diagrams in the report; F3, F4, F7 from Phases 4, 7, 11; F5, F6 from `scripts/12_figures.py`.*
 - [ ] T12.4 Tables: T1 cohort characteristics; T2 preprocessing parameters; T3 O1 results; T4 probes; T5 primary + sensitivity; T6 interpretation.
