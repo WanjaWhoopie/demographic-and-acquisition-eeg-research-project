@@ -22,3 +22,4 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `11_random_epochs.py` | EXP-054: first, middle or last 8 epochs vs randomly drawn epochs; separates time in recording from amount of data (exploratory) | Phase 11 | yes |
 | `11_interpret.py` | EXP-050 band perturbation (needs `04_extract_embeddings.py --band-stop <band>`), EXP-052 score vs EEG markers (exploratory) | Phase 11 | yes |
 | `12_figures.py` | Report figures F5 (LOCO AUROC by control) and F6 (ΔAUROC across analyses) from committed tables | Phase 12 | yes |
+| `12_workbook.py` | Excel workbook with one sheet per experiment, copied from the committed tables (`results/experiments_summary.xlsx`, local only); needs `pandas` and `openpyxl` | Phase 12 | yes |

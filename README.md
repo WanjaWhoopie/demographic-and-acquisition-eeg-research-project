@@ -80,6 +80,7 @@ Then run, from the repository root (each step writes the tables and figures name
 | Statistics | `python scripts/10_stats.py` | `T10_*` |
 | Interpretation | `python scripts/11_data_amount.py`; `python scripts/11_random_epochs.py`; `python scripts/11_interpret.py` | `T11_*`, F7 (EXP-050–054) |
 | Report figures | `python scripts/12_figures.py` | F5, F6 |
+| Results workbook | `python scripts/12_workbook.py` (needs `openpyxl`) | `results/experiments_summary.xlsx`, one sheet per experiment (not committed) |
 
 `<c>` is each of `ds004504`, `ADFSU`, `APAVA`. The analysis seed is in `configs/analysis.yaml`. Steps 06–11
 use 20 CPU workers by default (`--n-jobs`); the longest runs take one to two hours.

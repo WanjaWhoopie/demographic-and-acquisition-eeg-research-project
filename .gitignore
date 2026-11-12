@@ -24,6 +24,8 @@ data/metadata/
 *.pdf
 *.doc
 *.ppt
+*.xlsx
+*.xls
 
 # Model weights
 checkpoints/
