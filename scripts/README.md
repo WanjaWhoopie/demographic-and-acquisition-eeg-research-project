@@ -18,5 +18,6 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `09_sensitivity.py` | primary outcome and pattern (EXP-040); sensitivity without ADFSU, ADFSU subsampled, 8 s, amplitude-scaled (EXP-041–044); `--part` runs one | Phase 9 | yes |
 | `10_stats.py` | reproduces headline numbers from saved predictions; bootstrap p-values, Holm, DeLong cross-check | Phase 10 | yes |
 | `11_data_amount.py` | EXP-053: AD transfer, within-cohort AUROC and cohort probe against epochs per participant (exploratory) | Phase 11 | yes |
+| `11_random_epochs.py` | EXP-054: first, middle or last 8 epochs vs randomly drawn epochs; separates time in recording from amount of data (exploratory) | Phase 11 | yes |
 | `11_interpret.py` | EXP-050 band perturbation (needs `04_extract_embeddings.py --band-stop <band>`), EXP-052 score vs EEG markers (exploratory) | Phase 11 | yes |
 | `07_stats.py --exp EXP-xxx` | bootstrap CIs, ΔAUROC | Phase 10 | not yet |
