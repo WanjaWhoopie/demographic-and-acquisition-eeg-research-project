@@ -19,11 +19,13 @@ Tick when checked and write where (paper + page/table, or file + command).
       patches per sample – check the official code (T5.1).
 - [ ] **LEAD** – read the data section; does it define ADFSU/ADSZ/APAVA and how were they preprocessed?
 - [x] **Slide 7 "Negative-control audit (2026)"** – Zare (2026), arXiv:2607.24519, "A Negative-Control Protocol for Clinical EEG Foundation-Model Benchmarks".
-- [ ] **LinHou2026labramdementia** – which dataset, and does "dementia" pool AD with FTD? (full text)
-- [ ] **Zare2026negcontrol** – was LaBraM among the encoders? A summary of v3 lists six models including LaBraM; confirm in the paper itself.
+- [x] **LinHou2026labramdementia** – private four-centre Taiwanese cohort (30 ch, 120 s eyes open, 2021–2022; 206 after excluding MCI); "Dementia" subtype never stated; random forest AUROC 0.89, logistic regression and linear SVM near chance (arXiv 2608.27719 HTML). Report §2.2 updated.
+- [x] **Zare2026negcontrol** – yes: §1.1 of v3 lists LaBraM, EEGMamba, CBraMod, REVE, BIOT with frozen probes; LaBraM ds004504 AD vs HC AUROC 75.3 ± 6.5 (Table 3); LaBraM not in controls 2–4.
 - [ ] **LaBraM pretraining size** – "over 2,500 hours" (quoted by Lin, Hou & Jung) – confirm in Jiang et al. (2024).
 - [ ] **ds006036 citation** – author list and year for the dataset reference.
 - [x] Primary sources for AD EEG markers and ageing-related EEG change: Jeong (2004); Babiloni et al. (2020); Ishii et al. (2017); Voytek et al. (2015) – added to the final report.
 - [x] **Pritchard, Duke & Coburn (1991)** – *Dementia* 2(2):102–105, doi:10.1159/000107183.
 - [x] **Vicchietti et al. (2023)** – *Sci Rep* 13:8184, doi:10.1038/s41598-023-32664-8 (160 AD and 24 HC records, i.e. 80 AD + 12 HC × eyes open/closed).
+- [x] Report reference authors confirmed on Crossref (Vicchietti 2023; Voytek 2015, full list; Ishii 2017; Pritchard, Duke & Coburn 1991 order).
+- [x] **APAVA source** – matches Smith, Abásolo & Escudero (2017) PLOS ONE e0186164: AFAVA association, University Hospital of Valladolid, 16 ch, 5-s epochs of 1280 points; OSF jbysn says "based on Escudero et al.". Recording years not stated anywhere.
 - [ ] Full author lists for entries ending in "et al." in the proposal reference list.

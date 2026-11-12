@@ -1,8 +1,8 @@
 # Demographic and acquisition information in a frozen EEG foundation model, and what it means for cross-cohort Alzheimer's disease classification
 
-*Final report draft (Phase 12, T12.5). Every number below comes from a committed result table or
-experiment README; the source is given in brackets. Items marked **[verify]** or **[cite needed]**
-must be resolved before the draft goes to the mentor.*
+*Final report draft for the mentor (Phase 12, T12.8). Every number below comes from a committed
+result table or experiment README; the source is given in brackets. All numbers were re-checked
+against the tables on 12 November 2026.*
 
 ---
 
@@ -14,15 +14,18 @@ shortcut. **Objective.** To measure how much demographic and cohort (acquisition
 frozen LaBraM model encodes, remove it, and test whether AD classification still transfers to an
 unseen cohort. **Methods.** 176 participants from three public resting-state, eyes-closed EEG cohorts
 (ds004504, 36 AD / 29 HC; ADFSU, 76 / 12; APAVA, 12 / 11) were harmonised to 16 channels, 0.5–30 Hz,
-200 Hz and 4-s epochs. Frozen LaBraM-base embeddings were pooled per participant. Linear probes
+200 Hz and 4-s epochs. Frozen LaBraM-base embeddings were pooled per participant and classified with
+class-weighted logistic regression, with block, pooling and regularisation chosen by inner
+cross-validation on training participants. Linear probes
 measured age, sex (ds004504) and cohort information. Cohort information was removed with
 prevalence-balanced cohort centring (primary), LEACE and INLP, all fitted inside training folds.
 The primary outcome was the change in leave-one-cohort-out (LOCO) AUROC, mean over three folds, with
-a paired participant bootstrap. The analysis plan was frozen before any held-out result.
-**Results.** LaBraM transferred across cohorts (mean LOCO AUROC 0.853, 95% CI 0.773–0.922), but no
-better than classical spectral features (0.900). Age and sex were not decodable in ds004504; cohort
-was (balanced accuracy 0.88, chance 0.33), more than from classical features (0.77). Removing cohort
-information never reduced transfer: centring raised mean AUROC to 0.887 (ΔAUROC −0.034,
+a paired participant bootstrap. The analysis plan was frozen in the public code repository before
+any held-out result (not externally registered).
+**Results.** LaBraM transferred across cohorts (mean LOCO AUROC 0.853, 95% CI 0.773–0.922; the first
+transformer block was selected in every fold), but no better than classical spectral features (0.900). Age and sex were not decodable in ds004504; cohort
+was (balanced accuracy 0.88, chance 0.33), more than from classical features (0.77). In the
+pre-specified analyses, removing cohort information never reduced transfer: centring raised mean AUROC to 0.887 (ΔAUROC −0.034,
 −0.069 to −0.001, p = 0.046), LEACE to 0.883 and INLP to 0.876. The small improvement disappeared
 with equal EEG length per participant or equalised amplitude, and no secondary comparison survived
 Holm correction. In exploratory analyses the cross-cohort AD score behaved as an EEG-slowing index:
@@ -81,13 +84,16 @@ confounds that differ *between* groups of participants, such as age, sex and coh
 
 ### 2.2 What EEG foundation models encode
 LaBraM is a transformer pretrained by masked EEG modelling on 1-s channel patches, with a neural
-tokenizer trained to reconstruct Fourier amplitude and phase (Jiang et al., 2024). Frozen LaBraM
-embeddings separated dementia from controls at AUROC 0.89 within one data source (Lin, Hou, & Jung,
-2026) **[verify dataset and whether "dementia" pools AD with FTD]**. Frozen foundation-model
+tokenizer trained to reconstruct Fourier amplitude and phase (Jiang et al., 2024). Pretrained LaBraM
+embeddings separated dementia (subtype not stated) from controls at AUROC 0.89 with a random-forest
+read-out in a private four-centre Taiwanese cohort of eyes-open EEG; logistic regression and a linear
+SVM on the same embeddings were near chance (Lin, Hou, & Jung, 2026). Frozen foundation-model
 representations also encode subject identity (Lin, Wu, Jung, et al., 2026) and dataset identity
 (Zare, 2026), and a feature can be encoded without being used (Tang et al., 2026). Linear probing
-is not the most accurate way to use these models (Liu et al., 2026), but it measures what is already
-available in the representation without adding a flexible model that could learn new shortcuts.
+is not the most accurate way to use these models (Liu et al., 2026), and in Lin, Hou and Jung's
+cohort it failed outright, but it measures what is already available in the representation without
+adding a flexible model that could learn new shortcuts. Here, linear read-outs reached AUROC 0.82–0.93
+within cohorts (§4.2), so the linear choice did not leave the AD signal out of reach.
 
 ### 2.3 Demographic and acquisition confounds
 Sex is detectable from EEG and can become a hidden confounder in disease classifiers (Jochmann et
@@ -126,9 +132,11 @@ it was run (`experiments/EXP-xxx/README.md`, "Before running").
 |---|---|---|---|---|---|
 | ds004504 | OpenNeuro, Miltiadous et al. (2023) | 36 / 29 | 500 Hz, 19 ch, linked ears | 829 s (AD), 827 s (HC) | yes: 66.4 ± 7.9 / 67.9 ± 5.4 y; 24/36 and 11/29 female |
 | ADFSU | Vicchietti et al. (2023); recordings from the FSU database (Pritchard, Duke, & Coburn, 1991) | 76 / 12 | 128 Hz, 19 ch, cleaned and band-limited at source | 8 s | no |
-| APAVA | Escudero et al. (2006)ᵃ | 12 / 11 | 256 Hz, 16 ch, common average | 168 s (AD), 140 s (HC); 5-s trials | no |
+| APAVA | Smith, Abásolo, & Escudero (2017); Escudero et al. (2006)ᵃ | 12 / 11 | 256 Hz, 16 ch, common average | 168 s (AD), 140 s (HC); 5-s trials | no |
 
-ᵃ APAVA is attributed to Escudero et al. (2006) by LEAD (Wang et al., 2025). That paper reports 11 AD and 11 controls with 19 electrodes; the released data have 12 AD and 11 HC with 16 channels, so the exact correspondence is unconfirmed.
+ᵃ LEAD (Wang et al., 2025) attributes APAVA to Escudero et al. (2006), which reports 11 AD and 11 controls with 19 electrodes. The released set (12 AD, 11 HC, 16 channels, 5-s epochs at 256 Hz) matches the description in Smith et al. (2017): patients from the Alzheimer's patients' relatives association of Valladolid, recorded at the University Hospital of Valladolid, Spain, with artefact-free epochs selected by a specialist. The OSF copy (jbysn) is labelled as the data of Smith et al. (2017), "based on Escudero et al.".
+
+**Recording dates** (TRIPOD+AI 5b) are not reported by any of the three sources. Inferred eras: ADFSU before 1991 (first described by Pritchard et al., 1991); APAVA before 2006; ds004504 not stated (ethics approval for the release dates from April 2023).
 
 Only AD and HC with eyes-closed resting EEG were used. FTD participants in ds004504 were excluded. A
 fourth candidate cohort, ADSZ, turned out to be a subset of ADFSU (47 of 48 files identical) and was
@@ -151,7 +159,7 @@ Counts from EXP-002 and `docs/datasets.md`.
 
 ### 3.2 Preprocessing
 
-**Table 2. Preprocessing** (D-003, D-004, D-012 to D-022; `configs/preprocessing.yaml`)
+**Table 2. Preprocessing** (D-002 to D-005, D-012 to D-022; `configs/preprocessing.yaml`)
 
 | Step | Choice | Reason |
 |---|---|---|
@@ -161,7 +169,7 @@ Counts from EXP-002 and `docs/datasets.md`.
 | Reference | common average | source references differ (D-012) |
 | Resampling | 200 Hz | LaBraM input rate (D-005) |
 | Epochs | 4 s, never crossing segment boundaries | fits 5-s and 8-s trials (D-015, D-021) |
-| Rejection | > 150 µV peak-to-peak, same rule for every cohort; no ICA | trials too short for ICA (D-013) |
+| Rejection | > 150 µV peak-to-peak, or flat (< 0.5 µV); same rule for every cohort; no ICA | trials too short for ICA (D-013) |
 | Amount kept | all clean epochs (8-s crop as sensitivity) | more signal; risk recorded (D-018) |
 | Units | µV, divided by 100 for LaBraM | LaBraM convention (D-019, D-022) |
 
@@ -223,7 +231,7 @@ to a common SD of 10 µV (EXP-044).
 smallest held-out class is 11 HC (APAVA), so per-fold CIs are wide.
 
 ### 3.7 Data, ethics and reporting
-Reporting follows TRIPOD+AI (Collins et al., 2024; `reports/checklists/tripod_ai.md`), and risk of bias was self-assessed with PROBAST (Wolff et al., 2019; `reports/checklists/probast.md`). Secondary analysis of public, de-identified datasets under their published terms
+Reporting follows TRIPOD+AI (Collins et al., 2024; `reports/checklists/tripod_ai.md`), and risk of bias was self-assessed with PROBAST (Wolff et al., 2019), with the AI-specific signalling questions of PROBAST+AI (Moons et al., 2025) (`reports/checklists/probast.md`). Secondary analysis of public, de-identified datasets under their published terms
 (`docs/licences/`). No data are redistributed. Code is public; `README.md` gives the run order.
 
 ### 3.8 Exploratory interpretation (O5)
@@ -255,8 +263,9 @@ flowchart LR
 After the common pipeline, amplitudes converged (robust SD 6.0–6.8 µV in ds004504 and ADFSU, 4.8–6.2
 in APAVA, from 18.3 / 7.7 / 4.9 µV raw). All cohorts showed the expected spectra: a 10-Hz alpha peak
 in HC and a flatter, slower spectrum in AD (**F3**, `results/figures/EXP-003_psd_processed.png`).
-Cohort was still decodable from classical spectral shape at balanced accuracy 0.69 (chance 0.33)
-(EXP-003).
+Cohort was still decodable from classical spectral shape at balanced accuracy 0.69 (chance 0.33;
+64 shape-only features, EXP-003). The 0.77 for classical features in Table 4 uses the 80-feature set
+and the nested pipeline of the main analysis (EXP-021).
 
 ### 4.2 Baseline AD classification (O1)
 
@@ -331,8 +340,8 @@ representation and each cohort control.
   (cohort probe at exactly chance), yet the AD classifier still transferred at 0.883. INLP removed
   most of it. Centring removed cohort means but left cohort decodable from the remaining structure.
   All three moved AUROC the same way (EXP-032).
-- **After centring, the classifier chose deep blocks** (11–12) in two of three folds, the most
-  cohort-laden blocks. Cohort offsets were an obstacle to using deep-block AD information, not a
+- **After centring, the classifier chose deep blocks** (11–12) in two of three folds, among the
+  more cohort-laden blocks (0.86–0.87, against 0.71 at block 1). Cohort offsets were an obstacle to using deep-block AD information, not a
   shortcut (EXP-031).
 - **The improvement is not robust.** It halved when ADFSU was balanced (80% of draws still negative),
   and disappeared with 8 s per participant or equalised amplitude (pattern A in both). No secondary
@@ -350,8 +359,12 @@ representation and each cohort control.
 
 **Amount of EEG and time in the recording (EXP-053, EXP-054).** Pooling only the first few epochs
 gave *higher* AD discrimination than pooling all of them: LOCO AUROC 0.922 with 2 epochs and 0.908
-with 8, against 0.853 with all. Within ds004504, AUROC rose too (0.882 with the first 2 epochs, 0.821
-with all). More data per person did make the cohort easier to recognise (block-11 probe 0.68 → 0.88).
+with 8, against 0.853 with all (paired CIs above 0 only at 4 and 8 epochs; at 2 epochs +0.069
+[−0.003, 0.149]). With 32 or 64 first epochs, transfer was slightly worse than with all (0.827, 0.829).
+Within ds004504, AUROC rose too (0.882 with the first 2 epochs, 0.821 with all). More data per person
+did make the cohort easier to recognise (block-11 probe 0.68 → 0.87). The effect of centring was not
+stable across k: with 2 epochs per participant it *reduced* LOCO AUROC (0.922 → 0.861, ΔAUROC +0.062
+[0.030, 0.097]), the one analysis in which cohort control hurt transfer.
 
 A follow-up separated time in the recording from amount of data and supported neither (EXP-054,
 `EXP-054_random_epochs.png`). Within ds004504 the *last* 8 epochs classified best (0.895, against
@@ -381,8 +394,9 @@ correlation with diagnosis.
 | Peak alpha frequency, posterior | −0.60 (−0.47) | −0.78 (−0.60) | −0.58 (−0.37) |
 | Aperiodic exponent, global | 0.37 (0.21) | 0.76 (0.52) | 0.75 (0.53) |
 
-All 27 correlations (9 markers × 3 cohorts) were significant after FDR correction and in the expected
-direction. The score tracked the markers more closely than diagnosis did: its output behaves like a
+Table 6 shows 5 of the 9 markers; all are in `T11_markers.csv`. All 27 correlations (9 markers ×
+3 cohorts) were significant after FDR correction, and the 24 with a prior direction all went the
+expected way (the aperiodic exponent had none). The score tracked the markers more closely than diagnosis did: its output behaves like a
 continuous EEG-slowing index.
 
 ## 5. Discussion
@@ -390,10 +404,13 @@ continuous EEG-slowing index.
 ### 5.1 Main finding
 Frozen LaBraM knows which cohort a recording came from, more than classical features do, and the
 information grows through the network. Yet removing that information, by three different methods,
-never reduced cross-cohort AD performance. By the pre-registered rule the primary result is a small
-improvement, but it rests on a CI that just excludes zero, it disappears in two sensitivity analyses,
-and it does not survive alongside the secondary comparisons. The robust conclusion is the absence of
-harm: **the AD signal that LaBraM transfers between cohorts does not depend on cohort information.**
+never reduced cross-cohort AD performance in the pre-specified analyses. By the pre-registered rule
+the primary result is a small improvement, but it rests on a CI that just excludes zero, it
+disappears in two sensitivity analyses, and its identical twin, label-free centring (ii), does not
+survive Holm correction among the secondary comparisons. The one exception to "no harm" is
+exploratory: with only 2 epochs per participant, centring reduced transfer (EXP-053). The robust
+conclusion is therefore the absence of a systematic effect: **the AD signal that LaBraM transfers
+between cohorts does not depend on cohort information.**
 Encoded is not the same as used (Tang et al., 2026).
 
 ### 5.2 Why the cohort information does not matter here
@@ -404,15 +421,20 @@ theta. What transfers between these cohorts is the classical, low-level spectral
 That signature is robust to the acquisition differences that remain after harmonisation, and
 LaBraM's pretrained, cohort-rich deep features add little to it.
 
-The centring improvement, where it appeared, is best read as a correction for two concrete cohort
-differences: how much EEG each participant contributes and the signal amplitude. When either is
-equalised directly, centring has nothing left to correct.
+The centring improvement, where it appeared, may partly correct two concrete cohort differences:
+how much EEG each participant contributes and the signal amplitude. When either was equalised
+directly (8 s per participant, amplitude scaling), the improvement disappeared. The effect of
+centring was not stable, though: with 2 epochs per participant it hurt transfer (EXP-053). Centring
+is best read as neither a reliable gain nor a reliable loss.
 
 ### 5.3 Amount and position of EEG
 Which epochs are pooled matters about as much as how many. No reliable effect of the position of the EEG
-in the recording was found. Within a cohort, more epochs help up to about 32 and then plateau. Across
-cohorts, there is a small, consistent advantage to pooling fewer epochs. This fits the finding that
-averaging more epochs makes the cohort easier to recognise, but it is below the pre-set threshold.
+in the recording was found. Within ds004504, fewer randomly drawn epochs did worse (0.777 with 2,
+0.816 with 8, 0.827 with 32, 0.821 with all), but these means differ by less than the spread between
+draws. Across cohorts, pooling 16 or fewer epochs transferred slightly better than pooling all of
+them in most analyses (13 of 15 random draws), while 32 or 64 first epochs did slightly worse. This
+fits the finding that averaging more epochs makes the cohort easier to recognise, but the advantage
+is below the pre-set threshold and not consistent.
 Recording length is therefore a cohort property that a cross-cohort study should report and, where
 possible, equalise (as in the 8-s analysis). The results also show that single estimates from small
 cohorts can move by several hundredths of AUROC with an arbitrary choice of epochs.
@@ -447,7 +469,8 @@ cohorts can move by several hundredths of AUROC with an arbitrary choice of epoc
 
 ## 6. Conclusion
 Frozen LaBraM encodes cohort identity strongly, but its cross-cohort AD classification does not
-depend on it: removing cohort information by centring, LEACE or INLP never reduced transfer. The AD
+depend on it: in the pre-specified analyses, removing cohort information by centring, LEACE or INLP
+never reduced transfer. The AD
 signal that transfers is largely the classical EEG slowing of Alzheimer's disease, which simple
 spectral features capture as well.
 
@@ -459,7 +482,7 @@ script from the public data. Analysis plan: tag `analysis-plan-v1`; decisions: `
 reporting checklists: `reports/checklists/`.
 
 ## Funding and conflicts of interest
-**[to write]**
+This work was carried out under an ABDN fellowship. The authors declare no conflicts of interest.
 
 ## References
 
@@ -501,11 +524,13 @@ Pritchard, W. S., Duke, D. W., & Coburn, K. L. (1991). Altered EEG dynamical res
 
 Ravfogel, S., Elazar, Y., Gonen, H., Twiton, M., & Goldberg, Y. (2020). Null it out: Guarding protected attributes by iterative nullspace projection. In *Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics* (pp. 7237–7256). https://doi.org/10.18653/v1/2020.acl-main.647
 
+Smith, K., Abásolo, D., & Escudero, J. (2017). Accounting for the complex hierarchical topology of EEG phase-based functional connectivity in network binarisation. *PLOS ONE, 12*(10), e0186164. https://doi.org/10.1371/journal.pone.0186164
+
 Tang, L., Chen, Q., Mei, J., Xu, H., Zhang, Q., Shao, J., Zou, N., Hu, X., & Liu, D. (2026). What do EEG foundation models capture from human brain signals? *arXiv*. https://doi.org/10.48550/arXiv.2605.11410
 
 Vicchietti, M. L., Ramos, F. M., Betting, L. E., & Campanharo, A. S. L. O. (2023). Computational methods of EEG signals analysis for Alzheimer's disease classification. *Scientific Reports, 13*, 8184. https://doi.org/10.1038/s41598-023-32664-8
 
-Voytek, B., Kramer, M. A., et al. (2015). Age-related changes in 1/f neural electrophysiological noise. *Journal of Neuroscience, 35*(38), 13257–13265. https://doi.org/10.1523/JNEUROSCI.2332-14.2015
+Voytek, B., Kramer, M. A., Case, J., Lepage, K. Q., Tempesta, Z. R., Knight, R. T., & Gazzaley, A. (2015). Age-related changes in 1/f neural electrophysiological noise. *Journal of Neuroscience, 35*(38), 13257–13265. https://doi.org/10.1523/JNEUROSCI.2332-14.2015
 
 Wang, Y., Huang, N., Mammone, N., et al. (2025). LEAD: An EEG foundation model for Alzheimer's disease detection. *arXiv*. https://doi.org/10.48550/arXiv.2502.01678
 
@@ -514,8 +539,3 @@ Wolff, R. F., Moons, K. G. M., Riley, R. D., et al. (2019). PROBAST: A tool to a
 Young, V. M., & Salardini, A. (2025). Data leakage in deep learning for Alzheimer's disease diagnosis: A scoping review of methodological rigor and performance inflation. *Diagnostics, 15*(18), 2348. https://doi.org/10.3390/diagnostics15182348
 
 Zare, M. (2026). A negative-control protocol for clinical EEG foundation-model benchmarks: Dataset identity and external-cohort stress testing (Version 3). *arXiv*. https://doi.org/10.48550/arXiv.2607.24519
-
-### Still to check
-- Pritchard et al. (1991): the journal *Dementia* is now *Dementia and Geriatric Cognitive Disorders*; author order taken from the citation used in `docs/datasets.md` (the index lists the authors in reverse order).
-- Vicchietti et al. (2023): fourth author's initials from memory; confirm on the article page.
-- Voytek et al. (2015), Ishii et al. (2017): second and later authors beyond those shown by the index.

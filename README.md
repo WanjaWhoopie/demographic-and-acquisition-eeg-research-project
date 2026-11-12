@@ -30,7 +30,7 @@ Analysis plan frozen on 11 November 2026 (git tag `analysis-plan-v1`).
 | 9 Primary outcome and sensitivity | done (EXP-040–044): removing cohort information never reduced cross-cohort AD performance; the small improvement in the primary analysis did not hold with 8 s per participant or equalised amplitude (pattern A in both) |
 | 10 Statistics | done: primary ΔAUROC −0.034, p = 0.046; no secondary comparison significant after Holm; DeLong agrees with the bootstrap CIs; every headline number reproduced from saved predictions |
 | 11 Neurophysiological interpretation (exploratory) | done (EXP-050, 052–054): the cross-cohort AD score is mainly a theta-slowing signal and tracks classical markers closely; no reliable effect of where in the recording the EEG comes from, and which epochs are pooled matters about as much as how many; channel occlusion deferred |
-| 12 Writing and reporting | in progress: first full report draft (`reports/writeup/final_report.md`), TRIPOD+AI and PROBAST drafts (`reports/checklists/`), figures F5–F6 |
+| 12 Writing and reporting | in progress: full report draft audited against the result tables and ready for the mentor (`reports/writeup/final_report.md`); TRIPOD+AI (all 52 sub-items) and PROBAST done (`reports/checklists/`); figures F5–F6; results deck kept outside the repository |
 
 Cohorts in use: ds004504 (36 AD / 29 HC), ADFSU deduplicated (76 / 12), APAVA (12 / 11) = 176 participants.
 
