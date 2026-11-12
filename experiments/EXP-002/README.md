@@ -31,3 +31,11 @@ ADSZ is not an independent cohort. Keeping both would place the same people in t
 folds of leave-one-cohort-out. Proposed (D-017): drop ADSZ, deduplicate ADFSU (76 unique AD + 12 HC),
 and run LOCO over ds004504, ADFSU and APAVA. An earlier inference from ADSZ alone ("3 AD people ×
 4 segments") was wrong: the 12 AD codes are 12 different people.
+
+## Correction (12 November 2026)
+`T02_overlap_summary.csv` was produced before the "3 AD people × 4 segments" reading was found to be
+wrong, so it counted 15 ADSZ participants (3 AD + 12 HC) and 3 codes mapping to more than one ADFSU
+person. The ADSZ reader (`src/eegconf/io/fsu.py`) now treats all four digits of an AD file name as
+the person, and the table was regenerated: **24 ADSZ participants (12 AD + 12 HC), 23 with every
+file matched** (HC eegNN 24 has no eyes-open copy in ADFSU), **0 codes mapping to more than one
+ADFSU person**. File-level matches, label and condition checks are unchanged, and so is D-017.

@@ -3,13 +3,15 @@
 - ADFSU (osf.io/2v5md, Vicchietti et al., 2023): EEG_data/{AD,Healthy}/{Eyes_closed,Eyes_open}/PacienteN/<channel>.txt,
   one 1024-sample (8 s at 128 Hz) column per channel file.
 - ADSZ (figshare 19091771, Alves et al.): dataset/alzheimer/{AD,Healthy}/<name>.out, 1024 rows x 19 columns,
-  no channel header. AD files are named e{c,o}CCSS (code CC, segment SS); healthy files eegNN{c,o}1.
+  no channel header. AD files are named e{c,o}CCSS; healthy files eegNN{c,o}1. The four digits CCSS
+  identify one AD person (EXP-002: ec0101-ec0304 are 12 different people, ADFSU AD Paciente1-12),
+  not a code CC with segments SS, as was first assumed.
 
 Amplitudes are returned as stored; the unit is not documented (audit A5 checks plausibility).
 
 These are low-level readers used by the overlap check (scripts/02_overlap_check.py). The cohort
 loader used by the pipeline is eegconf.io.adfsu, which applies the EXP-002 cleaning on top.
-Participant IDs: ADFSU "AD-07" = AD/<condition>/Paciente7; ADSZ "AD-02" = files e?02SS.out.
+Participant IDs: ADFSU "AD-07" = AD/<condition>/Paciente7; ADSZ "AD-0203" = files ec0203.out and eo0203.out.
 """
 import re
 from pathlib import Path
@@ -51,7 +53,8 @@ def read_adsz(root):
         for f in sorted((base / group).glob("*.out")):
             m = (_AD if group == "AD" else _HC).match(f.stem)
             if group == "AD":
-                cond, code, seg = m.group(1), m.group(2), m.group(3)
+                # all four digits name the person; each person has one file per condition
+                cond, code, seg = m.group(1), m.group(2) + m.group(3), "01"
             else:
                 code, cond, seg = m.group(1), m.group(2), "01"
             data = np.loadtxt(f).T
