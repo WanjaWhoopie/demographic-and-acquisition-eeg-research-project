@@ -60,6 +60,30 @@ pytest
 Data download instructions are in `WORKPLAN.md` Phase 2 and `docs/datasets.md`. Run scripts from the
 repository root with the `eegconf` environment active (on Windows, `conda run -n eegconf python scripts/...`).
 
+## Reproduce the results
+Data are not in the repository. Download the three cohorts as described in `docs/datasets.md` into
+`data/raw/`, and clone LaBraM into `external/LaBraM` at commit `c431221` (its `checkpoints/labram-base.pth`
+has sha256 `7c505838…57c37c`; WORKPLAN T5.1). The exact package versions are in `docs/env_lock.yml`.
+Then run, from the repository root (each step writes the tables and figures named in its docstring):
+
+| Step | Command | Produces |
+|---|---|---|
+| Participants | `python scripts/00_participants.py` | `T01_cohort_summary.csv` |
+| Audit, overlap | `python scripts/01_audit.py --cohort <c>`; `python scripts/02_overlap_check.py` | `T00_*`, `T02_*` (EXP-001, 002) |
+| Preprocess | `python scripts/03_preprocess.py --cohort <c>`; `python scripts/03_qc.py` | `T03_*`, F3 (EXP-003) |
+| Embeddings (GPU) | `python scripts/04_extract_embeddings.py --cohort <c>` and again with `--random`, `--amplitude-scaled`, `--band-stop <band>`; `python scripts/04_sanity.py` | `T04_*` |
+| Features | `python scripts/05_build_features.py`; `python scripts/05_build_features.py --scaled-only` | participant features (local) |
+| Baseline | `python scripts/06_baseline.py` | `T06_*` (EXP-010–013) |
+| Probes | `python scripts/07_probes.py` | `T07_*`, F4 (EXP-020–022) |
+| Control | `python scripts/08_control.py` | `T08_*` (EXP-030–032) |
+| Primary + sensitivity | `python scripts/09_sensitivity.py` | `T09_*` (EXP-040–044) |
+| Statistics | `python scripts/10_stats.py` | `T10_*` |
+| Interpretation | `python scripts/11_data_amount.py`; `python scripts/11_random_epochs.py`; `python scripts/11_interpret.py` | `T11_*`, F7 (EXP-050–054) |
+| Report figures | `python scripts/12_figures.py` | F5, F6 |
+
+`<c>` is each of `ds004504`, `ADFSU`, `APAVA`. The analysis seed is in `configs/analysis.yaml`. Steps 06–11
+use 20 CPU workers by default (`--n-jobs`); the longest runs take one to two hours.
+
 ## Pipeline at a glance
 1. Download and audit each cohort; resolve the ADSZ–ADFSU overlap (done).
 2. Eyes-closed → 16 common channels → 0.5–30 Hz (zero-phase Butterworth) → average reference →
