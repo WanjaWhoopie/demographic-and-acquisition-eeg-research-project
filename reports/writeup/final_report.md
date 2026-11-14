@@ -83,9 +83,10 @@ validated on an independent dataset and 79.5% did not control for confounders (Y
 (Martin et al., 2023). Where cross-centre testing has been done with classical features, AD versus
 controls transferred well across five sites in Latin America and Turkey, driven by reduced alpha and
 raised theta and delta markers, while controls versus mild cognitive impairment fell to chance in
-some centres (Belloli et al., 2026), and a convolutional network trained at one hospital separated
-healthy from mixed dementia at balanced accuracy 0.81 and 0.92 in two others (Watanabe et al., 2024).
-Subject-level splitting is therefore necessary but not
+some centres (Belloli et al., 2026). A convolutional network trained at one hospital separated
+healthy from mixed dementia at balanced accuracy 0.81 and 0.92 at two others, but those hospitals
+contributed only 3 and 0 healthy controls, so the figures mostly measure sensitivity in patients
+(Watanabe et al., 2024). Subject-level splitting is therefore necessary but not
 sufficient: it does nothing about confounds that differ *between* groups of participants, such as
 age, sex and cohort.
 
@@ -114,11 +115,21 @@ within cohorts (§4.2), so the linear choice did not leave the AD signal out of 
 
 ### 2.3 Demographic and acquisition confounds
 Age and sex are decodable from EEG given enough data: on more than 2,600 recordings, brain signals
-predicted both, with peripheral (ocular, muscular, cardiac) signals adding a smaller share (Bomatter
-et al., 2024), and a small network read sex at 65–80% balanced accuracy across three clinical
+predicted age at R² up to about 0.8 and sex at AUC close to 0.9 in one archive (lower in the other),
+with eye-movement channels alone reaching AUC 0.70 for sex (Bomatter et al., 2024), and a small
+network read sex at 65–80% balanced accuracy across three clinical
 archives (Darvishi-Bayazi et al., 2026). Sex can become a hidden confounder in disease classifiers
 (Jochmann et al., 2023), although Darvishi-Bayazi et al. found sex-specific patterns contributed
-little to abnormal-EEG detection. In ds004504, 24 of 36 AD participants are female against 11 of 29 controls (Fisher
+little to abnormal-EEG detection.
+
+Multicentre dementia-EEG classifiers have not tested whether their signal depends on demographics.
+Prado, Mejía, et al. (2023) harmonised two centres by per-centre normalisation, classified pooled
+data, and name "the lack of steps to control the effects of demographic covariates" as their main
+limitation. Belloli et al. (2026) adjust for age, sex and education only when relating predictions
+to cognitive scores, not in the classifier, and note that residual hardware and cohort differences
+"may still influence performance". Watanabe et al. (2024) report external-hospital accuracy with
+almost no controls at those hospitals. None removes demographic or centre information from the
+model and re-tests. In ds004504, 24 of 36 AD participants are female against 11 of 29 controls (Fisher
 p = 0.026). Normal ageing also changes the EEG, including slower and weaker alpha and a flatter aperiodic spectrum (Ishii et al., 2017; Voytek et al., 2015); ds004504's groups are age-matched
 (66.4 ± 7.9 vs 67.9 ± 5.4 years). Public AD-EEG cohorts differ in amplifier, montage, reference,
 sampling rate, source filtering, recording length, era and diagnostic mix. Within a cohort these
@@ -127,8 +138,9 @@ acquisition nuisance variable.
 
 ### 2.4 Removing information from representations
 Options range from residualisation and per-site centring, common in neuroimaging harmonisation
-(ComBat: Johnson, Li, & Rabinovic, 2007; Fortin et al., 2018; applied to resting EEG features across
-five datasets by Jaramillo-Jimenez et al., 2024), to concept erasure: iterative nullspace projection (INLP;
+(ComBat: Johnson, Li, & Rabinovic, 2007; Fortin et al., 2018; applied to resting EEG features of healthy
+adults across five datasets by Jaramillo-Jimenez et al., 2024, without a patient group), to concept
+erasure: iterative nullspace projection (INLP;
 Ravfogel et al., 2020) and LEACE, after which no linear classifier can predict the concept better
 than a constant (Belrose et al., 2023). Erasure has been applied to frozen EEG embeddings for
 acquisition signatures in non-clinical tasks, where Aimoldin et al. (2026) warn that "source
@@ -150,8 +162,10 @@ from LaBraM on ds004504 but leave the effect on the AD label undefined, because 
 cohort the diagnosis is a per-subject constant that lies inside the identity subspace. No study has
 removed cohort, site, age or sex information
 from a foundation-model representation and measured the effect on a clinical label in a cohort the
-model was not trained on, with a positive control showing that the removal works. That is the
-contribution here. Two further gaps surfaced during the work: public AD-EEG datasets are treated as
+model was not trained on, with a positive control showing that the removal works. The closest clinical comparator is Belloli et al. (2026): the same leave-one-centre-out design,
+739 people across six cohorts, classical features, and the same descriptive conclusion that alpha
+loss and slowing transfer; what it lacks is the removal step. That is the contribution here. Two
+further gaps surfaced during the work: public AD-EEG datasets are treated as
 independent when they are not (§4.1), and recording length has not been studied as a between-cohort
 confound (§5.3).
 
@@ -536,7 +550,7 @@ cohorts can move by several hundredths of AUROC with an arbitrary choice of epoc
 - Treat recording length and amplitude as cohort variables: equalise or test them.
 - Check public AD-EEG datasets for overlap before counting them as independent evaluations.
 - Age and sex could be audited properly only in a dementia cohort that releases them and is large
-  enough. BrainLat (Prado et al., 2023) and CAUEEG ship age, and CAUEEG's dementia cases are about
+  enough. BrainLat (Prado, Medel, et al., 2023) and CAUEEG ship age, and CAUEEG's dementia cases are about
   11 years older than its controls, so the age share of a "dementia" signal there is an open
   question.
 
@@ -614,6 +628,8 @@ Miltiadous, A., Tzimourta, K. D., Afrantou, T., Ioannidis, P., Grigoriadis, N., 
 Moons, K. G. M., Damen, J. A. A. G., Hooft, L., et al. (2025). PROBAST+AI: An updated quality, risk of bias, and applicability assessment tool for prediction models using regression or artificial intelligence methods. *BMJ, 388*, e082505. https://doi.org/10.1136/bmj-2024-082505
 
 Prado, P., Medel, V., Gonzalez-Gomez, R., et al. (2023). The BrainLat project, a multimodal neuroimaging dataset of neurodegeneration from underrepresented backgrounds. *Scientific Data, 10*, 889. https://doi.org/10.1038/s41597-023-02806-8
+
+Prado, P., Mejía, J. A., Sainz-Ballesteros, A., et al. (2023). Harmonized multi-metric and multi-centric assessment of EEG source space connectivity for dementia characterization. *Alzheimer's & Dementia: Diagnosis, Assessment & Disease Monitoring, 15*(3), e12455. https://doi.org/10.1002/dad2.12455
 
 Pritchard, W. S., Duke, D. W., & Coburn, K. L. (1991). Altered EEG dynamical responsivity associated with normal aging and probable Alzheimer's disease. *Dementia, 2*(2), 102–105. https://doi.org/10.1159/000107183
 

@@ -26,4 +26,5 @@ Tick when checked and write where (paper + page/table, or file + command).
 - [x] **Vicchietti et al. (2023)** – *Sci Rep* 13:8184, doi:10.1038/s41598-023-32664-8 (160 AD and 24 HC records, i.e. 80 AD + 12 HC × eyes open/closed).
 - [x] Report reference authors confirmed on Crossref (Vicchietti 2023; Voytek 2015, full list; Ishii 2017; Pritchard, Duke & Coburn 1991 order).
 - [x] **APAVA source** – matches Smith, Abásolo & Escudero (2017) PLOS ONE e0186164: AFAVA association, University Hospital of Valladolid, 16 ch, 5-s epochs of 1280 points; OSF jbysn says "based on Escudero et al.". Recording years not stated anywhere.
+- [ ] **Watanabe2024dementia** – full text blocked (ScienceDirect/SSRN CAPTCHA). The reviewer reports age, sex and MMSE used as classifier inputs, control median age 64 vs 75–83 and AUC "N/A" at hospital 3; only the control counts (69 / 3 / 0) follow from the abstract. Check the Methods and Table 1 with library access before citing more than the abstract.
 - [ ] Full author lists for entries ending in "et al." in the proposal reference list.
