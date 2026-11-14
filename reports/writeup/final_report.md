@@ -606,9 +606,7 @@ Babiloni, C., Blinowska, K., Bonanni, L., et al. (2020). What electrophysiology 
 
 Belloli, L., Bruno, N., Hernandez, H., et al. (2026). Generalizability of EEG-based dementia classifiers: A multicenter study of Alzheimer's, MCI, and FTD. *medRxiv*. https://doi.org/10.64898/2026.07.28.26359133
 
-Belrose, N., Schneider-Joseph, D., Rahbar, S. (2026). Site is decodable before pretraining: Negative controls for probing frozen brain-MRI foundation models. *arXiv*. https://doi.org/10.48550/arXiv.2608.10295
-
-Ravfogel, S., Cotterell, R., Raff, E., & Biderman, S. (2023). LEACE: Perfect linear concept erasure in closed form. *Advances in Neural Information Processing Systems, 36*, 66044–66063. https://doi.org/10.48550/arXiv.2306.03819
+Belrose, N., Schneider-Joseph, D., Ravfogel, S., Cotterell, R., Raff, E., & Biderman, S. (2023). LEACE: Perfect linear concept erasure in closed form. *Advances in Neural Information Processing Systems, 36*, 66044–66063. https://doi.org/10.48550/arXiv.2306.03819
 
 Bomatter, P., Paillard, J., Garcés, P., Hipp, J., & Engemann, D. A. (2024). Machine learning of brain-specific biomarkers from EEG. *eBioMedicine, 106*, 105259. https://doi.org/10.1016/j.ebiom.2024.105259
 
@@ -630,11 +628,11 @@ Huang, Y., Su, Y., Wang, X., & Yao, S. (2026). Improving the clinical generaliza
 
 Ishii, R., Canuet, L., Aoki, Y., et al. (2017). Healthy and pathological brain aging: From the perspective of oscillations, functional connectivity, and signal complexity. *Neuropsychobiology, 75*(4), 151–161. https://doi.org/10.1159/000486870
 
-Jeong, J. (2004). EEG dynamics in patients with Alzheimer's disease. *Clinical Neurophysiology, 115*(7), 1490–1505. https://doi.org/10.1016/j.clinph.2004.01.001
-
 Jaramillo-Jimenez, A., Tovar-Rios, D. A., Mantilla-Ramos, Y. J., Ochoa-Gomez, J. F., Bonanni, L., & Brønnick, K. (2024). ComBat models for harmonization of resting-state EEG features in multisite studies. *Clinical Neurophysiology, 167*, 241–253. https://doi.org/10.1016/j.clinph.2024.09.019
 
 Jeon, M., Cho, S., & Suh, J. Y. (2026). Controlled evaluation of EEG foundation models: Random initialisation, band-power and validation-selected probes. *arXiv*. https://doi.org/10.48550/arXiv.2610.32067
+
+Jeong, J. (2004). EEG dynamics in patients with Alzheimer's disease. *Clinical Neurophysiology, 115*(7), 1490–1505. https://doi.org/10.1016/j.clinph.2004.01.001
 
 Jiang, W.-B., Zhao, L.-M., & Lu, B.-L. (2024). Large brain model for learning generic representations with tremendous EEG data in BCI. *International Conference on Learning Representations*. https://arxiv.org/abs/2405.18765
 
@@ -668,6 +666,8 @@ Prado, P., Mejía, J. A., Sainz-Ballesteros, A., et al. (2023). Harmonized multi
 
 Pritchard, W. S., Duke, D. W., & Coburn, K. L. (1991). Altered EEG dynamical responsivity associated with normal aging and probable Alzheimer's disease. *Dementia, 2*(2), 102–105. https://doi.org/10.1159/000107183
 
+Rahbar, S. (2026). Site is decodable before pretraining: Negative controls for probing frozen brain-MRI foundation models. *arXiv*. https://doi.org/10.48550/arXiv.2608.10295
+
 Ravfogel, S., Elazar, Y., Gonen, H., Twiton, M., & Goldberg, Y. (2020). Null it out: Guarding protected attributes by iterative nullspace projection. In *Proceedings of the 58th Annual Meeting of the Association for Computational Linguistics* (pp. 7237–7256). https://doi.org/10.18653/v1/2020.acl-main.647
 
 Saeed, F., & Aldera, S. (2026). Explainable EEG-based machine learning for early diagnosis of Alzheimer's disease and frontotemporal dementia. *Scientific Reports, 16*, 19775. https://doi.org/10.1038/s41598-026-57069-1
@@ -676,9 +676,9 @@ Seibel, M. S., Haueisen, J., & Jochmann, T. (2026). How much EEG is needed for d
 
 Smith, K., Abásolo, D., & Escudero, J. (2017). Accounting for the complex hierarchical topology of EEG phase-based functional connectivity in network binarisation. *PLOS ONE, 12*(10), e0186164. https://doi.org/10.1371/journal.pone.0186164
 
-Tao, Y., Baker, B. T., Wu, Y., Sarwate, A. D., Panta, S. R., Plis, S., & Calhoun, V. D. (2026). Batch effects in brain foundation model embeddings. *arXiv*. https://doi.org/10.48550/arXiv.2604.14441
-
 Tang, L., Chen, Q., Mei, J., Xu, H., Zhang, Q., Shao, J., Zou, N., Hu, X., & Liu, D. (2026). What do EEG foundation models capture from human brain signals? *arXiv*. https://doi.org/10.48550/arXiv.2605.11410
+
+Tao, Y., Baker, B. T., Wu, Y., Sarwate, A. D., Panta, S. R., Plis, S., & Calhoun, V. D. (2026). Batch effects in brain foundation model embeddings. *arXiv*. https://doi.org/10.48550/arXiv.2604.14441
 
 Vicchietti, M. L., Ramos, F. M., Betting, L. E., & Campanharo, A. S. L. O. (2023). Computational methods of EEG signals analysis for Alzheimer's disease classification. *Scientific Reports, 13*, 8184. https://doi.org/10.1038/s41598-023-32664-8
 
@@ -688,9 +688,9 @@ Wang, Y., Huang, N., Mammone, N., et al. (2025). LEAD: An EEG foundation model f
 
 Watanabe, Y., Miyazaki, Y., Hata, M., et al. (2024). A deep learning model for the detection of various dementia and MCI pathologies based on resting-state electroencephalography data: A retrospective multicentre study. *Neural Networks, 171*, 242–250. https://doi.org/10.1016/j.neunet.2023.12.009
 
-Wong, X., Zhao, Z., Guo, H., et al. (2026). CRCC: Contrast-based robust cross-subject and cross-site representation learning for EEG. *arXiv*. https://doi.org/10.48550/arXiv.2602.19138
-
 Wolff, R. F., Moons, K. G. M., Riley, R. D., et al. (2019). PROBAST: A tool to assess the risk of bias and applicability of prediction model studies. *Annals of Internal Medicine, 170*(1), 51–58. https://doi.org/10.7326/M18-1376
+
+Wong, X., Zhao, Z., Guo, H., et al. (2026). CRCC: Contrast-based robust cross-subject and cross-site representation learning for EEG. *arXiv*. https://doi.org/10.48550/arXiv.2602.19138
 
 Young, V. M., & Salardini, A. (2025). Data leakage in deep learning for Alzheimer's disease diagnosis: A scoping review of methodological rigor and performance inflation. *Diagnostics, 15*(18), 2348. https://doi.org/10.3390/diagnostics15182348
 
