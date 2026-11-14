@@ -20,7 +20,7 @@ Tick when checked and write where (paper + page/table, or file + command).
 - [x] **LinHou2026labramdementia** – private four-centre Taiwanese cohort (30 ch, 120 s eyes open, 2021–2022; 206 after excluding MCI); "Dementia" subtype never stated; random forest AUROC 0.89, logistic regression and linear SVM near chance (arXiv 2608.27719 HTML). Report §2.2 updated.
 - [x] **Zare2026negcontrol** – yes: §1.1 of v3 lists LaBraM, EEGMamba, CBraMod, REVE, BIOT with frozen probes; LaBraM ds004504 AD vs HC AUROC 75.3 ± 6.5 (Table 3); LaBraM not in controls 2–4.
 - [x] **LaBraM pretraining size** – Jiang et al. (2024) abstract: "about 2,500 hours of various types of EEG signals from around 20 datasets"; Appendix D: 2534.78 hours.
-- [ ] **ds006036 citation** – author list and year for the dataset reference.
+- [x] **ds006036 citation** – Ntetska, A., Miltiadous, A., Tsipouras, M. G., Tzimourta, K. D., Afrantou, T., Ioannidis, P., Tsalikakis, D. G., Sakkas, K., Oikonomou, E. D., Grigoriadis, N., Angelidis, P., Giannakeas, N., & Tzallas, A. T. (2025). *Data* 10(5):64, doi:10.3390/data10050064 (13 authors via Crossref; the OpenNeuro record for ds006036 names it as the describing paper).
 - [x] Primary sources for AD EEG markers and ageing-related EEG change: Jeong (2004); Babiloni et al. (2020); Ishii et al. (2017); Voytek et al. (2015) – added to the final report.
 - [x] **Pritchard, Duke & Coburn (1991)** – *Dementia* 2(2):102–105, doi:10.1159/000107183.
 - [x] **Vicchietti et al. (2023)** – *Sci Rep* 13:8184, doi:10.1038/s41598-023-32664-8 (160 AD and 24 HC records, i.e. 80 AD + 12 HC × eyes open/closed).

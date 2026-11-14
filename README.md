@@ -19,7 +19,7 @@ Analysis plan frozen on 11 November 2026 (git tag `analysis-plan-v1`).
 | Phase | State |
 |---|---|
 | 0 Setup, data-use terms, leakage tests | done |
-| 1 Literature review | ongoing: 41 papers in the matrix, draft review written, verification list open |
+| 1 Literature review | ongoing: 50 papers in the matrix, draft review written, verification list open |
 | 2 Data acquisition and audit | done for all three cohorts (EXP-001) |
 | 3 Overlap check | done (EXP-002): ADSZ is a subset of ADFSU and was dropped |
 | 4 Preprocessing | done (EXP-003): cohorts harmonised; cohort still decodable from spectral shape at 0.69 |
