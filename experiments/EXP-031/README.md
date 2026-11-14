@@ -34,3 +34,6 @@
 - **Cohort offsets were an obstacle, not a shortcut.** Without control the classifier used block 1, which carries the least cohort information (EXP-021). After centring it chose deep blocks (11–12) in two of the three folds. Those blocks are among the most cohort-laden (0.86–0.87, against 0.71 at block 1) and, it now appears, transferable AD information once the offsets are removed.
 - Centring removes cohort *means*, not all cohort information; verification probes still decode cohort above chance (EXP-032). The result therefore shows that the AD signal LaBraM transfers does not depend on cohort mean offsets. It does not show that no cohort information is used.
 - Descriptively, centred LaBraM (0.887) is now close to classical features (0.900 [0.832, 0.956], EXP-012). That difference was not tested.
+
+## Revision after EXP-055 (14 November 2026)
+Holding the block fixed (EXP-055) shows that deep blocks transfer better than block 1 with or without control (original block 11: 0.908 vs 0.853), and that removal at a fixed block never improves transfer with a CI below 0. The gain reported above came from the change of selected block, not from the removal. "Obstacle, not shortcut" is narrowed to: cohort offsets were an obstacle to the inner CV *selecting* deep blocks, not to those blocks transferring.

@@ -1,0 +1,193 @@
+block,control,held_out,auroc,ci_low,ci_high,selected,C
+1,none,ADFSU,0.8103,0.6611,0.9375,b01_patch_mean_mean,100.0
+1,none,APAVA,0.8788,0.697,1.0,b01_patch_mean_median,0.1
+1,none,ds004504,0.8697,0.7739,0.9521,b01_patch_mean_median,0.1
+1,centring_i,ADFSU,0.8218,0.659,0.9561,b01_patch_mean_mean,100.0
+1,centring_i,APAVA,0.8788,0.697,1.0,b01_patch_mean_median,0.1
+1,centring_i,ds004504,0.8851,0.7931,0.9607,b01_patch_mean_median,0.01
+1,leace,ADFSU,0.8218,0.659,0.9583,b01_patch_mean_mean,100.0
+1,leace,APAVA,0.8864,0.7271,1.0,b01_patch_mean_mean,0.01
+1,leace,ds004504,0.8467,0.7423,0.933,b01_patch_mean_median,0.01
+1,inlp,ADFSU,0.9035,0.8114,0.9715,b01_patch_mean_median,0.1
+1,inlp,APAVA,0.9015,0.75,1.0,b01_patch_mean_mean,0.01
+1,inlp,ds004504,0.7816,0.6628,0.887,b01_patch_mean_mean,10.0
+2,none,ADFSU,0.7719,0.5976,0.9156,b02_cls_mean,0.1
+2,none,APAVA,0.9242,0.7879,1.0,b02_patch_mean_mean,0.01
+2,none,ds004504,0.8649,0.7615,0.9502,b02_patch_mean_median,0.001
+2,centring_i,ADFSU,0.7489,0.5701,0.9013,b02_cls_mean,0.1
+2,centring_i,APAVA,0.9091,0.7652,1.0,b02_patch_mean_mean,0.1
+2,centring_i,ds004504,0.8726,0.773,0.9511,b02_patch_mean_median,0.001
+2,leace,ADFSU,0.7423,0.5669,0.8898,b02_cls_mean,100.0
+2,leace,APAVA,0.8939,0.7348,1.0,b02_patch_mean_median,0.1
+2,leace,ds004504,0.8467,0.7433,0.9282,b02_cls_median,0.01
+2,inlp,ADFSU,0.841,0.7072,0.9474,b02_cls_mean,0.01
+2,inlp,APAVA,0.9091,0.7576,1.0,b02_patch_mean_mean,0.01
+2,inlp,ds004504,0.8563,0.7567,0.932,b02_cls_median,0.01
+3,none,ADFSU,0.8246,0.6743,0.943,b03_cls_median,0.01
+3,none,APAVA,0.9091,0.7652,1.0,b03_patch_mean_median,0.01
+3,none,ds004504,0.8238,0.7165,0.9196,b03_cls_median,0.1
+3,centring_i,ADFSU,0.7379,0.5461,0.9024,b03_cls_median,0.1
+3,centring_i,APAVA,0.9167,0.7727,1.0,b03_patch_mean_mean,0.01
+3,centring_i,ds004504,0.8266,0.7193,0.9224,b03_cls_median,0.1
+3,leace,ADFSU,0.852,0.7127,0.9627,b03_cls_median,0.01
+3,leace,APAVA,0.9015,0.7348,1.0,b03_patch_mean_mean,0.1
+3,leace,ds004504,0.841,0.7414,0.9224,b03_cls_median,0.01
+3,inlp,ADFSU,0.8048,0.6469,0.932,b03_cls_median,0.01
+3,inlp,APAVA,0.9167,0.7727,1.0,b03_patch_mean_mean,0.01
+3,inlp,ds004504,0.8649,0.772,0.9416,b03_cls_median,0.01
+4,none,ADFSU,0.7555,0.545,0.932,b04_patch_mean_mean,1.0
+4,none,APAVA,0.9167,0.7803,1.0,b04_patch_mean_mean,0.01
+4,none,ds004504,0.8515,0.748,0.9397,b04_patch_mean_median,0.01
+4,centring_i,ADFSU,0.7566,0.5493,0.9309,b04_patch_mean_mean,1.0
+4,centring_i,APAVA,0.9167,0.7803,1.0,b04_patch_mean_mean,0.01
+4,centring_i,ds004504,0.8448,0.7385,0.9358,b04_cls_median,0.1
+4,leace,ADFSU,0.7533,0.5471,0.9277,b04_patch_mean_mean,1.0
+4,leace,APAVA,0.9242,0.7879,1.0,b04_patch_mean_mean,0.1
+4,leace,ds004504,0.8429,0.7327,0.9291,b04_patch_mean_median,0.01
+4,inlp,ADFSU,0.7544,0.5636,0.9189,b04_cls_median,1.0
+4,inlp,APAVA,0.9167,0.7727,1.0,b04_patch_mean_mean,0.01
+4,inlp,ds004504,0.8582,0.7577,0.9387,b04_cls_mean,0.01
+5,none,ADFSU,0.7182,0.5197,0.8947,b05_cls_mean,1.0
+5,none,APAVA,0.9167,0.7803,1.0,b05_patch_mean_mean,0.01
+5,none,ds004504,0.8602,0.7643,0.9426,b05_patch_mean_median,0.01
+5,centring_i,ADFSU,0.7215,0.5262,0.8959,b05_cls_mean,10.0
+5,centring_i,APAVA,0.9167,0.7803,1.0,b05_patch_mean_median,0.01
+5,centring_i,ds004504,0.8649,0.7701,0.9445,b05_patch_mean_median,0.01
+5,leace,ADFSU,0.7763,0.6173,0.9167,b05_cls_median,0.1
+5,leace,APAVA,0.8864,0.7347,0.9926,b05_patch_mean_mean,0.1
+5,leace,ds004504,0.8716,0.7787,0.9473,b05_cls_median,0.01
+5,inlp,ADFSU,0.7357,0.5383,0.8959,b05_cls_mean,1.0
+5,inlp,APAVA,0.9167,0.7576,1.0,b05_patch_mean_mean,0.1
+5,inlp,ds004504,0.864,0.7643,0.9454,b05_cls_median,0.01
+6,none,ADFSU,0.818,0.671,0.9408,b06_cls_median,0.1
+6,none,APAVA,0.9015,0.7424,1.0,b06_patch_mean_mean,0.01
+6,none,ds004504,0.8285,0.7203,0.9196,b06_cls_median,0.1
+6,centring_i,ADFSU,0.807,0.6513,0.9353,b06_cls_median,0.1
+6,centring_i,APAVA,0.9015,0.7424,1.0,b06_patch_mean_median,0.01
+6,centring_i,ds004504,0.8247,0.7183,0.9167,b06_cls_median,0.1
+6,leace,ADFSU,0.8026,0.6283,0.9364,b06_cls_median,1.0
+6,leace,APAVA,0.8864,0.7348,0.9924,b06_patch_mean_mean,0.01
+6,leace,ds004504,0.8266,0.7145,0.9215,b06_cls_median,0.1
+6,inlp,ADFSU,0.8004,0.6491,0.9287,b06_cls_median,0.1
+6,inlp,APAVA,0.9242,0.7803,1.0,b06_patch_mean_mean,0.01
+6,inlp,ds004504,0.7998,0.681,0.9023,b06_cls_median,0.1
+7,none,ADFSU,0.8114,0.6601,0.9386,b07_cls_median,0.1
+7,none,APAVA,0.8939,0.7348,1.0,b07_patch_mean_mean,0.01
+7,none,ds004504,0.8678,0.7711,0.9464,b07_patch_mean_median,0.001
+7,centring_i,ADFSU,0.8004,0.6436,0.9353,b07_cls_mean,0.1
+7,centring_i,APAVA,0.8939,0.7348,1.0,b07_patch_mean_mean,0.01
+7,centring_i,ds004504,0.8697,0.772,0.9483,b07_patch_mean_median,0.01
+7,leace,ADFSU,0.8169,0.6645,0.9441,b07_cls_median,0.1
+7,leace,APAVA,0.8485,0.6667,0.9848,b07_patch_mean_mean,0.01
+7,leace,ds004504,0.8582,0.7567,0.9397,b07_patch_mean_median,0.01
+7,inlp,ADFSU,0.7445,0.5745,0.8958,b07_cls_median,0.1
+7,inlp,APAVA,0.9015,0.7424,1.0,b07_patch_mean_mean,0.01
+7,inlp,ds004504,0.8688,0.7758,0.9435,b07_cls_mean,0.01
+8,none,ADFSU,0.7352,0.5154,0.92,b08_patch_mean_mean,1.0
+8,none,APAVA,0.9167,0.7803,1.0,b08_patch_mean_mean,0.01
+8,none,ds004504,0.8372,0.7308,0.9253,b08_cls_median,0.1
+8,centring_i,ADFSU,0.8432,0.7302,0.9375,b08_cls_median,0.01
+8,centring_i,APAVA,0.9015,0.7424,1.0,b08_patch_mean_mean,0.01
+8,centring_i,ds004504,0.8295,0.7193,0.9253,b08_cls_median,0.01
+8,leace,ADFSU,0.7303,0.511,0.9178,b08_patch_mean_mean,1.0
+8,leace,APAVA,0.8561,0.6591,1.0,b08_patch_mean_mean,0.1
+8,leace,ds004504,0.8621,0.7576,0.9435,b08_patch_mean_median,0.01
+8,inlp,ADFSU,0.7895,0.636,0.92,b08_cls_median,0.1
+8,inlp,APAVA,0.9015,0.75,1.0,b08_patch_mean_mean,0.001
+8,inlp,ds004504,0.84,0.7308,0.9253,b08_cls_median,0.01
+9,none,ADFSU,0.8147,0.6776,0.9288,b09_cls_median,1.0
+9,none,APAVA,0.8939,0.7347,1.0,b09_patch_mean_median,0.01
+9,none,ds004504,0.8678,0.7672,0.9502,b09_patch_mean_mean,0.01
+9,centring_i,ADFSU,0.8235,0.6875,0.9342,b09_cls_median,10.0
+9,centring_i,APAVA,0.8864,0.7119,1.0,b09_patch_mean_mean,0.01
+9,centring_i,ds004504,0.7816,0.6657,0.8889,b09_cls_mean,100.0
+9,leace,ADFSU,0.8246,0.6875,0.9375,b09_cls_median,100.0
+9,leace,APAVA,0.8864,0.7195,1.0,b09_patch_mean_median,0.1
+9,leace,ds004504,0.8534,0.7519,0.9358,b09_cls_median,0.01
+9,inlp,ADFSU,0.7752,0.6337,0.9013,b09_cls_median,0.1
+9,inlp,APAVA,0.9091,0.765,1.0,b09_patch_mean_mean,0.01
+9,inlp,ds004504,0.8697,0.772,0.9473,b09_cls_mean,0.001
+10,none,ADFSU,0.8629,0.727,0.9715,b10_cls_mean,1.0
+10,none,APAVA,0.9318,0.8106,1.0,b10_patch_mean_median,0.01
+10,none,ds004504,0.8774,0.7845,0.954,b10_patch_mean_mean,0.01
+10,centring_i,ADFSU,0.8246,0.6667,0.9539,b10_cls_mean,100.0
+10,centring_i,APAVA,0.9242,0.7879,1.0,b10_patch_mean_median,0.01
+10,centring_i,ds004504,0.8774,0.7835,0.9531,b10_cls_mean,0.01
+10,leace,ADFSU,0.8289,0.6754,0.9572,b10_cls_mean,10.0
+10,leace,APAVA,0.8788,0.7197,1.0,b10_cls_median,0.1
+10,leace,ds004504,0.8736,0.7778,0.9511,b10_patch_mean_median,0.01
+10,inlp,ADFSU,0.875,0.75,0.9726,b10_cls_mean,0.1
+10,inlp,APAVA,0.8788,0.7121,0.9924,b10_patch_mean_mean,0.001
+10,inlp,ds004504,0.8774,0.7874,0.9492,b10_cls_mean,0.01
+11,none,ADFSU,0.8958,0.795,0.9726,b11_cls_mean,1.0
+11,none,APAVA,0.9545,0.8561,1.0,b11_cls_mean,0.1
+11,none,ds004504,0.8726,0.7749,0.9521,b11_patch_mean_median,0.01
+11,centring_i,ADFSU,0.8553,0.7259,0.9594,b11_cls_mean,100.0
+11,centring_i,APAVA,0.947,0.8409,1.0,b11_cls_mean,0.1
+11,centring_i,ds004504,0.8582,0.7576,0.9416,b11_cls_mean,0.01
+11,leace,ADFSU,0.841,0.7204,0.9452,b11_cls_mean,100.0
+11,leace,APAVA,0.8561,0.6818,0.9848,b11_cls_mean,0.1
+11,leace,ds004504,0.8764,0.7883,0.9521,b11_patch_mean_median,100.0
+11,inlp,ADFSU,0.8706,0.773,0.9529,b11_cls_mean,1.0
+11,inlp,APAVA,0.8864,0.7197,1.0,b11_patch_mean_median,0.01
+11,inlp,ds004504,0.8812,0.796,0.9521,b11_patch_mean_median,0.1
+12,none,ADFSU,0.7939,0.6261,0.9375,b12_patch_mean_mean,1.0
+12,none,APAVA,0.9545,0.8485,1.0,b12_cls_mean,0.1
+12,none,ds004504,0.9157,0.841,0.9722,b12_patch_mean_mean,100.0
+12,centring_i,ADFSU,0.8509,0.705,0.9671,b12_patch_mean_median,0.1
+12,centring_i,APAVA,0.947,0.8485,1.0,b12_cls_mean,0.1
+12,centring_i,ds004504,0.9262,0.8534,0.9799,b12_patch_mean_median,100.0
+12,leace,ADFSU,0.7708,0.5921,0.9309,b12_patch_mean_mean,1.0
+12,leace,APAVA,0.9394,0.8258,1.0,b12_cls_mean,0.1
+12,leace,ds004504,0.8688,0.7758,0.9435,b12_patch_mean_median,1.0
+12,inlp,ADFSU,0.8147,0.6732,0.932,b12_cls_median,1.0
+12,inlp,APAVA,0.9015,0.75,1.0,b12_cls_mean,0.1
+12,inlp,ds004504,0.863,0.7672,0.9406,b12_patch_mean_median,100.0
+1,none,MEAN over folds,0.8529,0.7731,0.9222,,
+1,centring_i,MEAN over folds,0.8619,0.7823,0.935,,
+1,leace,MEAN over folds,0.8516,0.7726,0.9238,,
+1,inlp,MEAN over folds,0.8622,0.7935,0.92,,
+2,none,MEAN over folds,0.8537,0.7759,0.9214,,
+2,centring_i,MEAN over folds,0.8435,0.7644,0.9149,,
+2,leace,MEAN over folds,0.8277,0.7506,0.8982,,
+2,inlp,MEAN over folds,0.8688,0.7984,0.9293,,
+3,none,MEAN over folds,0.8525,0.7789,0.916,,
+3,centring_i,MEAN over folds,0.8271,0.7427,0.9006,,
+3,leace,MEAN over folds,0.8648,0.7876,0.9299,,
+3,inlp,MEAN over folds,0.8621,0.785,0.9269,,
+4,none,MEAN over folds,0.8412,0.7531,0.9179,,
+4,centring_i,MEAN over folds,0.8394,0.75,0.9155,,
+4,leace,MEAN over folds,0.8401,0.7523,0.9163,,
+4,inlp,MEAN over folds,0.8431,0.7602,0.9201,,
+5,none,MEAN over folds,0.8317,0.7492,0.9066,,
+5,centring_i,MEAN over folds,0.8344,0.7514,0.91,,
+5,leace,MEAN over folds,0.8448,0.7644,0.9138,,
+5,inlp,MEAN over folds,0.8388,0.7519,0.9154,,
+6,none,MEAN over folds,0.8493,0.7759,0.9183,,
+6,centring_i,MEAN over folds,0.8444,0.7688,0.9139,,
+6,leace,MEAN over folds,0.8385,0.754,0.9092,,
+6,inlp,MEAN over folds,0.8415,0.7651,0.9095,,
+7,none,MEAN over folds,0.8577,0.7828,0.9247,,
+7,centring_i,MEAN over folds,0.8547,0.7784,0.9225,,
+7,leace,MEAN over folds,0.8412,0.7575,0.9154,,
+7,inlp,MEAN over folds,0.8383,0.7597,0.9095,,
+8,none,MEAN over folds,0.8297,0.7384,0.907,,
+8,centring_i,MEAN over folds,0.8581,0.7871,0.9183,,
+8,leace,MEAN over folds,0.8161,0.7186,0.9072,,
+8,inlp,MEAN over folds,0.8437,0.7663,0.9123,,
+9,none,MEAN over folds,0.8588,0.786,0.9242,,
+9,centring_i,MEAN over folds,0.8305,0.7515,0.8993,,
+9,leace,MEAN over folds,0.8548,0.7781,0.9181,,
+9,inlp,MEAN over folds,0.8513,0.7791,0.9167,,
+10,none,MEAN over folds,0.8907,0.823,0.9475,,
+10,centring_i,MEAN over folds,0.8754,0.8016,0.9392,,
+10,leace,MEAN over folds,0.8604,0.7752,0.9314,,
+10,inlp,MEAN over folds,0.8771,0.8032,0.9392,,
+11,none,MEAN over folds,0.9077,0.8532,0.9535,,
+11,centring_i,MEAN over folds,0.8868,0.8223,0.9421,,
+11,leace,MEAN over folds,0.8578,0.7795,0.9263,,
+11,inlp,MEAN over folds,0.8794,0.8095,0.9396,,
+12,none,MEAN over folds,0.888,0.8225,0.9463,,
+12,centring_i,MEAN over folds,0.908,0.8462,0.9601,,
+12,leace,MEAN over folds,0.8597,0.7854,0.9276,,
+12,inlp,MEAN over folds,0.8597,0.7857,0.9231,,

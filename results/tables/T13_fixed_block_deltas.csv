@@ -1,0 +1,145 @@
+block,control,held_out,delta_auroc,ci_low,ci_high
+1,centring_i,ADFSU,-0.0115,-0.0499,0.0263
+1,centring_i,APAVA,0.0,-0.0,0.0
+1,centring_i,ds004504,-0.0153,-0.0556,0.0173
+1,centring_i,MEAN over folds,-0.0089,-0.0271,0.0082
+1,leace,ADFSU,-0.0115,-0.0537,0.0291
+1,leace,APAVA,-0.0076,-0.0758,0.0455
+1,leace,ds004504,0.023,-0.0498,0.0948
+1,leace,MEAN over folds,0.0013,-0.032,0.034
+1,inlp,ADFSU,-0.0932,-0.1815,-0.0132
+1,inlp,APAVA,-0.0227,-0.0909,0.0076
+1,inlp,ds004504,0.0881,0.023,0.1638
+1,inlp,MEAN over folds,-0.0093,-0.0511,0.0309
+2,centring_i,ADFSU,0.023,-0.0011,0.0559
+2,centring_i,APAVA,0.0152,0.0,0.0606
+2,centring_i,ds004504,-0.0077,-0.0259,0.0086
+2,centring_i,MEAN over folds,0.0102,-0.003,0.0271
+2,leace,ADFSU,0.0296,-0.0647,0.1349
+2,leace,APAVA,0.0303,0.0,0.0909
+2,leace,ds004504,0.0182,-0.0642,0.1025
+2,leace,MEAN over folds,0.026,-0.0173,0.0743
+2,inlp,ADFSU,-0.0691,-0.1557,0.0077
+2,inlp,APAVA,0.0152,-0.0303,0.0758
+2,inlp,ds004504,0.0086,-0.0575,0.0795
+2,inlp,MEAN over folds,-0.0151,-0.0554,0.0238
+3,centring_i,ADFSU,0.0866,0.0066,0.1919
+3,centring_i,APAVA,-0.0076,-0.0455,0.0
+3,centring_i,ds004504,-0.0029,-0.0259,0.0192
+3,centring_i,MEAN over folds,0.0254,-0.0048,0.0616
+3,leace,ADFSU,-0.0274,-0.0603,0.0011
+3,leace,APAVA,0.0076,-0.0456,0.0833
+3,leace,ds004504,-0.0172,-0.0948,0.0613
+3,leace,MEAN over folds,-0.0124,-0.0476,0.0224
+3,inlp,ADFSU,0.0197,-0.0186,0.0614
+3,inlp,APAVA,-0.0076,-0.0909,0.0606
+3,inlp,ds004504,-0.0412,-0.1264,0.0374
+3,inlp,MEAN over folds,-0.0097,-0.05,0.0274
+4,centring_i,ADFSU,-0.0011,-0.0164,0.0154
+4,centring_i,APAVA,0.0,-0.0,0.0
+4,centring_i,ds004504,0.0067,-0.0307,0.046
+4,centring_i,MEAN over folds,0.0019,-0.0118,0.0158
+4,leace,ADFSU,0.0022,-0.0186,0.0263
+4,leace,APAVA,-0.0076,-0.0455,0.0
+4,leace,ds004504,0.0086,-0.0403,0.0603
+4,leace,MEAN over folds,0.0011,-0.0199,0.0225
+4,inlp,ADFSU,0.0011,-0.0647,0.068
+4,inlp,APAVA,0.0,-0.0985,0.0909
+4,inlp,ds004504,-0.0067,-0.0718,0.0594
+4,inlp,MEAN over folds,-0.0019,-0.0429,0.0392
+5,centring_i,ADFSU,-0.0033,-0.0175,0.011
+5,centring_i,APAVA,0.0,-0.0,0.0
+5,centring_i,ds004504,-0.0048,-0.023,0.0086
+5,centring_i,MEAN over folds,-0.0027,-0.0102,0.0037
+5,leace,ADFSU,-0.0581,-0.1349,0.0055
+5,leace,APAVA,0.0303,0.0,0.0909
+5,leace,ds004504,-0.0115,-0.0709,0.0431
+5,leace,MEAN over folds,-0.0131,-0.0477,0.0228
+5,inlp,ADFSU,-0.0175,-0.1108,0.0757
+5,inlp,APAVA,0.0,-0.0833,0.0909
+5,inlp,ds004504,-0.0038,-0.068,0.0565
+5,inlp,MEAN over folds,-0.0071,-0.0515,0.0393
+6,centring_i,ADFSU,0.011,-0.0055,0.0318
+6,centring_i,APAVA,0.0,-0.0,0.0
+6,centring_i,ds004504,0.0038,-0.0086,0.0153
+6,centring_i,MEAN over folds,0.0049,-0.0016,0.0128
+6,leace,ADFSU,0.0154,-0.0252,0.0592
+6,leace,APAVA,0.0152,-0.0305,0.0758
+6,leace,ds004504,0.0019,-0.0728,0.069
+6,leace,MEAN over folds,0.0108,-0.0201,0.0435
+6,inlp,ADFSU,0.0175,-0.0033,0.0439
+6,inlp,APAVA,-0.0227,-0.1212,0.053
+6,inlp,ds004504,0.0287,-0.0603,0.1226
+6,inlp,MEAN over folds,0.0079,-0.0354,0.0485
+7,centring_i,ADFSU,0.011,-0.0011,0.0285
+7,centring_i,APAVA,0.0,-0.0,0.0
+7,centring_i,ds004504,-0.0019,-0.0201,0.0144
+7,centring_i,MEAN over folds,0.003,-0.0045,0.0107
+7,leace,ADFSU,-0.0055,-0.0219,0.011
+7,leace,APAVA,0.0455,0.0,0.1136
+7,leace,ds004504,0.0096,-0.0431,0.0603
+7,leace,MEAN over folds,0.0165,-0.0073,0.0445
+7,inlp,ADFSU,0.0669,0.023,0.1206
+7,inlp,APAVA,-0.0076,-0.0606,0.053
+7,inlp,ds004504,-0.001,-0.0776,0.0757
+7,inlp,MEAN over folds,0.0195,-0.0158,0.0544
+8,centring_i,ADFSU,-0.108,-0.2796,0.0318
+8,centring_i,APAVA,0.0152,0.0,0.0682
+8,centring_i,ds004504,0.0077,-0.0421,0.0603
+8,centring_i,MEAN over folds,-0.0284,-0.089,0.0233
+8,leace,ADFSU,0.0049,-0.0088,0.0203
+8,leace,APAVA,0.0606,0.0,0.1515
+8,leace,ds004504,-0.0249,-0.091,0.0421
+8,leace,MEAN over folds,0.0135,-0.0182,0.0514
+8,inlp,ADFSU,-0.0543,-0.1875,0.0603
+8,inlp,APAVA,0.0152,-0.053,0.0985
+8,inlp,ds004504,-0.0029,-0.0795,0.0785
+8,inlp,MEAN over folds,-0.014,-0.0717,0.039
+9,centring_i,ADFSU,-0.0088,-0.0285,0.0066
+9,centring_i,APAVA,0.0076,0.0,0.0455
+9,centring_i,ds004504,0.0862,0.0038,0.1762
+9,centring_i,MEAN over folds,0.0283,-0.0005,0.0596
+9,leace,ADFSU,-0.0099,-0.0318,0.0088
+9,leace,APAVA,0.0076,-0.0682,0.0833
+9,leace,ds004504,0.0144,-0.0556,0.0881
+9,leace,MEAN over folds,0.004,-0.0275,0.0387
+9,inlp,ADFSU,0.0395,-0.0154,0.0998
+9,inlp,APAVA,-0.0152,-0.1212,0.0606
+9,inlp,ds004504,-0.0019,-0.0881,0.0872
+9,inlp,MEAN over folds,0.0075,-0.0378,0.0522
+10,centring_i,ADFSU,0.0384,-0.0055,0.0987
+10,centring_i,APAVA,0.0076,0.0,0.0455
+10,centring_i,ds004504,-0.0,-0.0374,0.0412
+10,centring_i,MEAN over folds,0.0153,-0.0061,0.0394
+10,leace,ADFSU,0.034,-0.0077,0.0954
+10,leace,APAVA,0.053,-0.0758,0.1818
+10,leace,ds004504,0.0038,-0.0613,0.0651
+10,leace,MEAN over folds,0.0303,-0.0185,0.0863
+10,inlp,ADFSU,-0.0121,-0.0592,0.0274
+10,inlp,APAVA,0.053,-0.0303,0.1515
+10,inlp,ds004504,0.0,-0.0786,0.0776
+10,inlp,MEAN over folds,0.0137,-0.0268,0.0571
+11,centring_i,ADFSU,0.0406,0.0055,0.0899
+11,centring_i,APAVA,0.0076,0.0,0.0455
+11,centring_i,ds004504,0.0144,-0.0259,0.0584
+11,centring_i,MEAN over folds,0.0208,0.0018,0.0434
+11,leace,ADFSU,0.0548,0.0121,0.1096
+11,leace,APAVA,0.0985,0.015,0.2121
+11,leace,ds004504,-0.0038,-0.0814,0.0671
+11,leace,MEAN over folds,0.0498,0.0083,0.099
+11,inlp,ADFSU,0.0252,-0.0197,0.0757
+11,inlp,APAVA,0.0682,0.0,0.1667
+11,inlp,ds004504,-0.0086,-0.0766,0.0575
+11,inlp,MEAN over folds,0.0283,-0.0064,0.0696
+12,centring_i,ADFSU,-0.057,-0.1272,-0.0033
+12,centring_i,APAVA,0.0076,0.0,0.0455
+12,centring_i,ds004504,-0.0105,-0.0355,0.0067
+12,centring_i,MEAN over folds,-0.02,-0.0441,0.0014
+12,leace,ADFSU,0.023,-0.0055,0.0581
+12,leace,APAVA,0.0152,0.0,0.0606
+12,leace,ds004504,0.0469,0.0096,0.0881
+12,leace,MEAN over folds,0.0284,0.0113,0.0507
+12,inlp,ADFSU,-0.0208,-0.1217,0.0746
+12,inlp,APAVA,0.053,0.0,0.1591
+12,inlp,ds004504,0.0527,0.0057,0.1111
+12,inlp,MEAN over folds,0.0283,-0.015,0.0781

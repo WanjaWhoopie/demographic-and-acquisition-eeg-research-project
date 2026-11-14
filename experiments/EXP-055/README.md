@@ -37,3 +37,52 @@
   `T13_fixed_block_deltas.csv`, `results/figures/EXP-055_fixed_block.png`. Checks: at block 1 with no
   control, the per-fold AUROC must reproduce EXP-011/EXP-031 where the EXP-031 selection was a
   block-1 configuration (all three folds for "none", APAVA for centring).
+
+## Run record
+- **Date:** 2026-11-14 · design committed in 60b0a71 (now 1b35945's parent after the history rewrite; the
+  pre-registration is the commit "Pre-register three analyses prompted by the review") before the run
+- **Command:** `python scripts/13_review_analyses.py --part fixed_block` (20 workers, about 50 min)
+- **Check passed:** block 1 without control reproduces EXP-031 in every fold.
+- **Outputs:** `results/tables/T13_fixed_block.csv`, `T13_fixed_block_deltas.csv`, `results/figures/EXP-055_fixed_block.png`
+
+## Results
+Mean LOCO AUROC over the three folds, at a fixed block (token, pooling and C by inner CV):
+
+| Block | Original | Centring (i) | LEACE | INLP |
+|---|---|---|---|---|
+| 1 | 0.853 | 0.862 | 0.852 | 0.862 |
+| 4 | 0.841 | 0.839 | 0.840 | 0.843 |
+| 8 | 0.830 | 0.858 | 0.816 | 0.844 |
+| 10 | 0.891 | 0.875 | 0.860 | 0.877 |
+| 11 | **0.908** | 0.887 | 0.858 | 0.879 |
+| 12 | 0.888 | **0.908** | 0.860 | 0.860 |
+
+ΔAUROC = original − controlled, mean over folds [95% CI], 36 comparisons, uncorrected:
+- **Block 1** (the block the uncontrolled classifier used in every fold): centring −0.009 [−0.027, 0.008];
+  LEACE +0.001 [−0.032, 0.034]; INLP −0.009 [−0.051, 0.031]. Removal does nothing there.
+- **CIs above 0 (removal costs AUROC):** centring at block 11, +0.021 [0.002, 0.043]; LEACE at block 11,
+  +0.050 [0.008, 0.099], and block 12, +0.028 [0.011, 0.051]. Three of 36, against about two expected
+  by chance at 5%.
+- **CIs below 0 (removal helps):** none. The closest is centring at block 12, −0.020 [−0.044, 0.001].
+- **Layer-switch share.** Without any control, deep blocks transfer better than block 1: 0.891 (block 10),
+  0.908 (block 11), 0.888 (block 12) against 0.853. The step from block 1 to block 11 alone (+0.055) is
+  larger than the whole EXP-031 primary gain (+0.034). Per fold, original block 11 vs block 1: ADFSU
+  0.896 vs 0.810, APAVA 0.954 vs 0.879, ds004504 0.873 vs 0.870.
+
+## Interpretation
+- **By the pre-registered rule: harm hidden by selection.** One centring CI (block 11) lies above 0.
+  The size is small (0.02), it is one of 36 uncorrected comparisons, and LEACE shows the same at blocks
+  11–12 (0.03–0.05). The report's sentence "removing cohort information never reduced transfer" is
+  withdrawn and replaced by the per-block result.
+- **The EXP-031 primary gain was a selection effect, not a removal effect.** At no block does removal
+  improve transfer with a CI below 0, and at block 1 it does nothing. What changed in EXP-031 was which
+  block the inner CV chose: without control, block 1; with centring, blocks 11–12, which transfer
+  better *with or without* control. Cohort offsets did not stop deep blocks from transferring; they
+  stopped the inner CV, a pooled cross-validation over two training cohorts with different AD
+  prevalence, from *selecting* them. Removing the offsets fixed the selection, and the selection, not
+  the removal, raised the AUROC.
+- **What stands.** Frozen LaBraM's cross-cohort AD signal does not depend on cohort information:
+  removing it at the block in use changes nothing, and at any block it changes AUROC by at most 0.05
+  in either direction. The strongest statement the data support is a bound, not a gain.
+- **Revises EXP-031.** Its reading "cohort offsets were an obstacle, not a shortcut" is narrowed to
+  "an obstacle to model selection, not to transfer".
