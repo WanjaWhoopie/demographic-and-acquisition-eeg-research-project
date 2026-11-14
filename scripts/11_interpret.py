@@ -1,7 +1,7 @@
-"""Phase 11 interpretation (exploratory): EXP-050 band perturbation, EXP-052 classifier score vs
-classical EEG markers (D-036).
+"""Phase 11 interpretation (exploratory): EXP-050 band perturbation, EXP-051 channel occlusion,
+EXP-052 classifier score vs classical EEG markers (D-036, D-038).
 
-    python scripts/11_interpret.py [--part all|bands|markers]
+    python scripts/11_interpret.py [--part all|bands|channels|markers]
 
 EXP-050 needs the band-stopped embeddings first (GPU, ~2 min per band):
     python scripts/04_extract_embeddings.py --cohort <cohort> --band-stop <band>
@@ -14,6 +14,11 @@ EXP-050 band perturbation
   Unperturbed predictions must reproduce the saved EXP-031 predictions. Reported per band:
   mean over folds of AUROC(unperturbed) − AUROC(band removed), paired bootstrap CI, and the mean
   change in predicted AD probability among AD and among HC participants.
+EXP-051 channel occlusion (D-038)
+  Same procedure as EXP-050, with the held-out input occluded instead of band-stopped: one of the 16
+  channels, or one region (eegconf.features.REGIONS), set to zero after average referencing.
+  Embeddings: python scripts/04_extract_embeddings.py --cohort <cohort> --occlude <condition>.
+  Reported per condition as for EXP-050, plus topographic maps of the single-channel ΔAUROC.
 EXP-052 markers
   Per participant from the preprocessed epochs: relative theta, relative alpha, theta/alpha ratio
   and peak alpha frequency (centre of gravity 7-13 Hz), each as the global mean and the posterior
@@ -21,8 +26,8 @@ EXP-052 markers
   correlation with the out-of-fold classifier score (logit of the EXP-031 probability) within each
   held-out cohort; Benjamini-Hochberg FDR across markers × cohorts, separately per classifier.
 
-Outputs: results/tables/T11_band_perturbation.csv, T11_markers.csv,
-results/figures/EXP-050_band_perturbation.png
+Outputs: results/tables/T11_band_perturbation.csv, T11_channel_occlusion.csv, T11_markers.csv,
+results/figures/EXP-050_band_perturbation.png, EXP-051_channel_occlusion.png
 """
 import os
 
@@ -43,7 +48,7 @@ from scipy.stats import false_discovery_control, spearmanr
 from eegconf import stats
 from eegconf.control import make_control
 from eegconf.evaluation import model, splits
-from eegconf.features import BANDS, participant_psd, relative_band_power
+from eegconf.features import BANDS, REGIONS, participant_psd, relative_band_power
 from eegconf.representation import participant_tensor
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -79,15 +84,21 @@ def boot_mean(v, seed, n=2000):
     return v.mean(), *np.percentile(reps, [2.5, 97.5])
 
 
-def bands(meta, z, seed):
+def perturbation(meta, z, seed, conditions, model_dir, key):
+    """Apply each LOCO fold's EXP-031 classifiers to the held-out cohort intact and perturbed.
+
+    conditions: perturbation names; model_dir(name) gives the embeddings folder under data/embeddings;
+    key: name of the condition column in the output ("band" for EXP-050, "condition" for EXP-051).
+    Returns one row per condition × classifier × fold, plus a "MEAN over folds" row with the
+    paired-bootstrap CI and the mean change in P(AD) among AD and among HC participants."""
     y, cohort = meta["diagnosis"].to_numpy(), meta["cohort"].to_numpy()
     folds = list(splits.leave_one_cohort_out(meta))
     t08 = pd.read_csv(ROOT / "results/tables/T08_loco.csv")
     saved = pd.read_csv(ROOT / "results/runs/EXP-031/predictions.csv")
     Z0 = z["Z_labram-base"]
-    rows, dp_all = [], []
-    for band in BANDS:
-        Zb = np.stack([participant_tensor(np.load(ROOT / f"data/embeddings/labram-base-stop-{band}" / c / f"{g}.npz"))
+    rows = []
+    for name in conditions:
+        Zb = np.stack([participant_tensor(np.load(ROOT / "data/embeddings" / model_dir(name) / c / f"{g}.npz"))
                        for g, c in zip(meta["global_id"], cohort)])
         for ctrl in CONTROLS:
             per, dps = [], []
@@ -103,18 +114,22 @@ def bands(meta, z, seed):
                 p1 = frozen_predict(Z0, Zb, cfg_row, ctrl, y, cohort, tr, te)
                 per.append((y[te], p0, p1))
                 d, lo, hi = stats.paired_delta(y[te], p0, p1, seed=seed)
-                rows.append({"band": band, "classifier": ctrl, "held_out": held, "delta_auroc": d, "ci_low": lo, "ci_high": hi})
-                dps.append(pd.DataFrame({"band": band, "classifier": ctrl, "cohort": held, "diagnosis": y[te], "dp": p1 - p0}))
+                rows.append({key: name, "classifier": ctrl, "held_out": held, "delta_auroc": d, "ci_low": lo, "ci_high": hi})
+                dps.append(pd.DataFrame({"diagnosis": y[te], "dp": p1 - p0}))
             d, lo, hi = stats.mean_over_folds(per, seed=seed)
             dp = pd.concat(dps)
             ad, hc = boot_mean(dp[dp.diagnosis == 1].dp.to_numpy(), seed), boot_mean(dp[dp.diagnosis == 0].dp.to_numpy(), seed)
-            rows.append({"band": band, "classifier": ctrl, "held_out": "MEAN over folds", "delta_auroc": d, "ci_low": lo,
+            rows.append({key: name, "classifier": ctrl, "held_out": "MEAN over folds", "delta_auroc": d, "ci_low": lo,
                          "ci_high": hi, "mean_dp_AD": ad[0], "mean_dp_AD_ci": f"[{ad[1]:+.3f}, {ad[2]:+.3f}]",
                          "mean_dp_HC": hc[0], "mean_dp_HC_ci": f"[{hc[1]:+.3f}, {hc[2]:+.3f}]"})
-            dp_all.append(dp)
-            print(f"{band:6s} {ctrl:10s} ΔAUROC (intact − removed) {d:+.3f} [{lo:+.3f}, {hi:+.3f}]  "
+            print(f"{name:16s} {ctrl:10s} ΔAUROC (intact − perturbed) {d:+.3f} [{lo:+.3f}, {hi:+.3f}]  "
                   f"Δp AD {ad[0]:+.3f}  Δp HC {hc[0]:+.3f}")
-    out = pd.DataFrame(rows)
+    return pd.DataFrame(rows)
+
+
+def bands(meta, z, seed):
+    """EXP-050: one frequency band removed from the held-out input."""
+    out = perturbation(meta, z, seed, BANDS, lambda b: f"labram-base-stop-{b}", "band")
     out.round(4).to_csv(ROOT / "results/tables/T11_band_perturbation.csv", index=False)
 
     m = out[(out.held_out == "MEAN over folds")]
@@ -134,6 +149,52 @@ def bands(meta, z, seed):
     ax[0].legend(fontsize=8); ax[1].legend(fontsize=7)
     fig.tight_layout()
     fig.savefig(ROOT / "results/figures/EXP-050_band_perturbation.png", dpi=150)
+
+
+def channels(meta, z, seed):
+    """EXP-051: one channel or one region zeroed in the held-out input (D-038)."""
+    import mne
+    chans = yaml.safe_load(open(ROOT / "configs/preprocessing.yaml"))["channels"]
+    conditions = list(REGIONS) + chans
+    out = perturbation(meta, z, seed, conditions, lambda c: f"labram-base-occ-{c}", "condition")
+    out.insert(1, "kind", np.where(out.condition.isin(list(REGIONS)), "region", "channel"))
+    out.round(4).to_csv(ROOT / "results/tables/T11_channel_occlusion.csv", index=False)
+
+    m = out[out.held_out == "MEAN over folds"]
+    # Reading rule fixed in D-038, applied to the original classifier
+    reg = m[(m.kind == "region") & (m.classifier == "none")].set_index("condition")
+    post = reg.loc["posterior"]
+    if post.ci_low > 0 and post.delta_auroc == reg.delta_auroc.max():
+        verdict = "posterior emphasis"
+    elif (reg.ci_low <= 0).all():
+        verdict = "spatially distributed"
+    else:
+        verdict = "mixed"
+    print(f"EXP-051 reading rule (original classifier): {verdict}")
+
+    # Figure: single-channel topomaps (diverging, centred on 0) and region estimates with CIs
+    info = mne.create_info(chans, sfreq=200.0, ch_types="eeg")
+    info.set_montage("standard_1020")
+    single = m[m.kind == "channel"]
+    lim = float(np.abs(single.delta_auroc).max())
+    fig, ax = plt.subplots(1, 3, figsize=(12, 4.2), gridspec_kw={"width_ratios": [1, 1, 1.4], "wspace": 0.35})
+    colours = {"none": "#2a78d6", "centring_i": "#eb6834"}            # same categorical slots as F5/F6
+    for k, ctrl in enumerate(CONTROLS):
+        v = single[single.classifier == ctrl].set_index("condition").loc[chans, "delta_auroc"].to_numpy()
+        im, _ = mne.viz.plot_topomap(v, info, axes=ax[k], show=False, cmap="RdBu_r", vlim=(-lim, lim),
+                                     names=chans, sensors=True, contours=0)
+        ax[k].set_title(("original" if ctrl == "none" else "centred (i)") + ": single channels")
+    fig.colorbar(im, ax=ax[:2], orientation="horizontal", shrink=0.6, pad=0.05, label="ΔAUROC (intact − occluded)")
+    y0 = np.arange(len(REGIONS))
+    for k, ctrl in enumerate(CONTROLS):
+        d = m[(m.kind == "region") & (m.classifier == ctrl)].set_index("condition").loc[list(REGIONS)]
+        ax[2].errorbar(d.delta_auroc, y0 + 0.15 * (k - 0.5), xerr=[d.delta_auroc - d.ci_low, d.ci_high - d.delta_auroc],
+                       fmt="o", capsize=3, color=colours[ctrl], label="original" if ctrl == "none" else "centred (i)")
+    ax[2].axvline(0, color="k", lw=0.8)
+    ax[2].set_yticks(y0, [r.replace("_", "-" + chr(10)) for r in REGIONS])     # "central-" / "temporal" on two lines
+    ax[2].set(xlabel="ΔAUROC (intact − occluded)", title="Region occluded")
+    ax[2].legend(fontsize=8)
+    fig.savefig(ROOT / "results/figures/EXP-051_channel_occlusion.png", dpi=150, bbox_inches="tight")
 
 
 def markers(meta, z):
@@ -184,7 +245,7 @@ def markers(meta, z):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--part", default="all", choices=["all", "bands", "markers"])
+    ap.add_argument("--part", default="all", choices=["all", "bands", "channels", "markers"])
     args = ap.parse_args()
     seed = yaml.safe_load(open(ROOT / "configs/analysis.yaml"))["seed"]
     z = np.load(ROOT / "data/features/participant_features.npz", allow_pickle=True)
@@ -192,6 +253,8 @@ def main():
     meta["diagnosis"] = meta["diagnosis"].astype(int)
     if args.part in ("all", "bands"):
         bands(meta, z, seed)
+    if args.part in ("all", "channels"):
+        channels(meta, z, seed)
     if args.part in ("all", "markers"):
         markers(meta, z)
 

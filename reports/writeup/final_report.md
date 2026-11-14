@@ -29,8 +29,8 @@ pre-specified analyses, removing cohort information never reduced transfer: cent
 −0.069 to −0.001, p = 0.046), LEACE to 0.883 and INLP to 0.876. The small improvement disappeared
 with equal EEG length per participant or equalised amplitude, and no secondary comparison survived
 Holm correction. In exploratory analyses the cross-cohort AD score behaved as an EEG-slowing index:
-removing theta cost most discrimination, and the score correlated with the theta/alpha ratio at up
-to ρ = 0.91. Which epochs were pooled per participant changed AUROC by up to several hundredths, with
+removing theta cost most discrimination, removing the posterior channels cost far more than any
+other region (ΔAUROC 0.20), and the score correlated with the theta/alpha ratio at up to ρ = 0.91. Which epochs were pooled per participant changed AUROC by up to several hundredths, with
 no reliable effect of their position in the recording. **Conclusion.** Frozen LaBraM encodes its cohort strongly, but its cross-cohort AD signal
 does not depend on that information. What transfers is largely the classical spectral slowing of AD.
 
@@ -235,12 +235,12 @@ Reporting follows TRIPOD+AI (Collins et al., 2024; `reports/checklists/tripod_ai
 (`docs/licences/`). No data are redistributed. Code is public; `README.md` gives the run order.
 
 ### 3.8 Exploratory interpretation (O5)
-Added or re-scoped after the confirmatory results and labelled exploratory (D-035 to D-037):
+Added or re-scoped after the confirmatory results and labelled exploratory (D-035 to D-038):
 - **EXP-053:** pool only the first k epochs of each recording, k = 1 … all.
 - **EXP-054:** 8 epochs from the first, middle or last part of each recording; k ∈ {2, 8, 32} randomly drawn epochs, 5 draws.
 - **EXP-050:** band-stop one band in the held-out cohort's EEG and re-apply the trained classifier.
 - **EXP-052:** correlate the out-of-fold AD score with classical markers within each held-out cohort (Spearman, BH-FDR).
-- Channel occlusion (EXP-051) was planned but deferred for time (D-036).
+- **EXP-051:** zero one channel, or one region (frontal Fp1 Fp2 F7 F3 F4 F8; central-temporal T3 C3 C4 T4; posterior T5 P3 P4 T6 O1 O2), in the held-out cohort's average-referenced EEG and re-apply the trained classifier. After average referencing, zero is the montage average, so the channel stays in the input but carries no signal of its own. First deferred for time (D-036), then run with its design and reading rule committed before any occluded embedding existed (D-038).
 
 **F1. Pipeline**
 ```mermaid
@@ -382,6 +382,14 @@ participants correctly. Removing delta cost a little (+0.020 [0.001, 0.043]). Re
 everyone's AD probability by about 0.20 without changing AUROC. Alpha mattered only for the
 centred classifier.
 
+**Channel occlusion (EXP-051; F8, `EXP-051_channel_occlusion.png`).** Zeroing the **posterior**
+channels cut AUROC by 0.196 [0.119, 0.285] (centred classifier: 0.255 [0.166, 0.350]), most when
+ADFSU or APAVA was held out. The frontal region, also six channels, cost 0.052 [0.004, 0.105], all
+of it in the ADFSU fold, and the central-temporal region nothing (−0.010 [−0.051, 0.026]); by the
+pre-set rule this is "posterior emphasis". Without posterior channels, controls looked more like AD
+(predicted AD probability +0.21 in HC against +0.09 in AD). No single channel mattered much (largest
+0.030): neighbouring posterior channels carry the same signal.
+
 **Classical markers (EXP-052).** **Table 6** (`T11_markers.csv`). Spearman ρ between the out-of-fold AD
 score (centred classifier) and each marker within each held-out cohort; in brackets, the marker's own
 correlation with diagnosis.
@@ -417,7 +425,7 @@ Encoded is not the same as used (Tang et al., 2026).
 Three results point the same way. The uncontrolled LOCO classifier chose block 1, the least
 cohort-laden block. An untrained LaBraM and classical band powers transfer as well as or better than
 the pretrained model. And the AD score behaves as an index of spectral slowing that depends most on
-theta. What transfers between these cohorts is the classical, low-level spectral signature of AD.
+theta and on the posterior channels, where the healthy alpha rhythm is strongest. What transfers between these cohorts is the classical, low-level spectral signature of AD.
 That signature is robust to the acquisition differences that remain after harmonisation, and
 LaBraM's pretrained, cohort-rich deep features add little to it.
 
@@ -457,8 +465,10 @@ cohorts can move by several hundredths of AUROC with an arbitrary choice of epoc
 - **Clinical labels** from three sources with different criteria; treatment status unknown.
 - **No calibration analysis** was pre-specified; the pooled/per-fold AUROC gap shows cohort-level
   miscalibration.
-- **Interpretation analyses are exploratory** and partly post hoc (D-035 to D-037); channel occlusion
-  was not run.
+- **Interpretation analyses are exploratory** and partly post hoc (D-035 to D-038), with uncorrected
+  comparisons. Zeroing a whole region moves the input away from LaBraM's training data, so part of
+  a region effect could be the model's response to unusual input; the small frontal effect for the
+  same number of channels argues against this explaining the posterior result.
 
 ### 5.5 Implications
 - For studies of EEG foundation models in AD: report how much nuisance information the representation
@@ -471,8 +481,8 @@ cohorts can move by several hundredths of AUROC with an arbitrary choice of epoc
 Frozen LaBraM encodes cohort identity strongly, but its cross-cohort AD classification does not
 depend on it: in the pre-specified analyses, removing cohort information by centring, LEACE or INLP
 never reduced transfer. The AD
-signal that transfers is largely the classical EEG slowing of Alzheimer's disease, which simple
-spectral features capture as well.
+signal that transfers is largely the classical posterior EEG slowing of Alzheimer's disease, which
+simple spectral features capture as well.
 
 ---
 

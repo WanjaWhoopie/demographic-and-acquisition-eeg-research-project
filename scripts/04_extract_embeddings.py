@@ -4,12 +4,14 @@
     python scripts/04_extract_embeddings.py --cohort ds004504 --random   # untrained control (T5.4.4)
     python scripts/04_extract_embeddings.py --cohort ds004504 --amplitude-scaled   # D-019 sensitivity (EXP-044)
     python scripts/04_extract_embeddings.py --cohort ds004504 --band-stop theta    # EXP-050 band perturbation
+    python scripts/04_extract_embeddings.py --cohort ds004504 --occlude O1         # EXP-051 channel occlusion
 
 Reads data/processed/<cohort>/<global_id>.npz and writes
     data/embeddings/<model>/<cohort>/<global_id>.npz with
         layer_mean (12, n_epochs, 200), layer_cls (12, n_epochs, 200), pooled (n_epochs, 200),
         epoch_idx, segment_idx
-where <model> is labram-base, labram-random, labram-base-scaled or labram-base-stop-<band>.
+where <model> is labram-base, labram-random, labram-base-scaled, labram-base-stop-<band> or
+labram-base-occ-<condition>.
 Uses the GPU when one is available.
 
 --amplitude-scaled (D-019, D-033): every participant's clean epochs are multiplied by
@@ -20,6 +22,12 @@ training range), so between-cohort amplitude differences can no longer reach the
 --band-stop <band> (EXP-050, D-036): one frequency band (eegconf.features.BANDS: delta 1-4, theta
 4-8, alpha 8-13, beta 13-30 Hz) is removed from every clean epoch with a 4th-order zero-phase
 Butterworth band-stop filter before extraction, to see how the AD predictions change without it.
+
+--occlude <condition> (EXP-051, D-038): one channel (any of the 16, e.g. O1) or one region
+(eegconf.features.REGIONS: frontal, central_temporal, posterior) is set to zero in every clean epoch
+before extraction. The epochs are average-referenced, so zero is the montage average at every
+sample: the channel stays in the input (same shape, channel embeddings and scaling) but carries no
+channel-specific signal.
 No labels are read here, so this stage can run before the analysis-plan freeze.
 """
 import argparse
@@ -34,7 +42,7 @@ import yaml
 from scipy.signal import butter, sosfiltfilt
 
 from eegconf import representation as rep
-from eegconf.features import BANDS
+from eegconf.features import BANDS, REGIONS
 
 ROOT = Path(__file__).resolve().parents[1]
 LABRAM = ROOT / "external" / "LaBraM"
@@ -47,6 +55,7 @@ def main():
     ap.add_argument("--random", action="store_true", help="untrained LaBraM (negative control)")
     ap.add_argument("--amplitude-scaled", action="store_true", help="per-recording variance scaling (D-019)")
     ap.add_argument("--band-stop", choices=sorted(BANDS), help="remove one frequency band first (EXP-050)")
+    ap.add_argument("--occlude", help="zero one channel or one region first (EXP-051)")
     ap.add_argument("--batch-size", type=int, default=128)
     ap.add_argument("--limit", type=int, default=None)
     args = ap.parse_args()
@@ -55,6 +64,7 @@ def main():
     torch.manual_seed(20261001)
     assert not (args.random and args.amplitude_scaled), "the scaled sensitivity uses pretrained weights only"
     assert not (args.band_stop and (args.random or args.amplitude_scaled)), "band-stop uses the plain pretrained input"
+    assert not (args.occlude and (args.random or args.amplitude_scaled or args.band_stop)), "occlusion uses the plain pretrained input"
     model_name = "labram-random" if args.random else ("labram-base-scaled" if args.amplitude_scaled else "labram-base")
     if args.band_stop:
         model_name = f"labram-base-stop-{args.band_stop}"
@@ -71,6 +81,12 @@ def main():
 
     pp_cfg = yaml.safe_load(open(ROOT / "configs/preprocessing.yaml"))
     chans = rep.input_chans(pp_cfg["channels"], LABRAM)
+    if args.occlude:
+        # channel indices to zero, in the configured channel order (the order of every processed file)
+        occ_names = REGIONS.get(args.occlude, (args.occlude,))
+        assert all(c in pp_cfg["channels"] for c in occ_names), f"unknown channel or region: {args.occlude}"
+        occ_idx = [pp_cfg["channels"].index(c) for c in occ_names]
+        model_name = f"labram-base-occ-{args.occlude}"
     print(f"input_chans: {chans}")
 
     src = ROOT / "data/processed" / args.cohort
@@ -87,6 +103,11 @@ def main():
             X = X * (AMP_REF_UV / X.std())                 # one factor per participant (recording)
         if args.band_stop:
             X = sosfiltfilt(sos, X, axis=-1).astype(np.float32)   # along time, per epoch and channel
+        if args.occlude:
+            # files must store channels in the configured order, or the wrong channel would be zeroed
+            assert [str(c) for c in z["ch_names"]] == pp_cfg["channels"], f"{f.name}: channel order differs"
+            X = X.copy()
+            X[:, occ_idx, :] = 0.0                                 # epochs × channels × samples
         out = rep.extract(model, X, chans, device, args.batch_size)
         np.savez_compressed(dst / f.name, **out, epoch_idx=z["epoch_idx"], segment_idx=z["segment_idx"])
         n_epochs += len(z["X"])
@@ -98,6 +119,8 @@ def main():
             "amplitude_scaled_to_sd_uv": AMP_REF_UV if args.amplitude_scaled else None,
             "band_stop": None if not args.band_stop else {"band": args.band_stop, "hz": BANDS[args.band_stop],
                                                           "filter": "butterworth order 4, zero-phase"},
+            "occluded": None if not args.occlude else {"condition": args.occlude, "channels": list(occ_names),
+                                                       "method": "set to zero after average reference"},
             "n_participants": len(files), "n_epochs": n_epochs, "seconds": round(elapsed, 1)}
     (dst / "_meta.json").write_text(json.dumps(meta, indent=2))
     print(f"\n{len(files)} participants, {n_epochs} epochs in {elapsed:.0f} s -> {dst.relative_to(ROOT)}")

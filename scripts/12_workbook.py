@@ -90,6 +90,7 @@ SHEETS = {
     "EXP-043": [tab("T09_primary_and_sensitivity", startswith("analysis", "8-s"))],
     "EXP-044": [tab("T09_primary_and_sensitivity", startswith("analysis", "amplitude"))],
     "EXP-050": [tab("T11_band_perturbation")],
+    "EXP-051": [tab("T11_channel_occlusion")],
     "EXP-052": [tab("T11_markers")],
     "EXP-053": [tab("T11_data_amount"), tab("T11_data_amount_paired"), tab("T11_dispersion")],
     "EXP-054": [tab("T11_random_epochs"), tab("T11_random_epochs_contrasts")],

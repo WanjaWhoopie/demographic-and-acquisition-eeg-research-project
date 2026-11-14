@@ -29,7 +29,7 @@ Analysis plan frozen on 11 November 2026 (git tag `analysis-plan-v1`).
 | 8 Nuisance control | done (EXP-030–032): removing cohort information did not hurt cross-cohort AD transfer; centring raised mean LOCO AUROC 0.853 → 0.887 (Δ −0.034 [−0.069, −0.001]); LEACE 0.883, INLP 0.876 |
 | 9 Primary outcome and sensitivity | done (EXP-040–044): removing cohort information never reduced cross-cohort AD performance; the small improvement in the primary analysis did not hold with 8 s per participant or equalised amplitude (pattern A in both) |
 | 10 Statistics | done: primary ΔAUROC −0.034, p = 0.046; no secondary comparison significant after Holm; DeLong agrees with the bootstrap CIs; every headline number reproduced from saved predictions |
-| 11 Neurophysiological interpretation (exploratory) | done (EXP-050, 052–054): the cross-cohort AD score is mainly a theta-slowing signal and tracks classical markers closely; no reliable effect of where in the recording the EEG comes from, and which epochs are pooled matters about as much as how many; channel occlusion deferred |
+| 11 Neurophysiological interpretation (exploratory) | done (EXP-050–054): the cross-cohort AD score is mainly a posterior theta-slowing signal (removing theta, or zeroing the posterior channels, costs most) and tracks classical markers closely; no reliable effect of where in the recording the EEG comes from, and which epochs are pooled matters about as much as how many |
 | 12 Writing and reporting | in progress: full report draft audited against the result tables and ready for the mentor (`reports/writeup/final_report.md`); TRIPOD+AI (all 52 sub-items) and PROBAST done (`reports/checklists/`); figures F5–F6; results deck kept outside the repository |
 
 Cohorts in use: ds004504 (36 AD / 29 HC), ADFSU deduplicated (76 / 12), APAVA (12 / 11) = 176 participants.
@@ -71,14 +71,14 @@ Then run, from the repository root (each step writes the tables and figures name
 | Participants | `python scripts/00_participants.py` | `T01_cohort_summary.csv` |
 | Audit, overlap | `python scripts/01_audit.py --cohort <c>`; `python scripts/02_overlap_check.py` | `T00_*`, `T02_*` (EXP-001, 002) |
 | Preprocess | `python scripts/03_preprocess.py --cohort <c>`; `python scripts/03_qc.py` | `T03_*`, F3 (EXP-003) |
-| Embeddings (GPU) | `python scripts/04_extract_embeddings.py --cohort <c>` and again with `--random`, `--amplitude-scaled`, `--band-stop <band>`; `python scripts/04_sanity.py` | `T04_*` |
+| Embeddings (GPU) | `python scripts/04_extract_embeddings.py --cohort <c>` and again with `--random`, `--amplitude-scaled`, `--band-stop <band>`, `--occlude <channel or region>`; `python scripts/04_sanity.py` | `T04_*` |
 | Features | `python scripts/05_build_features.py`; `python scripts/05_build_features.py --scaled-only` | participant features (local) |
 | Baseline | `python scripts/06_baseline.py` | `T06_*` (EXP-010–013) |
 | Probes | `python scripts/07_probes.py` | `T07_*`, F4 (EXP-020–022) |
 | Control | `python scripts/08_control.py` | `T08_*` (EXP-030–032) |
 | Primary + sensitivity | `python scripts/09_sensitivity.py` | `T09_*` (EXP-040–044) |
 | Statistics | `python scripts/10_stats.py` | `T10_*` |
-| Interpretation | `python scripts/11_data_amount.py`; `python scripts/11_random_epochs.py`; `python scripts/11_interpret.py` | `T11_*`, F7 (EXP-050–054) |
+| Interpretation | `python scripts/11_data_amount.py`; `python scripts/11_random_epochs.py`; `python scripts/11_interpret.py` | `T11_*`, F7, F8 (EXP-050–054) |
 | Report figures | `python scripts/12_figures.py` | F5, F6 |
 | Results workbook | `python scripts/12_workbook.py` (needs `openpyxl`) | `results/experiments_summary.xlsx`, one sheet per experiment (not committed) |
 

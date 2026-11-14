@@ -19,6 +19,14 @@ from scipy.signal import welch
 
 SFREQ = 200.0
 BANDS = {"delta": (1, 4), "theta": (4, 8), "alpha": (8, 13), "beta": (13, 30)}
+
+# Scalp regions over the 16 common channels, used by EXP-051 channel occlusion (D-038).
+# The posterior set is the one EXP-052 averages markers over.
+REGIONS = {
+    "frontal": ("Fp1", "Fp2", "F7", "F3", "F4", "F8"),
+    "central_temporal": ("T3", "C3", "C4", "T4"),
+    "posterior": ("T5", "P3", "P4", "T6", "O1", "O2"),
+}
 APERIODIC_RANGE = (2.0, 30.0)
 MIN_R2 = 0.9
 
