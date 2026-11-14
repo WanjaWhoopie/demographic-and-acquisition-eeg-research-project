@@ -94,6 +94,8 @@ SHEETS = {
     "EXP-052": [tab("T11_markers"), tab("T11_markers_within_group", note="addendum, D-039")],
     "EXP-053": [tab("T11_data_amount"), tab("T11_data_amount_paired"), tab("T11_dispersion")],
     "EXP-054": [tab("T11_random_epochs"), tab("T11_random_epochs_contrasts")],
+    "EXP-055": [tab("T13_fixed_block"), tab("T13_fixed_block_deltas")],
+    "EXP-056": [tab("T13_pooled_control")],
     "Phase5-embed": [tab("T04_embedding_sanity")],
 }
 

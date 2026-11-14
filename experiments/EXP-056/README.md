@@ -37,3 +37,43 @@
     cohort–diagnosis correlation would be the next step, outside this experiment.
 - **Script:** `scripts/13_review_analyses.py --part pooled` → `results/tables/T13_pooled_control.csv`,
   `results/figures/EXP-056_pooled_control.png`.
+
+## Run record
+- **Date:** 2026-11-14 · design committed in abf5c4d ("Pre-register three analyses prompted by the review") before the run
+- **Command:** `python scripts/13_review_analyses.py --part pooled` (20 workers, about 1 h 50 min)
+- **Outputs:** `results/tables/T13_pooled_control.csv`, `results/figures/EXP-056_pooled_control.png`
+
+## Results
+Pooled participant-level CV over all 176 (cohort × diagnosis stratified, 5-fold × 10), repeat-averaged
+probabilities. Shortcut gap = pooled AUROC − mean within-cohort AUROC of the same predictions.
+
+| Control | Pooled AUROC [95% CI] | Within-cohort AUROC | Shortcut gap | ΔAUROC pooled [CI] | Δgap [CI] | Most selected |
+|---|---|---|---|---|---|---|
+| Original | 0.935 [0.883, 0.972] | 0.910 | **+0.025** | – | – | block 12, patch-mean, median |
+| Centring (i) | 0.934 [0.886, 0.970] | 0.915 | +0.019 | 0.000 [−0.008, 0.008] | +0.005 [−0.009, 0.024] | block 12, patch-mean, mean |
+| LEACE | 0.896 [0.838, 0.941] | 0.901 | −0.006 | **+0.039 [0.006, 0.072]** | **+0.030 [0.006, 0.056]** | block 12, patch-mean, median |
+| INLP | 0.882 [0.820, 0.932] | 0.878 | +0.004 | **+0.052 [0.016, 0.091]** | +0.020 [−0.015, 0.056] | block 2, CLS, median |
+
+Within-cohort AUROC per cohort (original): ADFSU 0.909, APAVA 0.939, ds004504 0.882. INLP lowered the
+within-cohort AUROC by 0.032 (ADFSU 0.817); centring and LEACE left it within 0.01.
+
+## Interpretation
+- **By the pre-registered rule: shortcut not exploited.** The original classifier's shortcut gap is
+  0.025, below the 0.03 threshold. Although cohort identity alone predicts AD at 0.65 in this pooled
+  setting (EXP-013), the LaBraM classifier took almost none of that shortcut: its pooled AUROC is
+  only 0.025 above what it achieves inside each cohort. The pooled setting therefore cannot show
+  whether centring removes a shortcut, because there was little to remove. This is reported as such.
+- **What the controls did anyway.** Centring changed nothing (ΔAUROC 0.000). LEACE lowered pooled AUROC
+  by 0.039 and closed the gap (−0.006 after), while leaving within-cohort AUROC within 0.01: it removed
+  the small between-cohort ordering the classifier had used, and no more. INLP lowered pooled AUROC by
+  0.052 but also within-cohort AUROC by 0.032, so part of its effect was damage to the AD signal, as
+  Aimoldin et al. (2026) report for erasure elsewhere.
+- **Why the shortcut was not taken.** In pooled CV the inner CV chose block 12 and reached 0.91 within
+  cohorts; a classifier that separates AD from HC that well inside every cohort gains little from
+  ordering cohorts by prevalence. The cohort shortcut is available in these data but not attractive
+  to this classifier. That weakens the premise that "no harm" in LOCO was a near-certain null, but it
+  also means the positive control is only partly informative: it shows LEACE acting on cohort
+  information without damaging the within-cohort AD signal, and shows nothing about centring.
+- **Next step, not taken for time:** an induced cohort–diagnosis correlation (for example, dropping
+  ADFSU controls so that cohort predicts diagnosis more strongly) would give centring a shortcut large
+  enough to test.

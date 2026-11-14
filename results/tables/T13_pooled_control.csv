@@ -1,0 +1,5 @@
+control,pooled_auroc,pooled_ci_low,pooled_ci_high,within_cohort_auroc,shortcut_gap,pooled_mean_over_repeats,pooled_sd_over_repeats,within_mean_over_repeats,within_sd_over_repeats,most_selected,within_ADFSU,within_APAVA,within_ds004504,delta_pooled,delta_pooled_ci_low,delta_pooled_ci_high,delta_gap,delta_gap_ci_low,delta_gap_ci_high,delta_within
+none,0.9347,0.8832,0.9722,0.9102,0.0245,0.9227,0.0221,0.8976,0.0243,b12_patch_mean_median,0.909,0.9394,0.8822,,,,,,,
+centring_i,0.9344,0.8863,0.9702,0.915,0.0194,0.9218,0.0255,0.8985,0.0309,b12_patch_mean_mean,0.9178,0.947,0.8803,0.0003,-0.0082,0.0082,0.0051,-0.009,0.0238,-0.0048
+leace,0.8956,0.8385,0.9406,0.9012,-0.0055,0.8554,0.0284,0.8589,0.0366,b12_patch_mean_median,0.8838,0.9318,0.8879,0.0391,0.0059,0.0723,0.0301,0.0058,0.0563,0.009
+inlp,0.8824,0.8195,0.9324,0.8782,0.0042,0.8251,0.0275,0.8273,0.0213,b02_cls_median,0.8169,0.9394,0.8784,0.0523,0.0157,0.0914,0.0203,-0.015,0.0558,0.032
