@@ -31,7 +31,10 @@ improvement was a selection effect: with the transformer block held fixed, remov
 transfer, did nothing at the block the classifier used (ΔAUROC −0.009, −0.027 to 0.008), and cost
 0.02–0.05 at the deepest blocks, while the uncontrolled classifier at block 11 reached 0.908 on its
 own. The improvement also disappeared with equal EEG length per participant or equalised amplitude,
-and no secondary comparison survived Holm correction. In exploratory analyses the cross-cohort AD score behaved as an EEG-slowing index:
+and no secondary comparison survived Holm correction. A positive control in pooled cross-validation,
+where cohort identity alone predicts AD at 0.65, found that the classifier used almost none of that
+shortcut (pooled AUROC 0.935 against 0.910 within cohorts), so centring had nothing to remove there;
+LEACE lowered pooled AUROC by 0.04 without touching within-cohort performance. In exploratory analyses the cross-cohort AD score behaved as an EEG-slowing index:
 removing theta cost most discrimination, removing the posterior channels cost far more than any
 other region (ΔAUROC 0.20), and the score correlated with the theta/alpha ratio at up to ρ = 0.91. Which epochs were pooled per participant changed AUROC by up to several hundredths, with
 no reliable effect of their position in the recording. **Conclusion.** Frozen LaBraM encodes its cohort strongly, but its cross-cohort AD signal
@@ -176,7 +179,7 @@ from LaBraM on ds004504 but leave the effect on the AD label undefined, because 
 cohort the diagnosis is a per-subject constant that lies inside the identity subspace. No study has
 removed cohort, site, age or sex information
 from a foundation-model representation and measured the effect on a clinical label in a cohort the
-model was not trained on, with a positive control showing that the removal works. The closest clinical comparator is Belloli et al. (2026): the same leave-one-centre-out design,
+model was not trained on, together with a positive control for the removal (only partly informative, §4.4). The closest clinical comparator is Belloli et al. (2026): the same leave-one-centre-out design,
 739 people across six cohorts, classical features, and the same descriptive conclusion that alpha
 loss and slowing transfer; what it lacks is the removal step. That is the contribution here. Two
 further gaps surfaced during the work: public AD-EEG datasets are treated as
@@ -462,6 +465,19 @@ selection, so block 1 was chosen even though deeper blocks transfer better. Cent
 offsets, the inner CV chose a deeper block, and the deeper block, not the removal, raised the
 held-out AUROC.
 
+**Positive control (EXP-056; `T13_pooled_control.csv`, `EXP-056_pooled_control.png`).** Leave-one-cohort-out
+removes the cohort shortcut by construction, so a null effect of removal there says little about the
+controls unless they are shown to act where a shortcut exists. In pooled participant-level CV over all
+176, cohort identity alone predicts AD at 0.65 (Table 3). The uncontrolled LaBraM classifier reached
+pooled AUROC 0.935 [0.883, 0.972] but 0.910 within cohorts, a shortcut gap of 0.025: it took almost
+none of the available shortcut, below the 0.03 threshold set in advance, so by the pre-set rule the
+setting gives no test of centring, which changed nothing (ΔAUROC 0.000 [−0.008, 0.008]). LEACE lowered
+pooled AUROC by 0.039 [0.006, 0.072] and closed the gap (−0.006 after) while leaving within-cohort
+AUROC within 0.01, so it removed the between-cohort ordering the classifier had used and no more. INLP
+lowered pooled AUROC by 0.052 [0.016, 0.091] but also within-cohort AUROC by 0.032, part of its effect
+being damage to the AD signal. An induced cohort–diagnosis correlation strong enough to test centring
+was not run for time.
+
 ### 4.5 What the transferable AD signal is (O5, exploratory)
 
 **Amount of EEG and time in the recording (EXP-053, EXP-054).** Pooling only the first few epochs
@@ -535,7 +551,10 @@ never helped, did nothing at the block the classifier used, and cost up to 0.05 
 the representation in use changes cross-cohort AD performance by less than 0.03 in either direction,
 and the AD signal that LaBraM transfers between cohorts does not depend on it.** The exploratory
 exceptions run both ways and are small: with 2 epochs per participant centring reduced transfer
-(EXP-053), and at block 11 centring and LEACE cost 0.02–0.05 (EXP-055).
+(EXP-053), and at block 11 centring and LEACE cost 0.02–0.05 (EXP-055). The positive control adds a
+qualification and a reassurance: the classifier barely used the cohort shortcut even when it was
+offered, so centring could not be shown to remove one; LEACE could, without touching the within-cohort
+AD signal (EXP-056).
 Encoded is not the same as used (Tang et al., 2026).
 
 ### 5.2 Why the cohort information does not matter here
@@ -591,6 +610,10 @@ cohorts can move by several hundredths of AUROC with an arbitrary choice of epoc
   models lean on nuisance information is untested.
 - **Linear controls.** LEACE and INLP remove linear information; the nonlinear MLP probe was too weak
   at this sample size to rule out nonlinear cohort information.
+- **The positive control is only partly informative.** It shows LEACE acting on cohort information
+  without harming within-cohort AD classification, but the classifier used so little of the pooled
+  shortcut (0.025) that centring could not be tested; a setting with an induced cohort–diagnosis
+  correlation is still needed.
 - **Clinical labels** from three sources with different criteria; treatment status unknown.
 - **No calibration analysis** was pre-specified; the pooled/per-fold AUROC gap shows cohort-level
   miscalibration.
