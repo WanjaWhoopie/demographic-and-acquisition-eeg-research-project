@@ -35,3 +35,15 @@ All 27 correlations are significant after Benjamini–Hochberg FDR (largest adju
 - **The score tracks these markers more closely than diagnosis does.** In ds004504 the theta/alpha ratio correlates 0.90 with the score but only 0.65 with diagnosis. So the classifier is not just inheriting the marker–diagnosis link: its output behaves like a continuous EEG-slowing index.
 - This is plausibility, not mechanism (T11.6). Together with EXP-050 and EXP-012, it says that what LaBraM transfers across cohorts is largely the classical slowing signature of AD, read through a frozen pretrained network.
 - Correlations are weakest in ADFSU (8 s per person, pre-cleaned, 128 Hz), where markers estimated from 8 s of EEG are noisier.
+
+## Addendum, pre-registered before running (14 November 2026, D-039): within-group correlations
+The review noted that "the score tracks the marker more closely than diagnosis does" compares a
+continuous score with a binary label, which is expected, and that ρ = 0.91 is the best cohort
+(ADFSU is 0.51). The stricter test is whether the score tracks the markers *within* a diagnostic
+group, where diagnosis cannot drive the correlation. **Added analysis:** Spearman ρ between the score
+and each marker within AD participants and within HC participants of each held-out cohort (9
+markers × 3 cohorts × 2 groups = 54 per classifier), BH-FDR per classifier over the 54. Small groups
+(ADFSU 12 HC, APAVA 11 HC) are reported with their n. **Reading (fixed now):** the score behaves as a
+slowing index beyond diagnosis if, for the theta/alpha ratio (posterior), the within-AD and within-HC
+correlations are positive in all three cohorts; otherwise the report says that the marker
+correlations are explained by diagnosis. Output: `results/tables/T11_markers_within_group.csv`.

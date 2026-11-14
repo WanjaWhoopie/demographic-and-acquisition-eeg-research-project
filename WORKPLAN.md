@@ -374,6 +374,9 @@ Size check (done via the OpenNeuro API and public S3 bucket, snapshot 1.0.9): th
 - [x] T11.4 **Z\* vs classical markers (EXP-052)**: correlate the classifier decision score on Z\* with each marker (Spearman), and ridge-map Z\* → each marker (grouped CV R²); FDR correction.
 - [x] T11.5 Compare directions with the priors from T1.5 (expected: higher theta, lower alpha, higher theta/alpha, lower PAF in AD).
 - [x] T11.6 Write it up as plausibility, not proof of disease specificity.
+- [ ] T11.7 **Fixed-block comparison (EXP-055, review-prompted, D-039)**: original vs controlled at each of the 12 blocks, LOCO; separates cohort removal from the layer switch in EXP-031.
+- [ ] T11.8 **Positive control (EXP-056, review-prompted, D-039)**: pooled participant-level CV where cohort predicts diagnosis; do the controls remove the shortcut?
+- [ ] T11.9 **Within-group marker correlations (EXP-052 addendum, D-039)**: score vs markers within AD and within HC per cohort.
 
 ## Phase 12 – Writing and reporting (M9–M12)
 
