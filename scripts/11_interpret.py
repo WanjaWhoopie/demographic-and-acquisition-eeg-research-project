@@ -27,6 +27,7 @@ EXP-052 markers
   held-out cohort; Benjamini-Hochberg FDR across markers × cohorts, separately per classifier.
 
 Outputs: results/tables/T11_band_perturbation.csv, T11_channel_occlusion.csv, T11_markers.csv,
+T11_markers_within_group.csv,
 results/figures/EXP-050_band_perturbation.png, EXP-051_channel_occlusion.png
 """
 import os
@@ -238,6 +239,30 @@ def markers(meta, z):
         out.append(block)
     out = pd.concat(out)
     out.round(4).to_csv(ROOT / "results/tables/T11_markers.csv", index=False)
+
+    # Addendum (D-039): the same correlations within AD and within HC of each cohort, where diagnosis
+    # cannot drive them; BH-FDR per classifier over 9 markers × 3 cohorts × 2 groups.
+    wg = []
+    for ctrl in CONTROLS:
+        d = preds[preds.control == ctrl].merge(mk, on="global_id")
+        d["score"] = np.log(d.proba.clip(1e-6, 1 - 1e-6) / (1 - d.proba.clip(1e-6, 1 - 1e-6)))
+        block = []
+        for (c, dx), g in d.groupby(["cohort", "diagnosis"]):
+            for name in names:
+                ok = g[name].notna()
+                rho, p = spearmanr(g.loc[ok, "score"], g.loc[ok, name])
+                block.append({"classifier": ctrl, "cohort": c, "group": "AD" if dx == 1 else "HC", "marker": name,
+                              "n": int(ok.sum()), "spearman_rho": rho, "p": p})
+        block = pd.DataFrame(block)
+        block["p_fdr"] = false_discovery_control(block.p.to_numpy(), method="bh")
+        wg.append(block)
+    wg = pd.concat(wg)
+    wg.round(4).to_csv(ROOT / "results/tables/T11_markers_within_group.csv", index=False)
+    t = wg[(wg.classifier == "centring_i") & (wg.marker == "theta_alpha_ratio_posterior")]
+    print("within-group, theta/alpha posterior, centred classifier:")
+    print(t.pivot(index="cohort", columns="group", values="spearman_rho").round(2).to_string())
+    print("EXP-052 addendum reading rule:", "slowing index beyond diagnosis" if (t.spearman_rho > 0).all()
+          else "marker correlations explained by diagnosis")
     s = out[(out.classifier == "centring_i") & (out.p_fdr < 0.05)]
     print(f"markers: {len(s)} of {len(out) // 2} correlations significant after FDR (centred classifier)")
     print(out[out.classifier == "centring_i"].pivot(index="marker", columns="cohort", values="spearman_rho").round(2).to_string())

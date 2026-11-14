@@ -79,25 +79,46 @@ and only 27% of surveyed translational deep-learning EEG studies clearly avoided
 only subject-level validation was counted, and classical algorithms matched deep models once
 validation was sound (Miltiadous et al., 2026). Across AD deep learning, only 15.9% of studies
 validated on an independent dataset and 79.5% did not control for confounders (Young & Salardini,
-2025). Subject-level splitting is therefore necessary but not sufficient: it does nothing about
-confounds that differ *between* groups of participants, such as age, sex and cohort.
+2025), and only 17 of 92 interpretable dementia models were tested on data from an external source
+(Martin et al., 2023). Where cross-centre testing has been done with classical features, AD versus
+controls transferred well across five sites in Latin America and Turkey, driven by reduced alpha and
+raised theta and delta markers, while controls versus mild cognitive impairment fell to chance in
+some centres (Belloli et al., 2026), and a convolutional network trained at one hospital separated
+healthy from mixed dementia at balanced accuracy 0.81 and 0.92 in two others (Watanabe et al., 2024).
+Subject-level splitting is therefore necessary but not
+sufficient: it does nothing about confounds that differ *between* groups of participants, such as
+age, sex and cohort.
 
 ### 2.2 What EEG foundation models encode
 LaBraM is a transformer pretrained by masked EEG modelling on 1-s channel patches, with a neural
-tokenizer trained to reconstruct Fourier amplitude and phase (Jiang et al., 2024). Pretrained LaBraM
+tokenizer trained to reconstruct Fourier amplitude and phase, on about 2,500 hours of EEG from
+around 20 datasets (Jiang et al., 2024). Pretrained LaBraM
 embeddings separated dementia (subtype not stated) from controls at AUROC 0.89 with a random-forest
 read-out in a private four-centre Taiwanese cohort of eyes-open EEG; logistic regression and a linear
 SVM on the same embeddings were near chance (Lin, Hou, & Jung, 2026). Frozen foundation-model
-representations also encode subject identity (Lin, Wu, Jung, et al., 2026) and dataset identity
-(Zare, 2026), and a feature can be encoded without being used (Tang et al., 2026). Linear probing
-is not the most accurate way to use these models (Liu et al., 2026), and in Lin, Hou and Jung's
-cohort it failed outright, but it measures what is already available in the representation without
-adding a flexible model that could learn new shortcuts. Here, linear read-outs reached AUROC 0.82–0.93
+representations also encode subject identity (Lin, Wu, Jung, et al., 2026; Madapura, Kommineni, &
+Narayanan, 2026) and dataset identity (Zare, 2026). Tang et al. (2026) showed that a feature can be
+encoded without being used, by erasing hand-crafted spectral and connectivity features from LaBraM,
+CBraMod and CSBrain on depression, stress, sleep and seizure tasks; nuisance variables such as site,
+age or sex were not erased, and no AD or cross-dataset task was included. Two controlled evaluations
+found that pretraining buys less than expected: on a Korean dementia cohort, classical features
+(AUROC 0.73) beat five frozen encoders (0.53–0.68; Zare, 2026), and with validation-selected
+probes, random initialisation matched or beat pretraining for three of six models on sleep and
+emotion tasks, though not for LaBraM (Jeon, Cho, & Suh, 2026). The same holds for nuisance
+information: in brain MRI, an untrained copy of a foundation model predicted scan site as well as
+the pretrained one (Rahbar, 2026). Linear probing is not the most
+accurate way to use these models (Liu et al., 2026), and in Lin, Hou and Jung's cohort it failed
+outright, but it measures what is already available in the representation without adding a
+flexible model that could learn new shortcuts. Here, linear read-outs reached AUROC 0.82–0.93
 within cohorts (§4.2), so the linear choice did not leave the AD signal out of reach.
 
 ### 2.3 Demographic and acquisition confounds
-Sex is detectable from EEG and can become a hidden confounder in disease classifiers (Jochmann et
-al., 2023). In ds004504, 24 of 36 AD participants are female against 11 of 29 controls (Fisher
+Age and sex are decodable from EEG given enough data: on more than 2,600 recordings, brain signals
+predicted both, with peripheral (ocular, muscular, cardiac) signals adding a smaller share (Bomatter
+et al., 2024), and a small network read sex at 65–80% balanced accuracy across three clinical
+archives (Darvishi-Bayazi et al., 2026). Sex can become a hidden confounder in disease classifiers
+(Jochmann et al., 2023), although Darvishi-Bayazi et al. found sex-specific patterns contributed
+little to abnormal-EEG detection. In ds004504, 24 of 36 AD participants are female against 11 of 29 controls (Fisher
 p = 0.026). Normal ageing also changes the EEG, including slower and weaker alpha and a flatter aperiodic spectrum (Ishii et al., 2017; Voytek et al., 2015); ds004504's groups are age-matched
 (66.4 ± 7.9 vs 67.9 ± 5.4 years). Public AD-EEG cohorts differ in amplifier, montage, reference,
 sampling rate, source filtering, recording length, era and diagnostic mix. Within a cohort these
@@ -106,16 +127,33 @@ acquisition nuisance variable.
 
 ### 2.4 Removing information from representations
 Options range from residualisation and per-site centring, common in neuroimaging harmonisation
-(ComBat: Johnson, Li, & Rabinovic, 2007; Fortin et al., 2018), to concept erasure: iterative nullspace projection (INLP;
+(ComBat: Johnson, Li, & Rabinovic, 2007; Fortin et al., 2018; applied to resting EEG features across
+five datasets by Jaramillo-Jimenez et al., 2024), to concept erasure: iterative nullspace projection (INLP;
 Ravfogel et al., 2020) and LEACE, after which no linear classifier can predict the concept better
-than a constant (Belrose et al., 2023). Two problems are specific to cross-cohort EEG. Demographic
+than a constant (Belrose et al., 2023). Erasure has been applied to frozen EEG embeddings for
+acquisition signatures in non-clinical tasks, where Aimoldin et al. (2026) warn that "source
+predictability alone does not identify what should be removed: it can reflect measurement effects or
+genuine biological and population differences, which should not be erased", and where LEACE lowered
+task AUROC from 0.75 to 0.66 while barely reducing source information. Two problems are specific to
+cross-cohort EEG. Demographic
 control needs demographics for everyone it is applied to, and only ds004504 has them. Cohort
 centring on raw means would subtract disease signal from AD-heavy cohorts, so cohort means must be
 prevalence-balanced.
 
 ### 2.5 Gap
-Foundation-model audits so far are within-cohort. None tests whether the AD signal survives the
-removal of nuisance information *and* transfers to an unseen cohort. That is the contribution here.
+Foundation-model audits so far probe nuisance information but do not remove it and re-test. Zare
+(2026) trains and tests every clinical probe within one dataset and states that the external-cohort
+arm "is not external validation of a fitted clinical model"; Tang et al. (2026) erase features, not
+nuisance variables, within one dataset; Aimoldin et al. (2026) remove acquisition signatures but
+for SSVEP and ERP tasks with no clinical label; and Lin, Wu and Jung (2026) erase subject identity
+from LaBraM on ds004504 but leave the effect on the AD label undefined, because in a single-session
+cohort the diagnosis is a per-subject constant that lies inside the identity subspace. No study has
+removed cohort, site, age or sex information
+from a foundation-model representation and measured the effect on a clinical label in a cohort the
+model was not trained on, with a positive control showing that the removal works. That is the
+contribution here. Two further gaps surfaced during the work: public AD-EEG datasets are treated as
+independent when they are not (§4.1), and recording length has not been studied as a between-cohort
+confound (§5.3).
 
 ## 3. Methods
 
@@ -260,6 +298,15 @@ flowchart LR
 ## 4. Results
 
 ### 4.1 Harmonised data
+**Duplicate public datasets.** ADSZ is a copy of part of ADFSU: 47 of its 48 files are identical to
+ADFSU recordings (EXP-002). Both are distributed and cited as separate datasets. LEAD (Wang et al.,
+2025) lists ADFSU (92 subjects) and ADSZ (48) as two of its five downstream evaluation sets and
+reports 100% subject-level F1 and AUROC on each, as do the other models in its comparison, and a
+2026 review of AD detection tabulates them as separate cohorts (Huang, Su, Wang, & Yao, 2026). We
+found no report of the overlap. A benchmark that counts both treats the same 24 people as two
+independent tests. (LEAD's pretraining data do not include ADFSU, ADSZ, APAVA or ds004504, so this
+does not affect its held-out claims, only their number.)
+
 After the common pipeline, amplitudes converged (robust SD 6.0–6.8 µV in ds004504 and ADFSU, 4.8–6.2
 in APAVA, from 18.3 / 7.7 / 4.9 µV raw). All cohorts showed the expected spectra: a 10-Hz alpha peak
 in HC and a flatter, slower spectrum in AD (**F3**, `results/figures/EXP-003_psd_processed.png`).
@@ -303,7 +350,8 @@ and the nested pipeline of the main analysis (EXP-021).
 | Cohort, all 176, balanced accuracy | **0.879 ± 0.006** | 0.773 ± 0.027 | 0.769 ± 0.031 | chance 0.333 |
 
 - **Age and sex were not decodable** in ds004504 (permutation p = 0.21 for both). With 65 people and
-  an age SD under 7 years, this means "not detectable at this sample size", not "absent".
+  an age SD under 7 years, this means "not detectable at this sample size", not "absent": both are
+  decodable from EEG in samples of thousands (Bomatter et al., 2024).
 - **Cohort was strongly decodable**, more from pretrained LaBraM than from classical features or the
   untrained network. Pretraining adds acquisition information beyond what spectral shape carries.
 - **Cohort information grows with depth** (**F4**, `EXP-021_layer_profile.png`): 0.71 at block 1,
@@ -444,7 +492,9 @@ them in most analyses (13 of 15 random draws), while 32 or 64 first epochs did s
 fits the finding that averaging more epochs makes the cohort easier to recognise, but the advantage
 is below the pre-set threshold and not consistent.
 Recording length is therefore a cohort property that a cross-cohort study should report and, where
-possible, equalise (as in the 8-s analysis). The results also show that single estimates from small
+possible, equalise (as in the 8-s analysis). Within one dataset, longer recordings helped LEAD
+(Wang et al., 2025); between cohorts, where length differs by two orders of magnitude (8 s to 14
+min), we found the opposite tilt. We know of no other between-cohort test of recording length. The results also show that single estimates from small
 cohorts can move by several hundredths of AUROC with an arbitrary choice of epochs.
 
 ### 5.4 Limitations
@@ -452,14 +502,19 @@ cohorts can move by several hundredths of AUROC with an arbitrary choice of epoc
   the primary result sits at the edge of significance.
 - **Demographics in one cohort only.** Age and sex could be probed and removed only in ds004504
   (65 people, narrow age range). They could not be controlled in LOCO.
-- **Cohort is acquisition, diagnosis process and era at once.** Amplifier, sampling rate, source
-  cleaning, recording length, diagnostic criteria and country are all constant within a cohort, so
-  their effects cannot be separated.
+- **Cohort is acquisition, diagnosis process, population and era at once.** Amplifier, sampling
+  rate, source cleaning, recording length, diagnostic criteria and country are all constant within a
+  cohort, so their effects cannot be separated. Removing "cohort" therefore removes population
+  differences along with measurement effects, which Aimoldin et al. (2026) argue should not be
+  erased; their finding that LEACE can cost task performance while leaving source information in
+  place also means that a null effect of LEACE here is not proof that nothing was removed.
 - **Case–control samples.** Clear-cut AD versus controls; no mild cognitive impairment, other
   dementias or comorbidity. Performance would be lower in a clinical population (PROBAST:
   `reports/checklists/probast.md`).
-- **One foundation model**, frozen, with linear read-outs. Fine-tuning or other models (CBraMod and
-  REVE, Lin, Wu, Jung, et al., 2026; LEAD, Wang et al., 2025) may behave differently.
+- **One foundation model**, frozen, with linear read-outs. Other models (CBraMod and REVE, Lin, Wu,
+  Jung, et al., 2026; LEAD, Wang et al., 2025) may behave differently, and fine-tuning reorganises
+  the representation away from subject identity (Madapura et al., 2026), so whether fine-tuned
+  models lean on nuisance information is untested.
 - **Linear controls.** LEACE and INLP remove linear information; the nonlinear MLP probe was too weak
   at this sample size to rule out nonlinear cohort information.
 - **Clinical labels** from three sources with different criteria; treatment status unknown.
@@ -476,6 +531,11 @@ cohorts can move by several hundredths of AUROC with an arbitrary choice of epoc
 - Compare against classical spectral features and an untrained network. Here both matched the
   pretrained model across cohorts.
 - Treat recording length and amplitude as cohort variables: equalise or test them.
+- Check public AD-EEG datasets for overlap before counting them as independent evaluations.
+- Age and sex could be audited properly only in a dementia cohort that releases them and is large
+  enough. BrainLat (Prado et al., 2023) and CAUEEG ship age, and CAUEEG's dementia cases are about
+  11 years older than its controls, so the age share of a "dementia" signal there is an open
+  question.
 
 ## 6. Conclusion
 Frozen LaBraM encodes cohort identity strongly, but its cross-cohort AD classification does not
@@ -496,21 +556,37 @@ This work was carried out under an ABDN fellowship. The authors declare no confl
 
 ## References
 
+Aimoldin, A., Chen, Y., Mussabayeva, A., Akhanov, N., & Liu, X. (2026). Measurement-gated provenance attenuation for frozen EEG representations. *arXiv*. https://doi.org/10.48550/arXiv.2609.32889
+
 Babiloni, C., Blinowska, K., Bonanni, L., et al. (2020). What electrophysiology tells us about Alzheimer's disease: A window into the synchronization and connectivity of brain neurons. *Neurobiology of Aging, 85*, 58–73. https://doi.org/10.1016/j.neurobiolaging.2019.09.008
 
-Belrose, N., Schneider-Joseph, D., Ravfogel, S., Cotterell, R., Raff, E., & Biderman, S. (2023). LEACE: Perfect linear concept erasure in closed form. *Advances in Neural Information Processing Systems, 36*, 66044–66063. https://doi.org/10.48550/arXiv.2306.03819
+Belloli, L., Bruno, N., Hernandez, H., et al. (2026). Generalizability of EEG-based dementia classifiers: A multicenter study of Alzheimer's, MCI, and FTD. *medRxiv*. https://doi.org/10.64898/2026.07.28.26359133
+
+Belrose, N., Schneider-Joseph, D., Rahbar, S. (2026). Site is decodable before pretraining: Negative controls for probing frozen brain-MRI foundation models. *arXiv*. https://doi.org/10.48550/arXiv.2608.10295
+
+Ravfogel, S., Cotterell, R., Raff, E., & Biderman, S. (2023). LEACE: Perfect linear concept erasure in closed form. *Advances in Neural Information Processing Systems, 36*, 66044–66063. https://doi.org/10.48550/arXiv.2306.03819
+
+Bomatter, P., Paillard, J., Garcés, P., Hipp, J., & Engemann, D. A. (2024). Machine learning of brain-specific biomarkers from EEG. *eBioMedicine, 106*, 105259. https://doi.org/10.1016/j.ebiom.2024.105259
 
 Brookshire, G., Kasper, J., Blauch, N. M., et al. (2024). Data leakage in deep learning studies of translational EEG. *Frontiers in Neuroscience, 18*, 1373515. https://doi.org/10.3389/fnins.2024.1373515
 
 Collins, G. S., Moons, K. G. M., Dhiman, P., et al. (2024). TRIPOD+AI statement: Updated guidance for reporting clinical prediction models that use regression or machine learning methods. *BMJ, 385*, e078378. https://doi.org/10.1136/bmj-2023-078378
 
+Darvishi-Bayazi, M.-J., Ghaemi, M. S., Rish, I., & Faubert, J. (2026). Critical role of EEG signals in assessment of sex-specific insights in neurological diagnostics via machine learning approach. *Scientific Reports, 16*, 1060. https://doi.org/10.1038/s41598-025-30848-y
+
 Escudero, J., Abásolo, D., Hornero, R., Espino, P., & López, M. (2006). Analysis of electroencephalograms in Alzheimer's disease patients with multiscale entropy. *Physiological Measurement, 27*(11), 1091–1106. https://doi.org/10.1088/0967-3334/27/11/004
 
 Fortin, J.-P., Cullen, N. C., Sheline, Y. I., et al. (2018). Harmonization of cortical thickness measurements across scanners and sites. *NeuroImage, 167*, 104–120. https://doi.org/10.1016/j.neuroimage.2017.11.024
 
+Huang, Y., Su, Y., Wang, X., & Yao, S. (2026). Improving the clinical generalizability of machine learning-based Alzheimer's disease detection across domains and modalities: A comprehensive review. *arXiv*. https://doi.org/10.48550/arXiv.2611.08188
+
 Ishii, R., Canuet, L., Aoki, Y., et al. (2017). Healthy and pathological brain aging: From the perspective of oscillations, functional connectivity, and signal complexity. *Neuropsychobiology, 75*(4), 151–161. https://doi.org/10.1159/000486870
 
 Jeong, J. (2004). EEG dynamics in patients with Alzheimer's disease. *Clinical Neurophysiology, 115*(7), 1490–1505. https://doi.org/10.1016/j.clinph.2004.01.001
+
+Jaramillo-Jimenez, A., Tovar-Rios, D. A., Mantilla-Ramos, Y. J., Ochoa-Gomez, J. F., Bonanni, L., & Brønnick, K. (2024). ComBat models for harmonization of resting-state EEG features in multisite studies. *Clinical Neurophysiology, 167*, 241–253. https://doi.org/10.1016/j.clinph.2024.09.019
+
+Jeon, M., Cho, S., & Suh, J. Y. (2026). Controlled evaluation of EEG foundation models: Random initialisation, band-power and validation-selected probes. *arXiv*. https://doi.org/10.48550/arXiv.2610.32067
 
 Jiang, W.-B., Zhao, L.-M., & Lu, B.-L. (2024). Large brain model for learning generic representations with tremendous EEG data in BCI. *International Conference on Learning Representations*. https://arxiv.org/abs/2405.18765
 
@@ -524,11 +600,17 @@ Lin, M., Hou, C.-L., & Jung, T.-P. (2026). Leveraging a foundation model for the
 
 Liu, D., Chen, Y., Chen, Z., Cui, Z., Wen, Y., An, J., Luo, J., & Wu, D. (2026). EEG-FM-Compass: Progress, benchmarking, and future directions for EEG foundation models. *arXiv*. https://doi.org/10.48550/arXiv.2601.17883
 
+Madapura, A., Kommineni, A., & Narayanan, S. (2026). Quantifying trait-state hierarchy in EEG foundation model and signal processing embeddings. *arXiv*. https://doi.org/10.48550/arXiv.2611.05652
+
+Martin, S. A., Townend, F. J., Barkhof, F., & Cole, J. H. (2023). Interpretable machine learning for dementia: A systematic review. *Alzheimer's & Dementia, 19*(5), 2135–2149. https://doi.org/10.1002/alz.12948
+
 Miltiadous, A., Ntetska, A., Aspiotis, V., et al. (2026). The AHEPA EEG benchmark: Setting the standard for machine learning in dementia diagnosis, a scoping review. *Cognitive Neurodynamics, 20*(1). https://doi.org/10.1007/s11571-026-10464-w
 
 Miltiadous, A., Tzimourta, K. D., Afrantou, T., Ioannidis, P., Grigoriadis, N., Tsalikakis, D. G., Angelidis, P., Tsipouras, M. G., Glavas, E., Giannakeas, N., & Tzallas, A. T. (2023). A dataset of scalp EEG recordings of Alzheimer's disease, frontotemporal dementia and healthy subjects from routine EEG. *Data, 8*(6), 95. https://doi.org/10.3390/data8060095
 
 Moons, K. G. M., Damen, J. A. A. G., Hooft, L., et al. (2025). PROBAST+AI: An updated quality, risk of bias, and applicability assessment tool for prediction models using regression or artificial intelligence methods. *BMJ, 388*, e082505. https://doi.org/10.1136/bmj-2024-082505
+
+Prado, P., Medel, V., Gonzalez-Gomez, R., et al. (2023). The BrainLat project, a multimodal neuroimaging dataset of neurodegeneration from underrepresented backgrounds. *Scientific Data, 10*, 889. https://doi.org/10.1038/s41597-023-02806-8
 
 Pritchard, W. S., Duke, D. W., & Coburn, K. L. (1991). Altered EEG dynamical responsivity associated with normal aging and probable Alzheimer's disease. *Dementia, 2*(2), 102–105. https://doi.org/10.1159/000107183
 
@@ -543,6 +625,8 @@ Vicchietti, M. L., Ramos, F. M., Betting, L. E., & Campanharo, A. S. L. O. (2023
 Voytek, B., Kramer, M. A., Case, J., Lepage, K. Q., Tempesta, Z. R., Knight, R. T., & Gazzaley, A. (2015). Age-related changes in 1/f neural electrophysiological noise. *Journal of Neuroscience, 35*(38), 13257–13265. https://doi.org/10.1523/JNEUROSCI.2332-14.2015
 
 Wang, Y., Huang, N., Mammone, N., et al. (2025). LEAD: An EEG foundation model for Alzheimer's disease detection. *arXiv*. https://doi.org/10.48550/arXiv.2502.01678
+
+Watanabe, Y., Miyazaki, Y., Hata, M., et al. (2024). A deep learning model for the detection of various dementia and MCI pathologies based on resting-state electroencephalography data: A retrospective multicentre study. *Neural Networks, 171*, 242–250. https://doi.org/10.1016/j.neunet.2023.12.009
 
 Wolff, R. F., Moons, K. G. M., Riley, R. D., et al. (2019). PROBAST: A tool to assess the risk of bias and applicability of prediction model studies. *Annals of Internal Medicine, 170*(1), 51–58. https://doi.org/10.7326/M18-1376
 
