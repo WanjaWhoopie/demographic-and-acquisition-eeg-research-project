@@ -36,7 +36,7 @@
 - **Outputs.** `results/tables/T11_channel_occlusion.csv`, `results/figures/EXP-051_channel_occlusion.png`
 
 ## Run record
-- **Date:** 2026-11-12 to 2026-11-14 · design committed in 5f9519a before any occluded embedding existed
+- **Date:** 2026-11-12 to 2026-11-14 · design committed in 494ac51 before any occluded embedding existed
 - **Commands:** `python scripts/04_extract_embeddings.py --cohort <c> --occlude <condition>` for 3 cohorts × 19
   conditions (GPU, about 1 min each), then `python scripts/11_interpret.py --part channels`
 - **Checks passed:** every occluded folder has all 176 participants and all epochs; the processed

@@ -9,7 +9,7 @@
 - **Script:** `scripts/11_interpret.py --part bands` → `results/tables/T11_band_perturbation.csv`, `results/figures/EXP-050_band_perturbation.png`
 
 ## Run record
-- **Date:** 2026-11-12 · design committed in b496eae before the run
+- **Date:** 2026-11-12 · design committed in ccb65af before the run
 - **Commands:** `python scripts/04_extract_embeddings.py --cohort <c> --band-stop <band>` for 4 bands × 3 cohorts (GPU, about 2 min per band), then `python scripts/11_interpret.py`
 - **Check:** the refitted classifiers reproduce the EXP-031 AUROCs exactly. Probabilities differed by up to 0.012 in the one fold with C = 100, where the solver stops at a marginally different point, so the check was relaxed to "identical AUROC and probabilities within 0.02" (first attempt stopped on the stricter 1e-6 check).
 - **Outputs:** `results/tables/T11_band_perturbation.csv`, `results/figures/EXP-050_band_perturbation.png`; embeddings `data/embeddings/labram-base-stop-<band>/` (local)

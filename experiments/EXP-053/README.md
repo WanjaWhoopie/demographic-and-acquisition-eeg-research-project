@@ -12,7 +12,7 @@
 - **Script:** `scripts/11_data_amount.py` → `results/tables/T11_data_amount.csv`, `T11_data_amount_paired.csv`, `T11_dispersion.csv`, `results/figures/EXP-053_data_amount.png`
 
 ## Run record
-- **Date:** 2026-11-12 · design committed in 3e9b0fe before the run
+- **Date:** 2026-11-12 · design committed in 969ddd5 before the run
 - **Command:** `python scripts/11_data_amount.py` (20 parallel workers)
 - **Checks passed:** the k = all and k = 2 representations equal the stored Z and Z8. At k = all the run reproduces EXP-011 (LOCO 0.853) and EXP-010 (ds004504 0.821).
 - **Outputs:** `results/tables/T11_data_amount.csv`, `T11_data_amount_paired.csv`, `T11_dispersion.csv`, `results/figures/EXP-053_data_amount.png`

@@ -7,7 +7,7 @@
 - **Script:** `scripts/09_sensitivity.py` → `results/tables/T09_primary_and_sensitivity.csv`
 
 ## Run record
-- **Date:** 2026-11-11 · after tag `analysis-plan-v1`; design committed in 3e07a74 before the run
+- **Date:** 2026-11-11 · after tag `analysis-plan-v1`; design committed in 6507313 before the run
 - **Command:** `python scripts/09_sensitivity.py` (20 parallel workers). The first attempt stopped before any sensitivity result because the participant ID column was not loaded. It was fixed and re-run in full; the primary numbers were identical.
 - **Output:** `results/tables/T09_primary_and_sensitivity.csv`; predictions `results/runs/EXP-044/predictions.csv` (local); embeddings `data/embeddings/labram-base-scaled/` (local, GPU, ~2 min)
 

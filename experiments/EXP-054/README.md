@@ -15,7 +15,7 @@
 - **Script:** `scripts/11_random_epochs.py` → `results/tables/T11_random_epochs.csv`, `T11_random_epochs_contrasts.csv`, `results/figures/EXP-054_random_epochs.png`
 
 ## Run record
-- **Date:** 2026-11-12 · design committed in e065945 before the run
+- **Date:** 2026-11-12 · design committed in 3a7b546 before the run
 - **Command:** `python scripts/11_random_epochs.py` (20 parallel workers, about 2 hours)
 - **Checks passed:** the all-epoch representation equals the stored Z and reproduces EXP-011 (LOCO 0.853) and EXP-010 (within ds004504 0.821).
 - **Outputs:** `results/tables/T11_random_epochs.csv`, `T11_random_epochs_contrasts.csv`, `results/figures/EXP-054_random_epochs.png`

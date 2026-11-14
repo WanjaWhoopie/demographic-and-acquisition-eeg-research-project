@@ -10,7 +10,7 @@
 - **Script:** `scripts/08_control.py` → `results/tables/T08_loco.csv`, `T08_loco_deltas.csv`; predictions `results/runs/EXP-031/predictions.csv` (local)
 
 ## Run record
-- **Date:** 2026-11-11 · after tag `analysis-plan-v1`; design committed in d5c69c6 and D-032 in 1097dfa, both before this run
+- **Date:** 2026-11-11 · after tag `analysis-plan-v1`; design committed in 4f996cf and D-032 in f8bba2e, both before this run
 - **Command:** `python scripts/08_control.py` (20 parallel workers, about 45 min for all of Phase 8)
 - **Reproduction check:** the uncontrolled re-run reproduces EXP-011 exactly (0.810 / 0.879 / 0.870; mean 0.853).
 - **Outputs:** `results/tables/T08_loco.csv`, `T08_loco_deltas.csv`; predictions `results/runs/EXP-031/predictions.csv` (local)
