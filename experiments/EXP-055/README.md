@@ -39,8 +39,8 @@
   block-1 configuration (all three folds for "none", APAVA for centring).
 
 ## Run record
-- **Date:** 2026-11-14 · design committed in 60b0a71 (now 1b35945's parent after the history rewrite; the
-  pre-registration is the commit "Pre-register three analyses prompted by the review") before the run
+- **Date:** 2026-11-14 · design committed in abf5c4d (the commit "Pre-register three analyses prompted by the review";
+  60b0a71 before the history rewrite) before the run
 - **Command:** `python scripts/13_review_analyses.py --part fixed_block` (20 workers, about 50 min)
 - **Check passed:** block 1 without control reproduces EXP-031 in every fold.
 - **Outputs:** `results/tables/T13_fixed_block.csv`, `T13_fixed_block_deltas.csv`, `results/figures/EXP-055_fixed_block.png`

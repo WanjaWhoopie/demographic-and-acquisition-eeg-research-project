@@ -25,10 +25,13 @@ any held-out result (not externally registered).
 **Results.** LaBraM transferred across cohorts (mean LOCO AUROC 0.853, 95% CI 0.773–0.922; the first
 transformer block was selected in every fold), but no better than classical spectral features (0.900). Age and sex were not decodable in ds004504; cohort
 was (balanced accuracy 0.88, chance 0.33), more than from classical features (0.77). In the
-pre-specified analyses, removing cohort information never reduced transfer: centring raised mean AUROC to 0.887 (ΔAUROC −0.034,
-−0.069 to −0.001, p = 0.046), LEACE to 0.883 and INLP to 0.876. The small improvement disappeared
-with equal EEG length per participant or equalised amplitude, and no secondary comparison survived
-Holm correction. In exploratory analyses the cross-cohort AD score behaved as an EEG-slowing index:
+pre-specified analyses, removing cohort information did not reduce transfer: centring raised mean
+AUROC to 0.887 (ΔAUROC −0.034, −0.069 to −0.001, p = 0.046), LEACE to 0.883 and INLP to 0.876. That
+improvement was a selection effect: with the transformer block held fixed, removal never improved
+transfer, did nothing at the block the classifier used (ΔAUROC −0.009, −0.027 to 0.008), and cost
+0.02–0.05 at the deepest blocks, while the uncontrolled classifier at block 11 reached 0.908 on its
+own. The improvement also disappeared with equal EEG length per participant or equalised amplitude,
+and no secondary comparison survived Holm correction. In exploratory analyses the cross-cohort AD score behaved as an EEG-slowing index:
 removing theta cost most discrimination, removing the posterior channels cost far more than any
 other region (ΔAUROC 0.20), and the score correlated with the theta/alpha ratio at up to ρ = 0.91. Which epochs were pooled per participant changed AUROC by up to several hundredths, with
 no reliable effect of their position in the recording. **Conclusion.** Frozen LaBraM encodes its cohort strongly, but its cross-cohort AD signal
@@ -304,6 +307,11 @@ Added or re-scoped after the confirmatory results and labelled exploratory (D-03
 - **EXP-050:** band-stop one band in the held-out cohort's EEG and re-apply the trained classifier.
 - **EXP-052:** correlate the out-of-fold AD score with classical markers within each held-out cohort (Spearman, BH-FDR).
 - **EXP-051:** zero one channel, or one region (frontal Fp1 Fp2 F7 F3 F4 F8; central-temporal T3 C3 C4 T4; posterior T5 P3 P4 T6 O1 O2), in the held-out cohort's average-referenced EEG and re-apply the trained classifier. After average referencing, zero is the montage average, so the channel stays in the input but carries no signal of its own. First deferred for time (D-036), then run with its design and reading rule committed before any occluded embedding existed (D-038).
+- **EXP-055, EXP-056** (prompted by the mentor's review, D-039): the EXP-031 comparison repeated with the
+  LaBraM block held fixed at each of the 12 blocks, so that cohort removal is separated from the change
+  of selected block; and a positive control, pooled participant-level CV over all 176 where cohort
+  identity predicts diagnosis, to test whether the controls remove a shortcut that exists. The EXP-052
+  within-group correlations were added at the same time.
 
 **F1. Pipeline**
 ```mermaid
@@ -415,13 +423,15 @@ representation and each cohort control.
 
 - **Primary outcome.** Centring did not hurt cross-cohort transfer; it improved it slightly. The CI
   lies just below 0, the pre-specified "control improves transfer" outcome (not pattern A, B or C).
+  The fixed-block analysis below shows where the improvement came from.
 - **Controls did what they were meant to.** LEACE removed linear cohort information completely
   (cohort probe at exactly chance), yet the AD classifier still transferred at 0.883. INLP removed
   most of it. Centring removed cohort means but left cohort decodable from the remaining structure.
   All three moved AUROC the same way (EXP-032).
 - **After centring, the classifier chose deep blocks** (11–12) in two of three folds, among the
-  more cohort-laden blocks (0.86–0.87, against 0.71 at block 1). Cohort offsets were an obstacle to using deep-block AD information, not a
-  shortcut (EXP-031).
+  more cohort-laden blocks (0.86–0.87, against 0.71 at block 1). The fixed-block analysis shows that these blocks transfer better with or without
+  control, so the offsets were an obstacle to the inner CV *selecting* them, not to their use (EXP-031,
+  revised by EXP-055).
 - **The improvement is not robust.** It halved when ADFSU was balanced (80% of draws still negative),
   and disappeared with 8 s per participant or equalised amplitude (pattern A in both). No secondary
   comparison survived Holm correction.
@@ -433,6 +443,24 @@ representation and each cohort control.
   signal is not an ADFSU artefact (EXP-041).
 - Bootstrap and DeLong CIs agreed (largest limit difference 0.029 over 22 fold CIs), and every
   headline value was reproduced from saved predictions (largest difference 0.00005).
+
+**Fixed-block comparison (EXP-055; F9, `EXP-055_fixed_block.png`; `T13_fixed_block.csv`).** Without
+control the inner CV chose block 1 in every fold; with centring it chose blocks 11–12 in two folds, and
+in the one fold where the block did not change (APAVA) ΔAUROC was 0. Holding the block fixed separates
+the two. Mean LOCO AUROC of the uncontrolled classifier rises from 0.853 at block 1 to 0.891, 0.908 and
+0.888 at blocks 10–12, so the step from block 1 to block 11 (+0.055) exceeds the whole primary gain
+(+0.034). At block 1, removal does nothing: centring −0.009 [−0.027, 0.008], LEACE +0.001 [−0.032,
+0.034], INLP −0.009 [−0.051, 0.031]. At no block does removal improve transfer with a CI below 0 (the
+closest is centring at block 12, −0.020 [−0.044, 0.001]). Three of 36 uncorrected comparisons show a
+cost: centring at block 11 (+0.021 [0.002, 0.043]) and LEACE at blocks 11 and 12 (+0.050 [0.008,
+0.099]; +0.028 [0.011, 0.051]), against about two expected by chance. By the rule fixed in advance,
+the result is "harm hidden by selection", with the harm small and confined to the deepest blocks.
+
+The primary improvement was therefore a selection effect. The inner CV is a pooled cross-validation
+over two training cohorts whose AD prevalence differs; cohort offsets in deep blocks hurt that pooled
+selection, so block 1 was chosen even though deeper blocks transfer better. Centring removed the
+offsets, the inner CV chose a deeper block, and the deeper block, not the removal, raised the
+held-out AUROC.
 
 ### 4.5 What the transferable AD signal is (O5, exploratory)
 
@@ -500,28 +528,30 @@ correlated with the score within AD (ρ = 0.35, 0.70, 0.86 in ADFSU, APAVA, ds00
 ### 5.1 Main finding
 Frozen LaBraM knows which cohort a recording came from, more than classical features do, and the
 information grows through the network. Yet removing that information, by three different methods,
-never reduced cross-cohort AD performance in the pre-specified analyses. By the pre-registered rule
-the primary result is a small improvement, but it rests on a CI that just excludes zero, it
-disappears in two sensitivity analyses, and its identical twin, label-free centring (ii), does not
-survive Holm correction among the secondary comparisons. The one exception to "no harm" is
-exploratory: with only 2 epochs per participant, centring reduced transfer (EXP-053). The robust
-conclusion is therefore the absence of a systematic effect: **the AD signal that LaBraM transfers
-between cohorts does not depend on cohort information.**
+did not reduce cross-cohort AD performance in the pre-specified analyses. The primary result, a small
+improvement after centring, turned out to be a selection effect: with the block held fixed, removal
+never helped, did nothing at the block the classifier used, and cost up to 0.05 at the deepest blocks
+(EXP-055). What the data support is a bound rather than a gain: **removing cohort information from
+the representation in use changes cross-cohort AD performance by less than 0.03 in either direction,
+and the AD signal that LaBraM transfers between cohorts does not depend on it.** The exploratory
+exceptions run both ways and are small: with 2 epochs per participant centring reduced transfer
+(EXP-053), and at block 11 centring and LEACE cost 0.02–0.05 (EXP-055).
 Encoded is not the same as used (Tang et al., 2026).
 
 ### 5.2 Why the cohort information does not matter here
 Three results point the same way. The uncontrolled LOCO classifier chose block 1, the least
-cohort-laden block. An untrained LaBraM and classical band powers transfer as well as or better than
+cohort-laden block, and removing cohort information there changed nothing. An untrained LaBraM and classical band powers transfer as well as or better than
 the pretrained model. And the AD score behaves as an index of spectral slowing that depends most on
 theta and on the posterior channels, where the healthy alpha rhythm is strongest. What transfers between these cohorts is the classical, low-level spectral signature of AD.
 That signature is robust to the acquisition differences that remain after harmonisation, and
 LaBraM's pretrained, cohort-rich deep features add little to it.
 
-The centring improvement, where it appeared, may partly correct two concrete cohort differences:
-how much EEG each participant contributes and the signal amplitude. When either was equalised
-directly (8 s per participant, amplitude scaling), the improvement disappeared. The effect of
-centring was not stable, though: with 2 epochs per participant it hurt transfer (EXP-053). Centring
-is best read as neither a reliable gain nor a reliable loss.
+The centring improvement had a mechanical explanation. Deep blocks transfer better than block 1
+whether or not cohort information is removed (0.908 at block 11 against 0.853), but the inner CV, which
+pools two training cohorts with different AD prevalence, could not see that until the cohort offsets
+were gone. Removal changed the selection, and the selection changed the AUROC. The same reading
+covers the sensitivity analyses: with 8 s per participant or equalised amplitude the offsets were
+smaller, the selection changed less, and the improvement disappeared.
 
 ### 5.3 Amount and position of EEG
 Which epochs are pooled matters about as much as how many. No reliable effect of the position of the EEG
@@ -583,10 +613,10 @@ cohorts can move by several hundredths of AUROC with an arbitrary choice of epoc
 
 ## 6. Conclusion
 Frozen LaBraM encodes cohort identity strongly, but its cross-cohort AD classification does not
-depend on it: in the pre-specified analyses, removing cohort information by centring, LEACE or INLP
-never reduced transfer. The AD
-signal that transfers is largely the classical posterior EEG slowing of Alzheimer's disease, which
-simple spectral features capture as well.
+depend on it: removing cohort information at the block in use changes cross-cohort performance by
+less than 0.03, and the improvement seen in the primary analysis came from a change of selected block,
+not from the removal. The AD signal that transfers is largely the classical posterior EEG slowing of
+Alzheimer's disease, which simple spectral features capture as well.
 
 ---
 
