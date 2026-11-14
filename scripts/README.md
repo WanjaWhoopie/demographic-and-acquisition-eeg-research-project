@@ -8,6 +8,7 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `00_participants.py` | combined participant table + cohort summary | T2.5 | yes |
 | `01_audit.py --cohort X` | inventory + QC of raw data (A1–A12) | Phase 2 | yes |
 | `02_overlap_check.py` | ADSZ–ADFSU duplicate detection | Phase 3 | yes |
+| `02_overlap_recheck.py` | independent re-check of the ADSZ–ADFSU duplication: direct float equality, no shared code with `02_overlap_check.py` | Phase 3 | yes |
 | `03_preprocess.py --cohort X` | harmonised preprocessing | Phase 4 | yes |
 | `03_qc.py` | preprocessing QC: epochs kept, amplitude, PSD, classical cohort probe (EXP-003) | T4.9 | yes |
 | `04_extract_embeddings.py --cohort X [--random \| --amplitude-scaled \| --band-stop B \| --occlude C]` | frozen LaBraM features (GPU); `--amplitude-scaled` for EXP-044, `--band-stop` for EXP-050, `--occlude` (channel or region) for EXP-051 | Phase 5 | yes |

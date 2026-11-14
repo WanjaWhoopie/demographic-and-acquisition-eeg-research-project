@@ -39,3 +39,15 @@ person. The ADSZ reader (`src/eegconf/io/fsu.py`) now treats all four digits of 
 the person, and the table was regenerated: **24 ADSZ participants (12 AD + 12 HC), 23 with every
 file matched** (HC eegNN 24 has no eyes-open copy in ADFSU), **0 codes mapping to more than one
 ADFSU person**. File-level matches, label and condition checks are unchanged, and so is D-017.
+
+## Independent re-check (14 November 2026)
+Before reporting the duplication as a finding, `scripts/02_overlap_recheck.py` repeated the
+comparison with none of the EXP-002 code: raw text files read with numpy, every ADSZ file compared
+with every ADFSU recording of the same diagnosis and condition by direct float equality of all 19
+channels over the first 1024 samples. Result (`results/tables/T02_overlap_recheck.csv`): **46 files
+equal exactly one ADFSU recording channel for channel, 1 file (`eeg25c1`) equals one recording with
+its channels in a different order (Healthy/Eyes_closed/Paciente6, the one ADFSU folder stored
+without F1/F2 copies), 1 file (`eeg24o1`) has no counterpart because its ADFSU folder is empty, and
+no file matches more than one recording.** The largest difference over matched files is 4 × 10⁻⁶:
+ADFSU values carry six decimals, ADSZ five, so ADSZ is ADFSU rounded. Every match agrees with the
+EXP-002 mapping.
