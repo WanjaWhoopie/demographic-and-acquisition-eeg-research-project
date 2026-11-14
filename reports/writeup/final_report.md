@@ -452,8 +452,11 @@ correlation with diagnosis.
 
 Table 6 shows 5 of the 9 markers; all are in `T11_markers.csv`. All 27 correlations (9 markers ×
 3 cohorts) were significant after FDR correction, and the 24 with a prior direction all went the
-expected way (the aperiodic exponent had none). The score tracked the markers more closely than diagnosis did: its output behaves like a
-continuous EEG-slowing index.
+expected way (the aperiodic exponent had none). A continuous score will correlate with a marker more
+than a binary label does, so the stricter test is *within* diagnostic group, where diagnosis cannot
+drive the correlation (EXP-052 addendum, `T11_markers_within_group.csv`): the theta/alpha ratio
+correlated with the score within AD (ρ = 0.35, 0.70, 0.86 in ADFSU, APAVA, ds004504) and within HC
+(0.40, 0.73, 0.71), with 33 of 54 within-group correlations significant after FDR. Its output behaves like a continuous EEG-slowing index, within as well as between diagnostic groups.
 
 ## 5. Discussion
 

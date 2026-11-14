@@ -47,3 +47,22 @@ markers × 3 cohorts × 2 groups = 54 per classifier), BH-FDR per classifier ove
 slowing index beyond diagnosis if, for the theta/alpha ratio (posterior), the within-AD and within-HC
 correlations are positive in all three cohorts; otherwise the report says that the marker
 correlations are explained by diagnosis. Output: `results/tables/T11_markers_within_group.csv`.
+
+### Addendum result (run 14 November 2026)
+`results/tables/T11_markers_within_group.csv`. Spearman ρ between the centred classifier's score
+and each marker within AD and within HC of each held-out cohort (n AD / HC: ADFSU 76 / 12, APAVA
+12 / 11, ds004504 36 / 29). 33 of 54 correlations significant after FDR.
+
+| Marker (posterior) | ADFSU AD / HC | APAVA AD / HC | ds004504 AD / HC |
+|---|---|---|---|
+| Theta/alpha ratio | 0.35 / 0.40 | 0.70 / 0.73 | 0.86 / 0.71 |
+| Relative theta | 0.55 / 0.17 | 0.42 / 0.90 | 0.77 / 0.59 |
+| Relative alpha | −0.25 / −0.58 | −0.60 / −0.44 | −0.74 / −0.46 |
+| Peak alpha frequency | −0.53 / 0.03 | −0.63 / −0.43 | −0.54 / −0.33 |
+| Aperiodic exponent (global) | 0.35 / 0.26 | 0.80 / 0.39 | 0.78 / 0.21 |
+
+**By the pre-set rule: the score behaves as a slowing index beyond diagnosis.** The theta/alpha
+ratio correlates positively with the score within AD and within HC in all three cohorts, so the
+correlations in the main table are not produced by diagnosis alone. The within-group values are
+smaller than the pooled ones, as expected when the groups differ in both score and marker, and the
+HC correlations rest on 11–29 people.
