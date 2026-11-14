@@ -22,5 +22,6 @@ Command-line entry points, one per pipeline stage, each reading a config from `c
 | `11_data_amount.py` | EXP-053: AD transfer, within-cohort AUROC and cohort probe against epochs per participant (exploratory) | Phase 11 | yes |
 | `11_random_epochs.py` | EXP-054: first, middle or last 8 epochs vs randomly drawn epochs; separates time in recording from amount of data (exploratory) | Phase 11 | yes |
 | `11_interpret.py` | EXP-050 band perturbation (needs `--band-stop` embeddings), EXP-051 channel occlusion (needs `--occlude` embeddings), EXP-052 score vs EEG markers (exploratory) | Phase 11 | yes |
+| `13_review_analyses.py --part fixed_block` / `--part pooled` | EXP-055 fixed-block comparison and EXP-056 pooled positive control (review-prompted, D-039) | Phase 11 | yes |
 | `12_figures.py` | Report figures F5 (LOCO AUROC by control) and F6 (ΔAUROC across analyses) from committed tables | Phase 12 | yes |
 | `12_workbook.py` | Excel workbook with one sheet per experiment, copied from the committed tables (`results/experiments_summary.xlsx`, local only); needs `pandas` and `openpyxl` | Phase 12 | yes |
