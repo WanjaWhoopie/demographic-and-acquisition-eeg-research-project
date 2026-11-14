@@ -127,9 +127,11 @@ Prado, Mejía, et al. (2023) harmonised two centres by per-centre normalisation,
 data, and name "the lack of steps to control the effects of demographic covariates" as their main
 limitation. Belloli et al. (2026) adjust for age, sex and education only when relating predictions
 to cognitive scores, not in the classifier, and note that residual hardware and cohort differences
-"may still influence performance". Watanabe et al. (2024) report external-hospital accuracy with
-almost no controls at those hospitals. None removes demographic or centre information from the
-model and re-tests. In ds004504, 24 of 36 AD participants are female against 11 of 29 controls (Fisher
+"may still influence performance". Watanabe et al. (2024) found that controls their EEG-only network
+misclassified were older than those it classified correctly (median 73 vs 64 years), judged the
+effect negligible, and report external-hospital accuracy with 3 and 0 controls at those hospitals;
+adding age, sex and MMSE as inputs was tried and lowered accuracy. None removes demographic or
+centre information from the model and re-tests. In ds004504, 24 of 36 AD participants are female against 11 of 29 controls (Fisher
 p = 0.026). Normal ageing also changes the EEG, including slower and weaker alpha and a flatter aperiodic spectrum (Ishii et al., 2017; Voytek et al., 2015); ds004504's groups are age-matched
 (66.4 ± 7.9 vs 67.9 ± 5.4 years). Public AD-EEG cohorts differ in amplifier, montage, reference,
 sampling rate, source filtering, recording length, era and diagnostic mix. Within a cohort these
@@ -436,6 +438,10 @@ with 32). Across cohorts, random subsets transferred slightly better than all ep
 random 8-epoch subsets within ds004504, and by up to 0.15 in the ADFSU fold, as much as the EXP-053
 differences. The within-cohort "early epochs are best" pattern is therefore not reliable.
 
+Band-stopping and channel-masking have been used before to explain a dementia classifier within one
+dataset: Watanabe et al. (2024) found the beta band and the O1 electrode most important for their
+four-class network. Here both are applied across cohorts, to the held-out cohort's input only.
+
 **Band removal (EXP-050; F7, `EXP-050_band_perturbation.png`).** Removing **theta** (4–8 Hz) from the
 held-out cohort's EEG cost the most discrimination (ΔAUROC +0.066 [0.026, 0.109]) and cut the
 predicted AD probability of AD participants by 0.41 on average, four times the drop in HC. Most of
@@ -450,7 +456,9 @@ ADFSU or APAVA was held out. The frontal region, also six channels, cost 0.052 [
 of it in the ADFSU fold, and the central-temporal region nothing (−0.010 [−0.051, 0.026]); by the
 pre-set rule this is "posterior emphasis". Without posterior channels, controls looked more like AD
 (predicted AD probability +0.21 in HC against +0.09 in AD). No single channel mattered much (largest
-0.030): neighbouring posterior channels carry the same signal.
+0.030): neighbouring posterior channels carry the same signal. The posterior emphasis agrees with
+Watanabe et al.'s O1 result; the band differs (theta here, beta there), as expected between an AD vs
+HC contrast across cohorts and a four-class dementia-subtype task within one.
 
 **Classical markers (EXP-052).** **Table 6** (`T11_markers.csv`). Spearman ρ between the out-of-fold AD
 score (centred classifier) and each marker within each held-out cohort; in brackets, the marker's own
